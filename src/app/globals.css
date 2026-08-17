@@ -65,6 +65,7 @@
   :root {
     --header-h: 72px;
   }
+
 }
 
 @layer components {
@@ -363,6 +364,22 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/*
+   No JS: the Menu button cannot open anything, so the mobile nav renders open
+   and the dead button hides. Without this, a phone visitor with JavaScript off
+   has no navigation at all (glaze.md: every nav link still works with JS off).
+   DELIBERATELY UN-LAYERED: inside @layer base this loses to the .hidden
+   utility, because Tailwind's utilities layer beats earlier layers regardless
+   of specificity. Un-layered CSS beats every layer. Found by the bug sweep.
+*/
+html:not(.js) #mobile-nav {
+  display: block;
+}
+
+html:not(.js) button[aria-controls="mobile-nav"] {
+  display: none;
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
