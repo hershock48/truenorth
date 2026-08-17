@@ -122,6 +122,10 @@ production build, all seven routes at 390 and 1440:
 - [ ] Replace the PLACEHOLDER Instagram URL in `site.ts` with their real handle
 - [ ] Confirm the Battle Creek opening year on `/about` (PLACEHOLDER comment)
 - [ ] Confirm hours (12–9 daily?) and every price in `menu.ts` with the owners
+- [ ] Matcha is listed with price "Ask" (PLACEHOLDER) — get the real price, and the
+      rest of the espresso-bar lineup while at it
+- [ ] If they want online ordering (cakes/pies/pints pre-orders), scope it as a
+      Custom Order: Stripe or Square hosted checkout, built in, nothing rented
 - [ ] Confirm current flavor lists and set `boardUpdated`
 - [ ] Verify Google Maps embeds on the deployed URL
 - [ ] LCP < 2.5s / CLS < 0.1 on a throttled mobile profile against the deployment

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import AnimatedLogo from "@/components/AnimatedLogo";
 import CompassRose from "@/components/CompassRose";
 import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
@@ -22,8 +23,14 @@ export default function Home() {
       {/* Hero */}
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-14 md:grid-cols-[1.1fr_1fr] md:pt-20">
         <div className="hero-in">
-          <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-north-deep">
-            <CompassRose size={20} className="text-north" />
+          {/*
+            The mark, large, with the live needle — the first thing the page
+            does is the brand finding north. The header carries the same
+            component small; both react to the same scroll, which reads as one
+            system rather than a repeat.
+          */}
+          <AnimatedLogo className="h-16 md:h-24" />
+          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-north-deep">
             Marshall and Battle Creek, Michigan
           </p>
           <h1 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-bold leading-tight tracking-tight text-ink md:text-6xl">
@@ -138,8 +145,8 @@ export default function Home() {
         <Reveal>
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[--radius-panel] bg-cream-dim px-6 py-6 md:px-8">
             <p className="text-lg font-medium text-ink">
-              Scoops from $3.75, sundaes, splits, shakes, affogato, and ice cream
-              nachos. Cakes and pies made to order.
+              Scoops from $3.75, sundaes, splits, shakes, and ice cream nachos.
+              A real espresso bar, matcha included. Cakes and pies made to order.
             </p>
             <Link href="/menu" className="btn-primary">
               Menu and prices

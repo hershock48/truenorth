@@ -64,6 +64,7 @@ export const menu: MenuSection[] = [
   {
     key: "drinks",
     title: "Drinks",
+    subtitle: "Espresso bar included",
     items: [
       { name: "Malts, shakes, floats, and coolers", price: "$8.50" },
       { name: "Fruit smoothie", price: "$6.50" },
@@ -73,6 +74,9 @@ export const menu: MenuSection[] = [
       { name: "Coffee, large", price: "$4.50" },
       { name: "Double espresso", price: "$3.50" },
       { name: "Cappuccino", price: "$5" },
+      // PLACEHOLDER: Kevin says they serve matcha; price not published anywhere
+      // we can verify. A visible "Ask" beats an invented number (Lemoncello rule).
+      { name: "Matcha", price: "Ask", note: "Price at the counter" },
       { name: "Canned pop", price: "$2" },
       { name: "Bottled water", price: "$2" },
     ],

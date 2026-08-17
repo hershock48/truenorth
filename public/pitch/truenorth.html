@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Glazed Web × True North Ice Cream · Proposal</title>
+<meta name="description" content="A website proposal for True North Ice Cream. Every claim links to the evidence.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Glazed Web">
+<meta property="og:url" content="https://truenorth.glazedweb.com/">
+<meta property="og:title" content="Your flavors change every day. Your website hasn't changed in a year.">
+<meta property="og:description" content="A website proposal for True North Ice Cream, where every claim links to the proof.">
+<meta property="og:image" content="https://truenorth.glazedweb.com/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A proposal from Glazed Web for True North Ice Cream.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your flavors change every day. Your website hasn't changed in a year.">
+<meta name="twitter:description" content="A website proposal for True North Ice Cream, where every claim links to the proof.">
+<meta name="twitter:image" content="https://truenorth.glazedweb.com/og.jpg">
+<meta name="theme-color" content="#FDF6EC">
+<style>
+/* Stylesheet lifted from the Griffin Claw proposal (the studio source for
+   pitch pages), with the calculator and compare-table blocks stripped
+   because this proposal does not use them. */
+:root{
+ --paper:#FDF6EC; --paper2:#FFF7EA; --card:#FFFDF8;
+ --ink:#2B1E16; --ink2:#201712; --body:#6B5747; --mute:#8A7663; --line:#E8DCC8;
+ --pink:#E84D8A; --pink-d:#CE3672; --pink-t:#FCE7F0;
+ --green:#BFE07A; --green-b:#A9D65C; --green-d:#55974A; --green-t:#F1F8DC;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--body);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4,.k,nav,.chip{font-family:var(--sans)}
+.k{font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--green-d)}
+h2{font-size:clamp(30px,4.4vw,48px);font-weight:800;color:var(--ink);letter-spacing:-1.6px;line-height:1.08;margin:10px 0 14px}
+h3{font-size:19px;font-weight:800;color:var(--ink);margin:34px 0 10px;letter-spacing:-.4px}
+p{margin:0 0 14px}
+strong{color:var(--ink);font-weight:600}
+a{color:var(--pink-d)}
+.rule{height:3px;width:52px;background:var(--pink);border-radius:2px;margin:0 0 18px}
+section{padding:60px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+header{position:sticky;top:0;z-index:60;background:rgba(253,246,236,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand .gl{height:34px;width:auto;display:block}
+.brand .bw{font-family:var(--sans);font-weight:800;font-size:19px;color:var(--ink);letter-spacing:-.6px;line-height:1.1}
+.brand .bw span{font-weight:350;color:var(--mute)}
+.brand span{font-size:.72rem;color:var(--mute);font-style:italic}
+nav{display:flex;gap:20px;font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+nav a{color:var(--mute);text-decoration:none}
+nav a:hover{color:var(--pink-d)}
+@media(max-width:720px){nav{display:none}.brand span{display:none}}
+.hero{padding:66px 0 54px;text-align:left}
+.hero h1{font-family:var(--sans);font-size:clamp(38px,5.5vw,60px);font-weight:800;color:var(--ink);letter-spacing:-2px;line-height:1.04}
+.hero h1 em{font-style:normal;color:var(--pink)}
+.hero .sub{font-size:1.12rem;color:var(--body);margin-top:20px;max-width:31em}
+.forwho{margin-top:26px;font-family:var(--sans);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);line-height:1.9}
+.forwho b{color:var(--ink)}
+.tldr{background:var(--ink);color:#F6EFE4;border-radius:16px;padding:26px 26px 22px;margin-top:38px}
+.tldr .k{color:var(--green)}
+.tldr ul{list-style:none;margin:14px 0 0}
+.tldr li{display:flex;gap:12px;padding:9px 0;border-top:1px solid rgba(255,255,255,.1);font-size:.97rem;line-height:1.5}
+.tldr li:first-child{border-top:0}
+.tldr .n{font-family:var(--sans);font-weight:800;color:var(--green);flex:0 0 auto;font-size:.8rem;padding-top:3px}
+.tldr b{color:#fff}
+.claim{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 20px;margin:12px 0;transition:border-color .16s,transform .16s}
+.claim:hover{border-color:var(--pink);transform:translateY(-1px)}
+.claim h4{font-family:var(--sans);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+.claim p{font-size:.95rem;margin:0}
+.claim .verify{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--sans);font-size:.71rem;font-weight:700;
+ letter-spacing:.1em;text-transform:uppercase;color:var(--pink-d);text-decoration:none;border:1.5px solid var(--pink);
+ padding:7px 13px;border-radius:999px;transition:all .16s}
+.claim .verify:hover{background:var(--pink);color:#fff}
+.claim .verify.plain{border-color:var(--line);color:var(--mute);cursor:default}
+.claim .verify.plain:hover{background:transparent;color:var(--mute)}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:.83em;color:var(--mute)}
+.verdict{background:var(--green-t);border:1.5px solid var(--green);border-radius:12px;padding:15px 17px;font-size:.98rem;line-height:1.5}
+.verdict b{color:var(--ink)}
+.pricebox{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pricebox>div{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:20px}
+.pricebox .n{font-family:var(--sans);font-size:2rem;font-weight:800;color:var(--ink);letter-spacing:-.03em;line-height:1}
+.pricebox .l{font-size:.85rem;color:var(--mute);margin-top:7px;line-height:1.4}
+@media(max-width:600px){.pricebox{grid-template-columns:1fr}}
+.demo{background:linear-gradient(135deg,#201712,#3A2416);color:#F6EFE4;border-radius:18px;padding:32px;margin:22px 0;text-align:center}
+.demo .k{color:var(--green)}
+.demo h3{color:#fff;margin:10px 0 8px;font-size:1.4rem}
+.demo p{color:#D8CBBA;font-size:.98rem;max-width:34em;margin:0 auto 20px}
+.demo a{display:inline-block;background:var(--pink);color:#fff;font-family:var(--sans);font-weight:700;font-size:.82rem;box-shadow:0 6px 16px -6px rgba(232,77,138,.55);
+ letter-spacing:.09em;text-transform:uppercase;padding:15px 30px;border-radius:999px;text-decoration:none;transition:all .18s}
+.demo a:hover{background:var(--green);color:var(--ink);transform:translateY(-2px)}
+.step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.step .no{font-family:var(--sans);font-weight:800;font-size:.78rem;color:#fff;background:var(--pink);width:28px;height:28px;
+ border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.step h4{font-family:var(--sans);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:4px}
+.step p{font-size:.95rem;margin:0}
+footer{background:var(--ink);color:#B9A894;padding:44px 0;font-size:.86rem;margin-top:20px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer .gl-foot{height:62px;width:auto;opacity:.95}
+footer .bw{display:block;font-weight:800;color:#F6EFE4;letter-spacing:-.6px;margin-bottom:5px}
+footer .bw span{font-weight:350;color:#A6907F}
+footer a{color:var(--green)}
+.conf{font-size:.72rem;color:#7A6A58;margin-top:14px;letter-spacing:.04em}
+.note{font-size:.85rem;color:var(--mute);font-style:italic;line-height:1.5}
+/* --- the mark, and its drip, lifted from glazedweb.com --- */
+.gmark{display:block;overflow:visible}
+.gmark .goo{transform-box:fill-box;transform-origin:50% 0;animation:breathe 6s ease-in-out infinite}
+.gmark .wob1,.gmark .wob2,.gmark .wob3,.gmark .wobB{transform-box:fill-box;transform-origin:50% 0}
+.gmark .wob1{animation:sagg 3.8s ease-in-out -.6s infinite}
+.gmark .wob2{animation:sagg 4.9s ease-in-out -2.1s infinite}
+.gmark .wob3{animation:sagg 4.3s ease-in-out -1.3s infinite}
+.gmark .wobB{animation:sagg 5.6s ease-in-out -3s infinite}
+.gmark .string{transform-box:fill-box;transform-origin:50% 0;animation:stringy 3.4s cubic-bezier(.55,.1,.8,.5) infinite}
+.gmark .droplet{transform-box:fill-box;transform-origin:center;animation:fall 3.4s cubic-bezier(.5,.08,.85,.6) infinite}
+.gmark .droplet2{transform-box:fill-box;transform-origin:center;animation:fall2 5.1s cubic-bezier(.5,.08,.85,.6) -2.4s infinite}
+@keyframes breathe{0%,to{transform:scaleY(1)}50%{transform:scaleY(1.02)}}
+@keyframes sagg{0%,to{transform:scaleY(1) scaleX(1)}50%{transform:scaleY(1.07) scaleX(.98)}}
+@keyframes stringy{0%{transform:scaleY(.1);opacity:0}25%{transform:scaleY(.8);opacity:1}60%{transform:scaleY(1.7);opacity:.85}80%{transform:scaleY(2.4);opacity:0}to{transform:scaleY(.1);opacity:0}}
+@keyframes fall{0%{transform:translateY(-16px) scaleY(1.5) scaleX(.7);opacity:0}22%{transform:translateY(-8px) scaleY(1.2) scaleX(.85);opacity:1}60%{transform:translateY(10px) scale(1);opacity:1}to{transform:translateY(38px) scaleY(1.15) scaleX(.9);opacity:0}}
+@keyframes fall2{0%{transform:translateY(-10px) scaleY(1.4) scaleX(.75);opacity:0}25%{transform:translateY(-4px) scale(1);opacity:1}65%{transform:translateY(8px) scale(1);opacity:1}to{transform:translateY(26px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+ .gmark .goo,.gmark .wob1,.gmark .wob2,.gmark .wob3,.gmark .wobB,
+ .gmark .string,.gmark .droplet,.gmark .droplet2{animation:none}
+}
+.brand .gmark{height:38px;width:auto;margin-bottom:-6px}
+.hero .gmark{height:112px;width:auto;margin-bottom:26px}
+footer .gmark{height:78px;width:auto}
+</style></head><body>
+
+<header><div class="wrap">
+  <a class="brand" href="#top">
+    <svg class="gmark gl" viewBox="0 0 200 250" overflow="visible" aria-hidden="true"><defs><linearGradient id="dgGrad" x1="0" y1="92" x2="0" y2="165" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#5FA850"></stop><stop offset="100%" stop-color="#43813A"></stop></linearGradient><linearGradient id="lgGrad" x1="0" y1="92" x2="0" y2="215" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#D9EDA0"></stop><stop offset="55%" stop-color="#BFE07A"></stop><stop offset="100%" stop-color="#A3CE55"></stop></linearGradient><radialGradient id="pinkGrad" cx="40%" cy="34%" r="75%"><stop offset="0%" stop-color="#F887B2"></stop><stop offset="55%" stop-color="#E84D8A"></stop><stop offset="100%" stop-color="#CE3672"></stop></radialGradient><linearGradient id="creepGrad" x1="0" y1="90" x2="0" y2="124" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#E3F2B0"></stop><stop offset="100%" stop-color="#C3E181"></stop></linearGradient></defs><g class="goo"><g fill="url(#dgGrad)"><ellipse cx="100" cy="110" rx="38" ry="15"></ellipse><path class="wobB" d="M 86 100 C 86 116, 87 130, 88 142 C 88 148, 91 149, 92 142 C 93 130, 92 114, 92 100 Z"></path><path d="M 114 100 C 114 112, 115 124, 116 134 C 116 140, 119 141, 120 134 C 121 124, 120 110, 120 100 Z"></path></g><g fill="url(#lgGrad)"><path class="wob1" d="M 64 100 C 63 120, 65 138, 66 152 C 66 164, 68 172, 74 173 C 80 172, 83 165, 82 154 C 84 136, 85 116, 86 100 Z"></path><path class="wob2" d="M 92 100 C 91 128, 93 152, 94 172 C 94 188, 97 199, 104 200 C 111 199, 114 190, 112 174 C 113 150, 114 124, 114 100 Z"></path><path class="wob3" d="M 120 100 C 119 116, 120 130, 121 142 C 121 152, 123 159, 129 160 C 134 159, 137 153, 135 144 C 136 130, 137 114, 137 100 Z"></path></g></g><path class="string" d="M 104 199 L 104 209" stroke="#BFE07A" stroke-width="2.5" stroke-linecap="round" fill="none"></path><g class="droplet"><circle cx="104" cy="213" r="7" fill="#BFE07A"></circle><circle cx="102" cy="211" r="2" fill="#F1F8DC" opacity="0.9"></circle></g><circle class="droplet2" cx="74" cy="186" r="4.5" fill="#BFE07A"></circle><circle cx="100" cy="70" r="52" fill="url(#pinkGrad)"></circle><path d="M 56 98 A 52 52 0 0 0 144 98 C 142 94, 138 92, 134 94 C 130 97, 129 102, 125 104 C 119 106, 116 98, 110 96 C 104 94, 103 102, 98 105 C 93 107, 90 100, 84 97 C 78 95, 76 100, 71 102 C 66 103, 62 100, 56 98 Z" fill="url(#creepGrad)"></path><path d="M 68 106 A 42 42 0 0 0 84 116" fill="none" stroke="#F1F8DC" stroke-width="4" stroke-linecap="round" opacity="0.85"></path><path d="M 97 144 Q 103 151 109 144" fill="none" stroke="#55974A" stroke-width="4" stroke-linecap="round"></path><g stroke="#F1F8DC" fill="none" stroke-linecap="round"><path d="M 97 128 C 96 148, 97 166, 100 182" stroke-width="4.5" opacity="0.85"></path><path d="M 69 118 C 68 132, 70 146, 71 156" stroke-width="3.5" opacity="0.8"></path><path d="M 124 114 C 123 124, 125 138, 126 148" stroke-width="3.5" opacity="0.8"></path></g><circle cx="100" cy="192" r="2.5" fill="#F1F8DC" opacity="0.9"></circle><circle cx="100" cy="72" r="13" fill="#FDF6EC"></circle><circle cx="100" cy="72" r="13" fill="none" stroke="#C22F6B" stroke-width="3" opacity="0.3"></circle><path class="sheen" d="M 62 46 A 44 44 0 0 1 82 28" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"></path><circle class="sheen" cx="92" cy="26" r="3.5" fill="#FFFFFF"></circle></svg>
+    <span style="display:flex;flex-direction:column;line-height:1.15"><span class="bw">glazed<span>web</span></span><span>for True North</span></span>
+  </a>
+  <nav>
+    <a href="#found">What we found</a>
+    <a href="#build">The build</a>
+    <a href="#own">Ownership</a>
+    <a href="#cost">Cost</a>
+  </nav>
+</div></header>
+
+<div class="wrap" id="top">
+<div class="hero">
+  <div class="k">Website proposal · True North Ice Cream</div>
+  <h1>Your flavors change<br>every day.<br><em>Your website hasn't<br>changed in a year.</em></h1>
+  <p class="sub">We went through truenorthicecream.com page by page. This is what we found, and what we built in its place. Not a mockup, a working site, live right now, one click away.</p>
+  <div class="forwho">
+    Prepared by <b>Kevin Hershock · Glazed Web</b><br>
+    Marshall, Michigan · August 2026<br>
+    <b>Every claim below links to the proof.</b>
+  </div>
+
+  <div class="tldr">
+    <div class="k">The short version</div>
+    <ul>
+      <li><span class="n">01</span><span>Google is showing customers the <b>wrong hours</b>. Your site tells search engines "Open 2-9 pm" while your shops open at noon.</span></li>
+      <li><span class="n">02</span><span>When someone shares your site on Facebook, the preview has <b>no picture</b>. For an ice cream shop.</span></li>
+      <li><span class="n">03</span><span>Your case rotates through about 45 flavors a month. Your flavors page is a <b>plain text list, untouched since February 2025</b>.</span></li>
+      <li><span class="n">04</span><span>Catering is your biggest ticket, and the only way to book it is to <b>call or email a Gmail address</b>.</span></li>
+      <li><span class="n">05</span><span>The rebuild is <b>already live</b> at <a href="/demo" style="color:var(--green)">truenorth.glazedweb.com/demo</a>, with a flavor board you can update in under a minute.</span></li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<section id="found"><div class="wrap">
+  <div class="k">Section one</div><div class="rule"></div>
+  <h2>What we found.</h2>
+  <p>First, what this is not. It is not a critique of your ice cream or your shops. You make everything in-house, you have grown from one location to two on word of mouth, and your customers drive from the next county over. <strong>The product is not the problem.</strong> The problem is that the website undersells it, and the case it makes daily behind your counter never reaches anyone online.</p>
+  <p>Also worth saying: some things your site gets right. The phone numbers are tap-to-call, the flavor lists carry allergen marks, and the menu publishes real prices. Plenty of local sites do none of that. What follows is what is costing you customers, verified on <strong>August 17, 2026</strong>, with a link on every claim so you can check it yourself.</p>
+
+  <div class="claim">
+    <h4>Search results show hours that are wrong</h4>
+    <p>Your homepage tells search engines: <span class="mono">"Made daily in our shop in Marshall, MI. Open 2-9 pm every day."</span> Your own pages say noon to 9. That grey line under your name in Google is the first thing a customer reads, and at 1pm on a Saturday it tells them you are closed.</p>
+    <a class="verify" href="https://www.google.com/search?q=true+north+ice+cream+marshall" target="_blank" rel="noopener">Search your own name ↗</a>
+  </div>
+
+  <div class="claim">
+    <h4>Shared links show no photo</h4>
+    <p>Your site has no share image configured. Paste truenorthicecream.com into a Facebook post or a text message and the preview comes up with no picture. Every recommendation a happy customer makes online arrives looking like a fax.</p>
+    <span class="verify plain">Try it: paste your web address into Messenger and watch the preview</span>
+  </div>
+
+  <div class="claim">
+    <h4>The flavors page does not know what is in the case</h4>
+    <p>Rotating flavors are your whole story, about 30 in the case at a time out of roughly 45 a month. The flavors page is a text-only list, and your site's own sitemap records it last modified <strong>February 1, 2025</strong>. The page even says "stop by often or ask about our latest offerings." The website is where people ask.</p>
+    <a class="verify" href="https://truenorthicecream.com/flavors/" target="_blank" rel="noopener">See the page ↗</a>
+    <a class="verify" href="https://truenorthicecream.com/page-sitemap.xml" target="_blank" rel="noopener">See the dates ↗</a>
+  </div>
+
+  <div class="claim">
+    <h4>Catering has no way to book</h4>
+    <p>Your highest-value line of business, weddings and corporate events at up to 300 plus guests, offers a phone number and truenorthicecream@gmail.com. No form, no way to capture an inquiry at 11pm when someone is planning their wedding on the couch.</p>
+    <a class="verify" href="https://truenorthicecream.com/catering-events/" target="_blank" rel="noopener">See the page ↗</a>
+  </div>
+
+  <div class="claim">
+    <h4>Battle Creek barely exists online</h4>
+    <p>Your second shop gets a phone number and an address line. The contact page maps only Marshall, and nothing tells search engines a Battle Creek location exists, which is what feeds "ice cream near me" results for half your customers.</p>
+    <a class="verify" href="https://truenorthicecream.com/contact/" target="_blank" rel="noopener">See the page ↗</a>
+  </div>
+
+  <div class="claim">
+    <h4>Small things that read as neglect</h4>
+    <p>Your sitemap records the About page last modified October 2024 and Contact November 2024. And the flavors page spells it "Strawberry Lemondade." None of this is fatal. All of it says nobody is minding the store online, which is the opposite of how you actually run your shops.</p>
+    <a class="verify" href="https://truenorthicecream.com/flavors/" target="_blank" rel="noopener">See it live ↗</a>
+  </div>
+</div></section>
+
+<section id="build"><div class="wrap">
+  <div class="k">Section two</div><div class="rule"></div>
+  <h2>What we built.</h2>
+  <p>We did not bring sketches. The rebuild is deployed and you can open it on your phone right now. Your logo, your photos, your menu, your prices. Three things worth trying:</p>
+
+  <div class="claim">
+    <h4>The flavor board</h4>
+    <p>"In the Case Today" lists exactly what is scooping, in your four categories, with allergen badges and a visible last-updated date. Changing it takes under a minute, or text us the new lineup and we make the edit as part of the monthly. Either way the answer to "what do you have today" is finally on the website.</p>
+  </div>
+
+  <div class="claim">
+    <h4>A catering funnel that works at 11pm</h4>
+    <p>Event type, date, guest count, straight to your inbox with the customer's email a reply away. The per-person price table is right next to it, so inquiries arrive pre-sold. There is also a proper contact form for everything else.</p>
+  </div>
+
+  <div class="claim">
+    <h4>Two shops, told properly</h4>
+    <p>Both locations with maps, tap-to-call numbers, live open-right-now status, and the structured data that tells Google there are two True North shops with the correct noon-to-9 hours. Share the site anywhere and a real photo shows up. And watch the compass in the logo while you scroll.</p>
+  </div>
+
+  <div class="claim">
+    <h4>Worth a conversation: online ordering</h4>
+    <p>Your cakes and pies are made to order and your pints leave the shop by the armful, and right now none of that can be ordered ahead. If you want it, we build pre-orders for cakes, pies, and pints straight into the site with Stripe or Square checkout. No ordering platform, no monthly platform bill, no percentage skimmed beyond the card fee. That is Custom Order territory and we would scope it together, but say the word and it is on the table.</p>
+  </div>
+
+  <div class="demo">
+    <div class="k">The demo is live right now</div>
+    <h3>Ten minutes, on your phone</h3>
+    <p>Everything above is clickable, not described. If something is wrong or missing, that is exactly the conversation we want to have.</p>
+    <a href="/demo" target="_blank" rel="noopener">Open the demo ↗</a>
+  </div>
+  <p class="note">Photos are the ones on your current site, used with your permission for this concept. The board shows your August flavor list; a couple of details, like the Battle Creek opening year, are marked for you to confirm.</p>
+</div></section>
+
+<section id="own"><div class="wrap">
+  <div class="k">Section three</div><div class="rule"></div>
+  <h2>You own all of it.</h2>
+  <p>Once the build fee is paid, the code, the content, the accounts, and the domain are yours. Not licensed, owned. Month to month after launch, thirty days notice, no early termination fee, and if you ever leave you take everything with you. The full terms are one plain-English page at <a href="https://www.glazedweb.com/agreement" target="_blank" rel="noopener">glazedweb.com/agreement</a>.</p>
+  <p>Nothing in the site costs you a subscription you did not choose. No page-builder plan, no form service, no booking platform taking a cut. If a feature can be written instead of rented, we write it.</p>
+
+  <h3>On the house, either way</h3>
+  <div class="verdict"><b>We will set up email on your own domain with you, free, whether or not you hire us.</b> You already own truenorthicecream.com. Connecting it to your email means you can send and receive as hello@truenorthicecream.com instead of a Gmail address, which looks right on a wedding quote. It takes about an hour and we will walk through it together at the shop.</div>
+</div></section>
+
+<section id="cost"><div class="wrap">
+  <div class="k">Section four</div><div class="rule"></div>
+  <h2>What it costs.</h2>
+  <p>Straight off our public menu, no custom-quote theater. This is the Baker's Dozen: the full multi-page site with booking, priced at <a href="https://www.glazedweb.com" target="_blank" rel="noopener">glazedweb.com</a> for everyone.</p>
+  <div class="pricebox">
+    <div><div class="n">$1,900</div><div class="l">The build, once. Half up front, half at launch. You own everything from the day the balance clears.</div></div>
+    <div><div class="n">$99<span style="font-size:1rem;color:var(--mute)">/mo</span></div><div class="l">Hosting, security, updates, and small content edits, including flavor-board changes when you text them in.</div></div>
+  </div>
+  <p>First year, all in: <strong>$3,088</strong>. Every year after: <strong>$1,188</strong>. For comparison, a do-it-yourself site builder runs $30 to $50 a month forever, comes with a template, and you still do all the work yourself.</p>
+</div></section>
+
+<section id="next"><div class="wrap">
+  <div class="k">Section five</div><div class="rule"></div>
+  <h2>What happens next.</h2>
+  <div class="step"><div class="no">1</div><div><h4>Look at the demo</h4><p>Ten minutes at <a href="/demo" target="_blank" rel="noopener">truenorth.glazedweb.com/demo</a>. It was built before this proposal, on our own time, because showing beats describing. If it is not right, that is useful information and it costs you nothing to say so.</p></div></div>
+  <div class="step"><div class="no">2</div><div><h4>A conversation, not a pitch</h4><p>Half an hour at either shop. Three things we would want to ask: what should the flavor-update routine look like day to day, what should catering inquiries include so they are useful the moment they land, and do you want people ordering cakes and pints ahead online?</p></div></div>
+  <div class="step"><div class="no">3</div><div><h4>Build</h4><p>About two weeks from go-ahead to launch on your own domain. Content is what stalls website projects, and most of yours is already in the demo.</p></div></div>
+
+  <h3>What we would need from you</h3>
+  <p>The current flavor lineup, your Instagram handle, a look at any photos you love that are not on the site, and confirmation on hours and prices. That is genuinely the list.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <div>
+    <span class="bw" style="font-size:21px">glazed<span>web</span></span>
+    Kevin Hershock · Marshall, Michigan<br>
+    <a href="https://glazedweb.com" target="_blank" rel="noopener">glazedweb.com</a> · hello@glazedweb.com
+    <div class="conf">Prepared for True North Ice Cream · August 2026 · Valid 60 days</div>
+  </div>
+  <svg class="gmark gl-foot" viewBox="0 0 200 250" overflow="visible" aria-hidden="true"><defs><linearGradient id="dgGrad2" x1="0" y1="92" x2="0" y2="165" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#5FA850"></stop><stop offset="100%" stop-color="#43813A"></stop></linearGradient><linearGradient id="lgGrad2" x1="0" y1="92" x2="0" y2="215" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#D9EDA0"></stop><stop offset="55%" stop-color="#BFE07A"></stop><stop offset="100%" stop-color="#A3CE55"></stop></linearGradient><radialGradient id="pinkGrad2" cx="40%" cy="34%" r="75%"><stop offset="0%" stop-color="#F887B2"></stop><stop offset="55%" stop-color="#E84D8A"></stop><stop offset="100%" stop-color="#CE3672"></stop></radialGradient><linearGradient id="creepGrad2" x1="0" y1="90" x2="0" y2="124" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#E3F2B0"></stop><stop offset="100%" stop-color="#C3E181"></stop></linearGradient></defs><g class="goo"><g fill="url(#dgGrad2)"><ellipse cx="100" cy="110" rx="38" ry="15"></ellipse><path class="wobB" d="M 86 100 C 86 116, 87 130, 88 142 C 88 148, 91 149, 92 142 C 93 130, 92 114, 92 100 Z"></path><path d="M 114 100 C 114 112, 115 124, 116 134 C 116 140, 119 141, 120 134 C 121 124, 120 110, 120 100 Z"></path></g><g fill="url(#lgGrad2)"><path class="wob1" d="M 64 100 C 63 120, 65 138, 66 152 C 66 164, 68 172, 74 173 C 80 172, 83 165, 82 154 C 84 136, 85 116, 86 100 Z"></path><path class="wob2" d="M 92 100 C 91 128, 93 152, 94 172 C 94 188, 97 199, 104 200 C 111 199, 114 190, 112 174 C 113 150, 114 124, 114 100 Z"></path><path class="wob3" d="M 120 100 C 119 116, 120 130, 121 142 C 121 152, 123 159, 129 160 C 134 159, 137 153, 135 144 C 136 130, 137 114, 137 100 Z"></path></g></g><path class="string" d="M 104 199 L 104 209" stroke="#BFE07A" stroke-width="2.5" stroke-linecap="round" fill="none"></path><g class="droplet"><circle cx="104" cy="213" r="7" fill="#BFE07A"></circle><circle cx="102" cy="211" r="2" fill="#F1F8DC" opacity="0.9"></circle></g><circle class="droplet2" cx="74" cy="186" r="4.5" fill="#BFE07A"></circle><circle cx="100" cy="70" r="52" fill="url(#pinkGrad2)"></circle><path d="M 56 98 A 52 52 0 0 0 144 98 C 142 94, 138 92, 134 94 C 130 97, 129 102, 125 104 C 119 106, 116 98, 110 96 C 104 94, 103 102, 98 105 C 93 107, 90 100, 84 97 C 78 95, 76 100, 71 102 C 66 103, 62 100, 56 98 Z" fill="url(#creepGrad2)"></path><path d="M 68 106 A 42 42 0 0 0 84 116" fill="none" stroke="#F1F8DC" stroke-width="4" stroke-linecap="round" opacity="0.85"></path><path d="M 97 144 Q 103 151 109 144" fill="none" stroke="#55974A" stroke-width="4" stroke-linecap="round"></path><g stroke="#F1F8DC" fill="none" stroke-linecap="round"><path d="M 97 128 C 96 148, 97 166, 100 182" stroke-width="4.5" opacity="0.85"></path><path d="M 69 118 C 68 132, 70 146, 71 156" stroke-width="3.5" opacity="0.8"></path><path d="M 124 114 C 123 124, 125 138, 126 148" stroke-width="3.5" opacity="0.8"></path></g><circle cx="100" cy="192" r="2.5" fill="#F1F8DC" opacity="0.9"></circle><circle cx="100" cy="72" r="13" fill="#201712"></circle><circle cx="100" cy="72" r="13" fill="none" stroke="#C22F6B" stroke-width="3" opacity="0.3"></circle><path class="sheen" d="M 62 46 A 44 44 0 0 1 82 28" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"></path><circle class="sheen" cx="92" cy="26" r="3.5" fill="#FFFFFF"></circle></svg>
+</div></footer>
+</body></html>
