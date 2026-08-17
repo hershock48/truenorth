@@ -30,12 +30,15 @@ import { site } from "@/data/site";
 /* Star box as percentages of the 878x185 canvas. */
 const STAR = { left: 37.6993, top: 15.1351, width: 17.9954 };
 
-/* Spring constants, tuned by eye at 60fps: a stiff-ish needle with a little
-   overshoot, settled in about a second. */
-const STIFFNESS = 0.016;
-const DAMPING = 0.12;
-const IMPULSE = 0.03; // degrees of kick per scrolled pixel
-const MAX_DEFLECTION = 30;
+/* Spring constants, retuned per Kevin ("more spinning, or for longer") from
+   the first pass's stiff 30-degree needle: softer spring and lighter damping
+   so the needle rings visibly for a few seconds, kicks nearly twice as hard
+   per scrolled pixel, and the travel limit is a full revolution, so committed
+   scrolling genuinely spins the compass before it unwinds back to north. */
+const STIFFNESS = 0.012;
+const DAMPING = 0.085;
+const IMPULSE = 0.05; // degrees of kick per scrolled pixel
+const MAX_DEFLECTION = 380;
 
 export default function AnimatedLogo({ className = "" }: { className?: string }) {
   const starRef = useRef<HTMLImageElement | null>(null);
@@ -45,7 +48,9 @@ export default function AnimatedLogo({ className = "" }: { className?: string })
     if (!star) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let angle = -22; // wakes up off-north and finds it: the load-in is the brand move
+    // Wakes up a full turn off north and spins to find it: the load-in IS the
+    // brand move, and at one revolution plus a swing you cannot miss it.
+    let angle = -382;
     let velocity = 0;
     let lastY = window.scrollY;
     let raf = 0;
@@ -54,10 +59,10 @@ export default function AnimatedLogo({ className = "" }: { className?: string })
     const step = () => {
       velocity += -STIFFNESS * angle - DAMPING * velocity;
       angle += velocity;
-      // Hard stop at the deflection limit, IN THE INTEGRATOR — clamping only
-      // in the scroll handler let accumulated velocity carry the needle to
-      // 49.7 degrees between events (measured). The small bounce-back reads
-      // as the needle hitting the end of its travel.
+      // Travel stop IN THE INTEGRATOR — clamping only in the scroll handler
+      // let accumulated velocity overshoot the limit between events (measured
+      // at 49.7 over a 30 cap in the first tuning). The limit is now a full
+      // revolution: enough to really spin, never enough to wind up forever.
       if (angle > MAX_DEFLECTION) {
         angle = MAX_DEFLECTION;
         velocity = Math.min(0, velocity * -0.25);
@@ -84,7 +89,7 @@ export default function AnimatedLogo({ className = "" }: { className?: string })
 
     const onScroll = () => {
       const y = window.scrollY;
-      const kick = Math.max(-10, Math.min(10, (y - lastY) * IMPULSE));
+      const kick = Math.max(-18, Math.min(18, (y - lastY) * IMPULSE));
       lastY = y;
       velocity += kick;
       start();
