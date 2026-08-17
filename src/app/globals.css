@@ -1,0 +1,476 @@
+@import "tailwindcss";
+
+@theme {
+  /*
+    The teal is not a choice, it is a measurement: every painted pixel of their
+    logo PNG is exactly #2A8196 (sampled, not eyeballed — 31,121 opaque pixels,
+    one color). Everything else supports it.
+
+    CONTRAST, MEASURED (WCAG ratios against cream #FDF8EE):
+      north      #2A8196  4.24  — passes only as large text (3:1) and graphics.
+                                  NEVER body copy or small UI text on cream.
+      north-deep #1B6479  6.31  — the working teal: buttons, links, small text.
+                                  A darkened derivative of the logo ink, and the
+                                  reason small teal type on this site passes AA.
+      ink        #17303A 13.05  — body text. North at night.
+      waffle     #9D5B22  5.02  — warm accent, safe at any size on cream.
+    The scoop cream #F9E5BE was sampled from their own vanilla photo.
+    Mint and cherry are decorative only: fills, dots, garnish. Never text.
+  */
+  --color-north: #2A8196;
+  --color-north-deep: #1B6479;
+  --color-ink: #17303A;
+  --color-ink-soft: #24404d;
+  --color-cream: #FDF8EE;
+  --color-cream-dim: #F6EBD7;
+  --color-scoop: #F9E5BE;
+  --color-waffle: #9D5B22;
+  --color-mint: #A8CE8F;
+  --color-cherry: #C0452F;
+
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+
+  /* Soft, scooped radii. */
+  --radius-card: 1.25rem;
+  --radius-panel: 1.75rem;
+}
+
+@layer base {
+  /*
+    NO scroll-behavior: smooth. It is the house harness-breaker (glaze.md §8):
+    scrollIntoView animates and measurements taken right after read the
+    pre-scroll position. Anchor jumps land instantly and correctly instead.
+  */
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-scoop);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-north-deep);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* SiteHeader overwrites this with its measured height once it mounts. */
+  :root {
+    --header-h: 72px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background-color: var(--color-north-deep);
+    padding: 1rem 2rem;
+    font-weight: 600;
+    color: var(--color-cream);
+    box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--color-north-deep) 70%, transparent);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-north);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1.5px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
+    padding: 1rem 2rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-north-deep);
+    color: var(--color-north-deep);
+  }
+
+  .anchor-offset {
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+
+  /* Minimum comfortable touch target for small inline links. */
+  .tap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion. All CSS, no animation library. The signature move is the melt:
+   cream dripping over the edge of a teal band, the ice cream equivalent of
+   Cascarelli's cheese ooze and Glazed's own drip edge. Same discipline:
+   transforms only, nothing that triggers layout, and the un-animated state
+   is the finished page.
+   --------------------------------------------------------------------------- */
+
+@layer components {
+  /* Scroll reveal. Visible by default; hidden only once JS marks the document,
+     so no-JS visitors and crawlers always get the content. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .js [data-reveal][data-shown] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .lift {
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease,
+      border-color 0.35s ease;
+  }
+
+  .lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+
+  .lift img {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lift:hover img {
+    transform: scale(1.04);
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.35rem;
+    height: 2px;
+    width: 100%;
+    border-radius: 9999px;
+    background-color: var(--color-north);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  /* Hero entrance, staggered by nth-child. */
+  .js .hero-in > * {
+    animation: hero-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .js .hero-in > *:nth-child(1) { animation-delay: 0.05s; }
+  .js .hero-in > *:nth-child(2) { animation-delay: 0.14s; }
+  .js .hero-in > *:nth-child(3) { animation-delay: 0.23s; }
+  .js .hero-in > *:nth-child(4) { animation-delay: 0.32s; }
+  .js .hero-in > *:nth-child(5) { animation-delay: 0.41s; }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+     The melt. A band's bottom edge, dripping in the color of the band onto
+     whatever sits below. Built as a mask so the drip is genuinely the band's
+     own color with the page showing between drips. Slow scaleY breathing
+     from the top edge reads as soft serve settling, desynchronized from the
+     two drops that occasionally let go.
+     --------------------------------------------------------------------- */
+
+  .melt-edge {
+    position: relative;
+    height: 0;
+    transform: translateY(-1px);
+    z-index: 1;
+  }
+
+  .melt-lip {
+    height: 44px;
+    background-color: var(--melt, var(--color-cream));
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27260%27%20height%3D%2744%27%20viewBox%3D%270%200%20260%2044%27%3E%3Cpath%20d%3D%27M0%2C0%20H260%20V12%20C248%2C12%20246%2C34%20236%2C34%20C226%2C34%20224%2C12%20212%2C12%20C200%2C12%20198%2C24%20188%2C24%20C178%2C24%20176%2C12%20164%2C12%20C150%2C12%20148%2C40%20134%2C40%20C120%2C40%20118%2C12%20104%2C12%20C92%2C12%2090%2C28%2080%2C28%20C70%2C28%2068%2C12%2056%2C12%20C44%2C12%2042%2C32%2030%2C32%20C18%2C32%2016%2C12%200%2C12%20Z%27%20fill%3D%27%23000%27%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27260%27%20height%3D%2744%27%20viewBox%3D%270%200%20260%2044%27%3E%3Cpath%20d%3D%27M0%2C0%20H260%20V12%20C248%2C12%20246%2C34%20236%2C34%20C226%2C34%20224%2C12%20212%2C12%20C200%2C12%20198%2C24%20188%2C24%20C178%2C24%20176%2C12%20164%2C12%20C150%2C12%20148%2C40%20134%2C40%20C120%2C40%20118%2C12%20104%2C12%20C92%2C12%2090%2C28%2080%2C28%20C70%2C28%2068%2C12%2056%2C12%20C44%2C12%2042%2C32%2030%2C32%20C18%2C32%2016%2C12%200%2C12%20Z%27%20fill%3D%27%23000%27%2F%3E%3C%2Fsvg%3E");
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-size: 260px 44px;
+    mask-size: 260px 44px;
+    transform-origin: top center;
+    animation: melt-settle 11s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes melt-settle {
+    from {
+      transform: scaleY(0.9);
+    }
+    to {
+      transform: scaleY(1.08);
+    }
+  }
+
+  /* A drop lets go, falls, fades. Long loops so it reads as incidental,
+     and the two drops are desynchronized on purpose. */
+  .melt-fall {
+    position: absolute;
+    top: 24px;
+    display: block;
+    width: 8px;
+    height: 11px;
+    border-radius: 9999px 9999px 55% 55%;
+    background-color: var(--melt, var(--color-cream));
+    opacity: 0;
+    animation-name: melt-drop-fall;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.9, 1);
+    animation-iteration-count: infinite;
+  }
+
+  .melt-fall-a {
+    left: calc(50% - 110px);
+    animation-duration: 13s;
+    animation-delay: 5s;
+  }
+
+  .melt-fall-b {
+    left: calc(50% + 156px);
+    width: 6px;
+    height: 9px;
+    animation-duration: 17s;
+    animation-delay: 11s;
+  }
+
+  /* At 320 wide, 50% + 156px lands past the right edge and grew the page 2px.
+     Tuck the far drop in rather than clipping the whole melt. */
+  @media (max-width: 380px) {
+    .melt-fall-b {
+      left: calc(50% + 118px);
+    }
+  }
+
+  @keyframes melt-drop-fall {
+    0%,
+    58% {
+      opacity: 0;
+      transform: translateY(0) scale(0.5);
+    }
+    64% {
+      opacity: 1;
+      transform: translateY(14px) scale(1);
+    }
+    90% {
+      opacity: 1;
+      transform: translateY(88px) scale(0.85);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(120px) scale(0.7);
+    }
+  }
+
+  /* The compass ornament swings a few degrees and settles on north when it
+     scrolls into view. Rotation only; the un-animated state points north. */
+  .js .needle-settle[data-shown] .needle {
+    animation: needle-find 1.6s cubic-bezier(0.34, 1.3, 0.4, 1) both;
+  }
+
+  @keyframes needle-find {
+    0% {
+      transform: rotate(-24deg);
+    }
+    55% {
+      transform: rotate(9deg);
+    }
+    80% {
+      transform: rotate(-3deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  .site-header {
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+
+  .site-header[data-stuck] {
+    box-shadow: 0 6px 24px -18px color-mix(in srgb, var(--color-ink) 70%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js .hero-in > * {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .melt-lip,
+  .melt-fall,
+  .js .needle-settle[data-shown] .needle {
+    animation: none !important;
+  }
+
+  /* The lip stays, it just stops moving; the drops never appear. */
+  .melt-fall {
+    opacity: 0 !important;
+  }
+
+  .lift:hover {
+    transform: none;
+  }
+
+  .lift:hover img {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Glazed Web studio credit — pairs with components/GlazedCredit.
+   Everything is scoped to .gw-credit. The words inherit the footer's own colour
+   and size; the mark carries Glazed's own palette, because it is a logo and a
+   logo does not take on the host's colours.
+   ─────────────────────────────────────────────────────────────────────────── */
+.gw-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  /* A credit that sets its own colour is a credit that stops matching the day
+     the footer changes. */
+  color: inherit;
+  text-decoration: none;
+}
+.gw-credit-name {
+  font-weight: 600;
+}
+.gw-credit:hover .gw-credit-name,
+.gw-credit:focus-visible .gw-credit-name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.gw-credit-mark {
+  /* Sized in em so it tracks the text beside it rather than needing a number per
+     client. 2.15em against a 12px footer line is ~26px, which is where his real
+     mark reads: the hole lands at 4.7px and the disc at 19px. At 22px the hole
+     closes to 3px and it starts reading as a lollipop; at 30px+ it dominates the
+     bar. Measured across all five footers, not guessed. */
+  height: 2.15em;
+  width: auto;
+  flex: none;
+  /* This has to be here rather than only as the SVG attribute: the UA stylesheet
+     sets overflow:hidden on an outermost <svg>, and that beats a presentation
+     attribute. Without it the hover extension is clipped at the viewBox edge. */
+  overflow: visible;
+}
+.gw-credit-drips {
+  transform-box: fill-box;
+  /* Top centre of the drip group — where the glaze leaves the donut. Scaling from
+     anywhere else slides the drips off the donut instead of running them down. */
+  transform-origin: 50% 0%;
+  /* Resting is 1: the default state is his drawing at his lengths. */
+  transform: scaleY(1);
+  transition: transform 340ms cubic-bezier(0.34, 1.32, 0.5, 1);
+}
+.gw-credit:hover .gw-credit-drips,
+.gw-credit:focus-visible .gw-credit-drips {
+  transform: scaleY(1.22);
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Nothing to suppress — there is no autoplay. The hover just stops easing. */
+  .gw-credit-drips {
+    transition-duration: 0s;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   The signature plate — pairs with components/GlazedPlate.
+   Set the three values below per site, in that site's own palette block:
+     --gw-above      the footer colour directly above (the drip's fill)
+     --gw-plate      cream #FDF6EC under a dark footer, chocolate-2 #201712 under a light one
+     --gw-plate-ink  cream on chocolate (16.41) or chocolate on cream (15.05); both AA
+   The inversion is not taste — a chocolate plate under a #191919 footer measures 1.00 and the
+   drip vanishes. See the table in GlazedPlate for every footer in the account.
+   ─────────────────────────────────────────────────────────────────────────── */
+.gw-plate {
+  /* Defaults are the light-footer case, so a site that forgets to set them still gets a
+     legible plate rather than an invisible one. */
+  --gw-above: #FDF6EC;
+  --gw-plate: #201712;
+  --gw-plate-ink: #FDF6EC;
+  background: var(--gw-plate);
+}
+.gw-plate-drip {
+  display: block;
+  width: 100%;
+  height: 46px;
+  /* The drip is the colour of the band above it, dripping down into the plate. */
+  color: var(--gw-above);
+  fill: currentColor;
+  /* Kills the hairline of plate colour that otherwise shows along the top edge from
+     subpixel rounding — the same -1px his DripDivider uses. */
+  margin-bottom: -1px;
+}
+.gw-plate-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 22px 18px;
+}
+.gw-plate .gw-credit {
+  /* Overrides the inherit-the-footer rule above: on the plate the credit takes the plate's
+     ink, because the plate is Glazed's ground, not the client's. */
+  color: var(--gw-plate-ink);
+  font-size: 12px;
+}
+@media (max-width: 640px) {
+  .gw-plate-drip { height: 34px; }
+  .gw-plate-bar { justify-content: center; padding: 0 16px 16px; }
+}
+
+/* This site's plate. Footer above is ink #17303A; a dark footer takes the cream
+   plate. Measured for this footer: chocolate-2 #201712 against #17303A is 1.27,
+   invisible; cream #FDF6EC is 12.87. Plate ink #2B1E16 on cream is 15.05, AA. */
+.gw-plate {
+  --gw-above: #17303A;
+  --gw-plate: #FDF6EC;
+  --gw-plate-ink: #2B1E16;
+}

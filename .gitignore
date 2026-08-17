@@ -1,0 +1,15 @@
+# deps and build
+/node_modules
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# env — but the example IS tracked. A bare .env* would ignore .env.example too,
+# which is how glazedweb ended up unable to carry the file its own docs call
+# the authority. The negation keeps the authority in the repo.
+.env*
+!.env.example
+
+# misc
+.DS_Store
