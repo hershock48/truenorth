@@ -47,7 +47,21 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} | Homemade ice cream, made fresh daily`,
     description: site.blurb,
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "True North Ice Cream" }],
+    /*
+      ABSOLUTE, ON THE PITCH HOST, DELIBERATELY — for now. A relative /og.jpg
+      resolves against metadataBase (their real domain), where nothing is
+      deployed yet, so sharing the demo would show no picture. glaze.md §3:
+      og:image lives on an origin that actually serves it. At launch this
+      goes back to plain "/og.jpg" — it is on the README checklist.
+    */
+    images: [
+      {
+        url: "https://truenorth.glazedweb.com/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "True North Ice Cream",
+      },
+    ],
   },
   /*
     Card type only. A root twitter block carrying title/description/image is

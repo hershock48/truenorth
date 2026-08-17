@@ -116,6 +116,9 @@ production build, all seven routes at 390 and 1440:
 ## Before launch (when this stops being a spec build)
 
 - [ ] Remove the noindex from BOTH `robots.ts` and `next.config.ts`
+- [ ] og:image in `layout.tsx` is pinned to the truenorth.glazedweb.com host so
+      shares show a picture during the pitch — change it back to "/og.jpg" so it
+      resolves against the real domain at launch
 - [ ] Point the canonical host at the client's real domain everywhere it appears
 - [ ] Set `RESEND_API_KEY`, `INQUIRY_TO` (owner-confirmed, human-monitored inbox),
       `ORDER/INQUIRY_FROM` in Vercel; submit both forms; confirm arrival in the real inbox
