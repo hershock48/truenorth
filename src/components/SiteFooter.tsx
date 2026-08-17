@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import GlazedPlate from "@/components/GlazedPlate";
-import { site, locations, fullAddress, mapsUrl, hoursSummary } from "@/data/site";
+import { site, locations, fullAddress, mapsUrl } from "@/data/site";
 
 export default function SiteFooter() {
   return (
@@ -21,7 +21,7 @@ export default function SiteFooter() {
             className="h-8 w-auto opacity-90"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/80">
-            Homemade ice cream, made fresh every day in our shops. {hoursSummary.toLowerCase()}.
+            Homemade ice cream, made fresh in our shops. Open noon to 9pm, every day.
           </p>
         </div>
 
