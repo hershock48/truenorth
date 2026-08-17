@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import AnimatedLogo from "@/components/AnimatedLogo";
 import { usePathname } from "next/navigation";
 import { site } from "@/data/site";
 
@@ -54,18 +54,11 @@ export default function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link href="/" className="flex items-center" aria-label={`${site.name} home`}>
           {/*
-            Their real logo, not a rebuild. The PNG is a single flat teal
-            (#2A8196) with alpha, so it sits on cream without a box around it.
-            878x185 intrinsic; height-capped here.
+            Their real logo with the compass star alive: scroll knocks the
+            needle, stopping lets it settle back on north. See AnimatedLogo
+            for how the mark stays pixel-identical to their PNG at rest.
           */}
-          <Image
-            src="/brand/logo.png"
-            alt={site.name}
-            width={878}
-            height={185}
-            priority
-            className="h-9 w-auto md:h-10"
-          />
+          <AnimatedLogo className="h-9 md:h-10" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Main">

@@ -67,8 +67,12 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      {/* Concept build wording until they buy it — glaze.md, the studio credit. */}
-      <GlazedPlate line="Concept build by" />
+      {/*
+        "Double Dipped by", per Kevin (Aug 2026) — he overrode the glaze.md
+        "Concept build by" spec-build wording for this client. The donut pun
+        lands fine in an ice cream shop.
+      */}
+      <GlazedPlate line="Double Dipped by" />
     </footer>
   );
 }
