@@ -3,7 +3,7 @@ import { Sora, Figtree } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { site, locations, hours } from "@/data/site";
+import { site, locations } from "@/data/site";
 
 /**
  * Sora carries display sizes: geometric and slightly technical, which is the
@@ -75,15 +75,16 @@ export const metadata: Metadata = {
 
 /*
   One IceCreamShop node per location, linked from an Organization node, so
-  each shop can carry its own address, phone, and map. Hours come from the
-  same constants the visible site renders — one edit changes both.
+  each shop carries its own address, phone, page URL, and — because the two
+  schedules genuinely differ — its own hours. Same constants the visible site
+  renders; one edit changes both.
 */
-const hoursSpec = [
+const hoursSpecFor = (l: (typeof locations)[number]) => [
   {
     "@type": "OpeningHoursSpecification",
     dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    opens: `${String(hours[0].open).padStart(2, "0")}:00`,
-    closes: `${String(hours[0].close).padStart(2, "0")}:00`,
+    opens: `${String(l.hours[0].open).padStart(2, "0")}:00`,
+    closes: `${String(l.hours[0].close).padStart(2, "0")}:00`,
   },
 ];
 
@@ -104,7 +105,7 @@ const jsonLd = {
       "@id": `${site.url}/#${l.key}`,
       name: `${site.name} ${l.name}`,
       parentOrganization: { "@id": `${site.url}/#org` },
-      url: site.url,
+      url: `${site.url}/${l.slug}`,
       telephone: l.phone,
       servesCuisine: ["Ice Cream", "Dessert"],
       priceRange: "$",
@@ -116,7 +117,7 @@ const jsonLd = {
         postalCode: l.zip,
         addressCountry: "US",
       },
-      openingHoursSpecification: hoursSpec,
+      openingHoursSpecification: hoursSpecFor(l),
       hasMenu: `${site.url}/menu`,
     })),
   ],

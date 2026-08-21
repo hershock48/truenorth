@@ -92,9 +92,18 @@ Behavior, verified by hand on the production build:
 - **Footer plate inverts to cream** (`--gw-plate #FDF6EC` under the `#17303A`
   footer, measured 12.87; chocolate would be 1.27, invisible). Values and
   reasoning in `globals.css`, procedure in glaze.md.
-- **Hours say 12–9 daily** — what their site pages and the Battle Creek opening
-  post say. Their own homepage meta description still says "2–9pm", which is one
-  of the findings that started this project. Confirm with the owners at pitch.
+- **Hours are per shop: Marshall 12–9 daily, Battle Creek 2–9 daily** — each
+  shop's own Google Business profile, checked Aug 21, 2026. This explains why
+  their current site contradicts itself (header "12–9", hero "2–9"): each
+  number belongs to a different store and the single-store template never
+  split them. Bonus pitch finding: the Marshall Google profile lists Friday as
+  "12 AM–9 PM" — a midnight typo that third-party listings (Restaurantji,
+  Bing) have scraped verbatim. Offer to fix the profile as part of onboarding.
+- **Each shop has its own page** (`/marshall`, `/battle-creek`), the layout
+  pattern proven on the pjs build: homepage cards carry per-shop hours, a live
+  per-shop open/closed badge, and a link to the shop's page; JSON-LD gives each
+  IceCreamShop node its own hours and URL. "Ice cream Battle Creek MI" now has
+  a page that answers for Battle Creek.
 
 ## Audit state (August 17, 2026, this sandbox)
 
@@ -124,7 +133,14 @@ production build, all seven routes at 390 and 1440:
       `ORDER/INQUIRY_FROM` in Vercel; submit both forms; confirm arrival in the real inbox
 - [ ] Replace the PLACEHOLDER Instagram URL in `site.ts` with their real handle
 - [ ] Confirm the Battle Creek opening year on `/about` (PLACEHOLDER comment)
-- [ ] Confirm hours (12–9 daily?) and every price in `menu.ts` with the owners
+- [ ] Confirm per-shop hours with the owners (Marshall 12–9 daily, Battle Creek
+      2–9 daily — per each shop's Google Business profile, Aug 21, 2026) and
+      every price in `menu.ts`
+- [ ] Confirm the per-shop offerings lines in `site.ts` — which shop runs the
+      soft serve machine and the espresso bar (sources put both in Marshall;
+      Battle Creek unconfirmed)
+- [ ] Tell the owners their Marshall Google profile lists Friday as "12 AM–9 PM"
+      (midnight typo) — offer to fix it with them
 - [ ] Matcha is listed with price "Ask" (PLACEHOLDER) — get the real price, and the
       rest of the espresso-bar lineup while at it
 - [ ] If they want online ordering (cakes/pies/pints pre-orders), scope it as a

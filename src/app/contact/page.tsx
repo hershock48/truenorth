@@ -3,12 +3,12 @@ import InquiryForm from "@/components/InquiryForm";
 import MapCard from "@/components/MapCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { locations, site, hoursSummary } from "@/data/site";
+import { locations, site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Find True North Ice Cream at 403 S Kalamazoo Ave in Marshall and 928 W Columbia Ave in Battle Creek, Michigan. Open noon to 9 every day. Call, email, or send a message.",
+    "Find True North Ice Cream at 403 S Kalamazoo Ave in Marshall (open noon to 9 daily) and 928 W Columbia Ave in Battle Creek (open 2 to 9 daily). Call, email, or send a message.",
   alternates: { canonical: "/contact" },
 };
 
@@ -18,7 +18,7 @@ export default function ContactPage() {
       <PageHero
         kicker="Say hello"
         title="Come find us"
-        lede={`${hoursSummary}, at both shops. For anything else, send a message and we will get back to you.`}
+        lede="Both shops scoop every day — Marshall from noon, Battle Creek from 2, doors closing at 9. For anything else, send a message and we will get back to you."
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">

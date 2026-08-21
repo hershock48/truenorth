@@ -67,7 +67,11 @@ if (!axePath) {
 const axe = fs.readFileSync(axePath, "utf8");
 
 const host = new URL(BASE).host;
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+// CHROMIUM env wins so this runs outside the Linux sandbox too (e.g. Windows:
+// CHROMIUM="C:\Program Files\Google\Chrome\Application\chrome.exe").
+const browser = await chromium.launch({
+  executablePath: process.env.CHROMIUM || "/opt/pw-browsers/chromium",
+});
 
 let violations = 0;
 const overflow = [];

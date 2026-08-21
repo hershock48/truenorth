@@ -49,9 +49,14 @@ export default function Home() {
               Catering and cakes
             </Link>
           </div>
-          <p className="mt-6">
-            <OpenNow />
-          </p>
+          {/* One badge per shop — they keep different hours. */}
+          <div className="mt-6 space-y-1.5">
+            {locations.map((l) => (
+              <p key={l.key}>
+                <OpenNow location={l} label={l.name} />
+              </p>
+            ))}
+          </div>
         </div>
         <Reveal className="lift overflow-hidden rounded-[--radius-panel]">
           <Image
@@ -163,7 +168,9 @@ export default function Home() {
               Two shops, one freezer full of good ideas
             </h2>
             <p className="mt-2 max-w-2xl text-ink-soft">
-              Open noon to 9, every day of the week, at both locations.
+              Marshall scoops from noon, Battle Creek from 2 — both open every
+              day until 9. Each shop keeps its own counter, so see what yours
+              does best.
             </p>
           </Reveal>
           <div className="mt-8 grid gap-6 md:grid-cols-2">

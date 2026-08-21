@@ -21,15 +21,19 @@ export default function SiteFooter() {
             className="h-8 w-auto opacity-90"
           />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/80">
-            Homemade ice cream, made fresh in our shops. Open noon to 9pm, every day.
+            Homemade ice cream, made fresh in our shops, every day of the week.
           </p>
         </div>
 
         {locations.map((l) => (
           <div key={l.key}>
             <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
-              {l.name}
+              <Link href={`/${l.slug}`} className="tap underline-offset-4 hover:underline">
+                {l.name}
+              </Link>
             </h2>
+            {/* Per-shop hours: the two schedules differ. */}
+            <p className="mt-1 text-sm text-cream/80">{l.hoursSummary}</p>
             <address className="mt-3 text-sm not-italic leading-relaxed text-cream/80">
               <a
                 href={mapsUrl(l)}

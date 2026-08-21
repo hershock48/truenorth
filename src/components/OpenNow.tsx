@@ -1,15 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { hours, formatHour } from "@/data/site";
+import { formatHour, type Location } from "@/data/site";
 
 /**
- * Live open/closed state, computed in America/Detroit so it is correct for
- * a visitor in any timezone. Renders nothing until mounted to avoid a
- * hydration mismatch between server and client clocks.
+ * Live open/closed state for ONE shop, computed in America/Detroit so it is
+ * correct for a visitor in any timezone. The two shops keep different hours
+ * (Marshall from noon, Battle Creek from 2), so there is deliberately no
+ * location-less version of this badge — every caller says which shop it means.
+ * Renders nothing until mounted to avoid a hydration mismatch between server
+ * and client clocks.
  */
-export default function OpenNow({ tone = "dark" }: { tone?: "dark" | "light" }) {
+export default function OpenNow({
+  location,
+  label,
+  tone = "dark",
+}: {
+  location: Location;
+  /** Optional prefix, e.g. the shop name when two badges sit together. */
+  label?: string;
+  tone?: "dark" | "light";
+}) {
   const [state, setState] = useState<{ open: boolean; text: string } | null>(null);
+  const { hours } = location;
 
   useEffect(() => {
     function compute() {
@@ -54,7 +67,7 @@ export default function OpenNow({ tone = "dark" }: { tone?: "dark" | "light" }) 
     compute();
     const id = setInterval(compute, 60_000);
     return () => clearInterval(id);
-  }, []);
+  }, [hours]);
 
   if (!state) {
     return <span className="inline-block h-5 w-40" aria-hidden />;
@@ -71,6 +84,14 @@ export default function OpenNow({ tone = "dark" }: { tone?: "dark" | "light" }) 
         )}
         <span className={`relative inline-flex h-2 w-2 rounded-full ${dot}`} />
       </span>
+      {label ? (
+        <>
+          <span className={tone === "light" ? "font-semibold text-cream" : "font-semibold text-ink"}>
+            {label}
+          </span>
+          <span aria-hidden>·</span>
+        </>
+      ) : null}
       {state.text}
     </span>
   );

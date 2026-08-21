@@ -1,3 +1,4 @@
+import Link from "next/link";
 import OpenNow from "@/components/OpenNow";
 import { fullAddress, mapsEmbedUrl, mapsUrl, type Location } from "@/data/site";
 
@@ -16,6 +17,8 @@ export default function MapCard({ location }: { location: Location }) {
           {location.name}
         </h3>
         <p className="mt-1 text-sm text-ink-soft">{location.note}</p>
+        {/* Hours are per shop — the two keep different schedules. */}
+        <p className="mt-3 text-sm font-semibold text-ink">{location.hoursSummary}</p>
         <p className="mt-3 text-sm leading-relaxed text-ink">
           <a
             href={mapsUrl(location)}
@@ -34,8 +37,16 @@ export default function MapCard({ location }: { location: Location }) {
           </a>
         </p>
         <div className="mt-3">
-          <OpenNow />
+          <OpenNow location={location} />
         </div>
+        <p className="mt-4">
+          <Link
+            href={`/${location.slug}`}
+            className="tap text-sm font-semibold text-north-deep underline-offset-4 hover:underline"
+          >
+            More about the {location.name} shop →
+          </Link>
+        </p>
       </div>
     </div>
   );
