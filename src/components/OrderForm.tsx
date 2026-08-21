@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import OpenNow from "@/components/OpenNow";
 import { orderablesFor } from "@/data/menu";
 import { fullAddress, locations, site, type Location } from "@/data/site";
@@ -10,20 +9,20 @@ type Status = "idle" | "sending" | "done" | "error";
 
 /**
  * Order-ahead for pickup, wired PER SHOP: the shop picker is the first step,
- * ?at= preselects it (every "Order from Marshall" link on the site lands here
- * already pointed at the right counter), and the item list is that shop's own
- * — soft serve pints only show for Marshall because the data says so, not the
- * form. Same contract as InquiryForm: JSON post with JS, plain form post
- * without, and the failure path tells the truth with a phone number.
+ * the `preselect` prop (the ?at= slug, read server-side by the page so this
+ * form prerenders into the HTML — see order/page.tsx for why) points it at
+ * the right counter, and the item list is that shop's own — soft serve pints
+ * only show for Marshall because the data says so, not the form. Same
+ * contract as InquiryForm: JSON post with JS, plain form post without, and
+ * the failure path tells the truth with a phone number.
  *
  * No payment on purpose. This is v1 — order goes to the shop's inbox, customer
  * pays at the counter. Stripe/Square hosted checkout is the launch upgrade on
  * the README checklist.
  */
-export default function OrderForm() {
-  const params = useSearchParams();
+export default function OrderForm({ preselect }: { preselect?: string }) {
   const preselected =
-    locations.find((l) => l.slug === params.get("at"))?.key ?? locations[0].key;
+    locations.find((l) => l.slug === preselect)?.key ?? locations[0].key;
 
   const [storeKey, setStoreKey] = useState<Location["key"]>(preselected);
   const [qty, setQty] = useState<Record<string, number>>({});
@@ -252,7 +251,7 @@ export default function OrderForm() {
         </div>
 
         {status === "error" ? (
-          <p role="alert" className="mt-4 rounded-xl bg-cherry/10 px-4 py-3 text-sm font-medium text-cherry">
+          <p role="alert" className="mt-4 rounded-xl bg-cherry/10 px-4 py-3 text-sm font-medium text-cherry-deep">
             {error}
           </p>
         ) : null}

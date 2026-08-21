@@ -15,7 +15,10 @@
       ink        #17303A 13.05  — body text. North at night.
       waffle     #9D5B22  5.02  — warm accent, safe at any size on cream.
     The scoop cream #F9E5BE was sampled from their own vanilla photo.
-    Mint and cherry are decorative only: fills, dots, garnish. Never text.
+    Mint and cherry are decorative only: fills, dots, garnish. Never text —
+    cherry on the cherry/10 error tint measures 4.41, an AA failure. When an
+    error MESSAGE needs the cherry voice, use cherry-deep (#A23A26): 5.8 on
+    the tinted background, 7.1 on white.
   */
   --color-north: #2A8196;
   --color-north-deep: #1B6479;
@@ -27,6 +30,7 @@
   --color-waffle: #9D5B22;
   --color-mint: #A8CE8F;
   --color-cherry: #C0452F;
+  --color-cherry-deep: #A23A26;
 
   --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
@@ -59,6 +63,16 @@
     outline: 2px solid var(--color-north-deep);
     outline-offset: 3px;
     border-radius: 4px;
+  }
+
+  /*
+    On the teal and ink bands the north-deep outline is the background
+    (1.0:1 on north-deep, 2.07:1 on ink — both invisible to a keyboard
+    user). Cream measures 6.31 on north-deep and 12.9 on ink.
+  */
+  .bg-north-deep :focus-visible,
+  .bg-ink :focus-visible {
+    outline-color: var(--color-cream);
   }
 
   /* SiteHeader overwrites this with its measured height once it mounts. */

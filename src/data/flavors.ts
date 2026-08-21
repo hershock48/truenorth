@@ -13,6 +13,8 @@
  * add or remove a line.
  */
 
+import { filterByShop, type LocationKey } from "@/data/shops";
+
 export type Allergen = "nuts" | "gluten";
 
 export type Flavor = {
@@ -20,6 +22,15 @@ export type Flavor = {
   allergens?: Allergen[];
   /** One short line, only where a name needs it. Most don't. */
   note?: string;
+  /**
+   * Shops scooping this flavor. Omitted = both; a tag NARROWS the board's own
+   * tag, never widens it (shops.ts is the authority on the convention). The
+   * owner says the two counters scoop different things; until he hands over
+   * each shop's real case list (README checklist), the hand-scooped flavors
+   * stay untagged and the structure is ready — tag a flavor and every board,
+   * chip, and shop page updates itself.
+   */
+  at?: LocationKey[];
 };
 
 export const homemade: Flavor[] = [
@@ -75,16 +86,45 @@ export const dairyFree: Flavor[] = [
   { name: "Strawberry Lemonade Sorbet" },
 ];
 
-export const boards = [
+export type Board = {
+  key: string;
+  title: string;
+  subtitle: string;
+  flavors: Flavor[];
+  /** Shops running this board. Omitted = both. */
+  at?: LocationKey[];
+};
+
+export const boards: Board[] = [
   { key: "homemade", title: "Homemade", subtitle: "Hand-scooped, made in the shop", flavors: homemade },
-  { key: "softserve", title: "Soft Serve", subtitle: "Cones, cups, and twists", flavors: softServe },
+  // The soft serve machine is Marshall's (Choose Marshall article) — same
+  // sourcing and same one-edit correction as the menu's store tags.
+  { key: "softserve", title: "Soft Serve", subtitle: "Cones, cups, and twists", flavors: softServe, at: ["marshall"] },
   { key: "adult", title: "Adult Flavors", subtitle: "21 and up, ID at the counter", flavors: adult },
   { key: "dairyfree", title: "Dairy Free", subtitle: "Sorbets and vegan scoops", flavors: dairyFree },
-] as const;
+];
+
+/** The board as one shop's counter scoops it: tagged-away boards and flavors gone. */
+export function boardsFor(key: LocationKey): Board[] {
+  return filterByShop(key, boards)
+    .map((b) => ({ ...b, flavors: filterByShop(key, b.flavors) }))
+    .filter((b) => b.flavors.length > 0);
+}
 
 /**
  * The date the board was last edited. Rendered on the flavors page so a
  * visitor can see the list is current — and so a stale board is visible to
  * the owner instead of silently wrong. Update it when you update the lists.
  */
-export const boardUpdated = "2026-08-17";
+export const boardUpdated = "2026-08-21";
+
+/**
+ * The one rendered form of that date. Every surface uses this export — three
+ * hand-rolled copies of the expression had already drifted (one showed the
+ * year, two didn't). The T12:00:00 anchors parsing at local noon so the
+ * printed date never slips a day across timezones.
+ */
+export const boardUpdatedLabel = new Date(boardUpdated + "T12:00:00").toLocaleDateString(
+  "en-US",
+  { month: "long", day: "numeric" },
+);

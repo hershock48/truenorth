@@ -4,21 +4,23 @@
  * before launch. It is on the README checklist.
  *
  * STORE TAGS. The two shops scoop different things, so sections and items can
- * carry `at`: which shops serve them. No tag means both. What is tagged today
- * rests on the public record — the Choose Marshall article puts the soft serve
- * machine and the espresso bar in Marshall — and every tag is one edit here
- * when the owners correct it (README checklist).
+ * carry `at`: which shops serve them. No tag means both; an item's tag NARROWS
+ * its section's, never widens it (shops.ts is the authority on the
+ * convention). What is tagged today rests on the public record — the Choose
+ * Marshall article puts the soft serve machine and the espresso bar in
+ * Marshall — and every tag is one edit here when the owners correct it
+ * (README checklist).
  */
 
-import type { Location } from "@/data/site";
+import { atShop, effectiveTag, filterByShop, type LocationKey } from "@/data/shops";
 
-export type LocationKey = Location["key"];
+export type { LocationKey };
 
 export type MenuItem = {
   name: string;
   price: string;
   note?: string;
-  /** Shops that serve this item. Omitted = both. Overrides the section tag. */
+  /** Shops that serve this item. Omitted = both. Narrows the section tag. */
   at?: LocationKey[];
 };
 
@@ -81,7 +83,12 @@ export const menu: MenuSection[] = [
   {
     key: "drinks",
     title: "Drinks",
-    subtitle: "Espresso bar in Marshall",
+    /*
+      No "Espresso bar in Marshall" subtitle, deliberately: the espresso items
+      carry their own Marshall tags (chipped on /menu, filtered elsewhere), and
+      a section subtitle survives per-shop filtering — Battle Creek's own board
+      was rendering the other shop's amenity as its Drinks heading.
+    */
     items: [
       { name: "Malts, shakes, floats, and coolers", price: "$8.50" },
       { name: "Fruit smoothie", price: "$6.50" },
@@ -100,16 +107,14 @@ export const menu: MenuSection[] = [
   },
 ];
 
-/** True when this shop serves the item, honoring section and item tags. */
+/** True when this shop serves the item: the item's tag narrows the section's. */
 export function servedAt(key: LocationKey, section: MenuSection, item?: MenuItem) {
-  const tag = item?.at ?? section.at;
-  return !tag || tag.includes(key);
+  return atShop(key, item ? effectiveTag(section.at, item.at) : section.at);
 }
 
 /** The menu as one shop's counter sees it: tagged-away sections and items gone. */
 export function menuFor(key: LocationKey): MenuSection[] {
-  return menu
-    .filter((s) => servedAt(key, s))
+  return filterByShop(key, menu)
     .map((s) => ({ ...s, items: s.items.filter((i) => servedAt(key, s, i)) }))
     .filter((s) => s.items.length > 0);
 }
@@ -139,7 +144,7 @@ export const orderables: Orderable[] = [
 ];
 
 export function orderablesFor(key: LocationKey): Orderable[] {
-  return orderables.filter((o) => !o.at || o.at.includes(key));
+  return filterByShop(key, orderables);
 }
 
 /** Catering, per person, from their published price list. */

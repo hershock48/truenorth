@@ -6,8 +6,8 @@ import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
 import OpenNow from "@/components/OpenNow";
 import Reveal from "@/components/Reveal";
-import { boards, boardUpdated } from "@/data/flavors";
-import { locations } from "@/data/site";
+import { boards, boardUpdatedLabel } from "@/data/flavors";
+import { locations, shopCaseHref, shopHref } from "@/data/site";
 
 /*
   Copy discipline (glaze.md): "homemade" is their word and their promise, so it
@@ -16,7 +16,10 @@ import { locations } from "@/data/site";
 */
 
 export default function Home() {
-  const homemadeCount = boards[0].flavors.length;
+  // By key, not position — reordering the boards must not change what
+  // "In the case today" shows.
+  const homemadeBoard = boards.find((b) => b.key === "homemade")!;
+  const homemadeCount = homemadeBoard.flavors.length;
 
   return (
     <>
@@ -49,12 +52,26 @@ export default function Home() {
               Catering and cakes
             </Link>
           </div>
-          {/* One badge per shop — they keep different hours. */}
-          <div className="mt-6 space-y-1.5">
+          {/*
+            One row per shop — they keep different hours, and each row IS the
+            door into that shop's page. Bordered and arrowed so it reads as a
+            button, not a status line.
+          */}
+          <div className="mt-7 grid max-w-md gap-2.5">
             {locations.map((l) => (
-              <p key={l.key}>
+              <Link
+                key={l.key}
+                href={shopHref(l)}
+                className="group flex items-center justify-between gap-3 rounded-2xl border border-ink/15 bg-white/70 px-5 py-3 transition-colors hover:border-north-deep hover:bg-white"
+              >
                 <OpenNow location={l} label={l.name} />
-              </p>
+                <span
+                  aria-hidden
+                  className="font-semibold text-north-deep transition-transform group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -80,8 +97,8 @@ export default function Home() {
                   In the case today
                 </h2>
                 <p className="mt-2 max-w-xl text-cream/85">
-                  The flavors rotate all the time, so this list is kept current.
-                  Last updated {new Date(boardUpdated + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" })}.
+                  The hand-scooped board both counters scoop from, rotating all
+                  the time. Last updated {boardUpdatedLabel}.
                 </p>
               </div>
               <Link
@@ -94,7 +111,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={90}>
             <ul className="mt-8 flex flex-wrap gap-2.5">
-              {boards[0].flavors.slice(0, 12).map((f) => (
+              {homemadeBoard.flavors.slice(0, 12).map((f) => (
                 <li
                   key={f.name}
                   className="rounded-full border border-cream/25 bg-cream/10 px-4 py-2 text-sm font-medium"
@@ -111,6 +128,20 @@ export default function Home() {
                 </Link>
               </li>
             </ul>
+          </Reveal>
+          <Reveal delay={140}>
+            {/* "Whose case?" gets a one-tap answer, per shop. */}
+            <div className="mt-7 flex flex-wrap gap-x-8 gap-y-2">
+              {locations.map((l) => (
+                <Link
+                  key={l.key}
+                  href={shopCaseHref(l)}
+                  className="tap font-semibold text-cream underline-offset-4 hover:underline"
+                >
+                  The {l.name} board →
+                </Link>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
@@ -150,8 +181,10 @@ export default function Home() {
         <Reveal>
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[--radius-panel] bg-cream-dim px-6 py-6 md:px-8">
             <p className="text-lg font-medium text-ink">
-              Scoops from $3.75, sundaes, splits, shakes, and ice cream nachos.
-              A real espresso bar, matcha included. Cakes and pies made to order.
+              Scoops from $4.75 at both shops, sundaes, splits, shakes, and ice
+              cream nachos. Soft serve from $3.75 and a real espresso bar —
+              matcha included — at the Marshall counter. Cakes and pies made to
+              order.
             </p>
             <Link href="/menu" className="btn-primary">
               Menu and prices
@@ -201,7 +234,7 @@ export default function Home() {
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
             Weddings, birthdays, work parties, fundraisers. Scooped fresh for
-            groups from twenty-five to three hundred and up, with per-person
+            groups of any size up to three hundred and beyond, with per-person
             pricing that gets friendlier as the crowd grows. You can rent the
             whole shop, too.
           </p>

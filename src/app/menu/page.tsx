@@ -3,7 +3,9 @@ import Link from "next/link";
 import MenuSectionCard from "@/components/MenuSectionCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
+import ShopEntryLinks from "@/components/ShopEntryLinks";
 import { menu } from "@/data/menu";
+import { shopMenuHref } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Menu and Prices",
@@ -22,6 +24,9 @@ export default function MenuPage() {
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">
+        {/* The per-shop view is one tap away, same component as the flavors page. */}
+        <ShopEntryLinks href={shopMenuHref} label={(l) => `Just ${l.name}'s counter`} />
+
         <div className="grid gap-8 md:grid-cols-2">
           {menu.map((section, i) => (
             <Reveal key={section.key} delay={(i % 2) * 80}>

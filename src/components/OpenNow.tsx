@@ -87,23 +87,36 @@ export default function OpenNow({
 }) {
   const state = useOpenState(location.hours);
 
-  if (!state) {
-    return <span className="inline-block h-5 w-40" aria-hidden />;
-  }
-
   const text = tone === "light" ? "text-cream/80" : "text-ink/70";
+  const labelPart = label ? (
+    <>
+      <span className={tone === "light" ? "font-semibold text-cream" : "font-semibold text-ink"}>
+        {label}
+      </span>
+      <span aria-hidden>·</span>
+    </>
+  ) : null;
+
+  /*
+    Pre-hydration and no-JS: real text, never an empty box. The shop's name
+    and standing hours are static facts — only the live open/closed state
+    waits for the client clock. This span is the server-rendered HTML, so it
+    is also what crawlers and screen readers get on first read.
+  */
+  if (!state) {
+    return (
+      <span className={`inline-flex items-center gap-2 text-sm font-medium ${text}`}>
+        <span className="inline-flex h-2 w-2 rounded-full bg-current opacity-30" aria-hidden />
+        {labelPart}
+        {location.hoursSummary}
+      </span>
+    );
+  }
 
   return (
     <span className={`inline-flex items-center gap-2 text-sm font-medium ${text}`}>
       <StatusDot open={state.open} />
-      {label ? (
-        <>
-          <span className={tone === "light" ? "font-semibold text-cream" : "font-semibold text-ink"}>
-            {label}
-          </span>
-          <span aria-hidden>·</span>
-        </>
-      ) : null}
+      {labelPart}
       {state.text}
     </span>
   );

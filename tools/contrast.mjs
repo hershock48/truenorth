@@ -43,7 +43,10 @@ if (!axePath) {
 }
 const axe = fs.readFileSync(axePath, "utf8");
 
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+// CHROMIUM env wins so this runs outside the Linux sandbox too (see audit.mjs).
+const browser = await chromium.launch({
+  executablePath: process.env.CHROMIUM || "/opt/pw-browsers/chromium",
+});
 const grouped = new Map();
 
 for (const route of ROUTES) {

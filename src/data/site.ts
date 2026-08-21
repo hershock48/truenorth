@@ -112,6 +112,27 @@ export function locationBySlug(slug: string) {
   return locations.find((l) => l.slug === slug);
 }
 
+/*
+  Every link into a shop goes through these, so the URL contracts live in one
+  place: the /order?at= param is the SLUG (OrderForm matches on slug — a bare
+  l.key would silently preselect the wrong shop for Battle Creek), and the
+  #case / #menu anchors must match the section ids LocationPage renders.
+*/
+export function shopHref(l: Location) {
+  return `/${l.slug}`;
+}
+export function orderHref(l: Location) {
+  return `/order?at=${l.slug}`;
+}
+/** Section ids on the shop pages; LocationPage renders these, links target them. */
+export const shopAnchors = { case: "case", menu: "menu" } as const;
+export function shopCaseHref(l: Location) {
+  return `${shopHref(l)}#${shopAnchors.case}`;
+}
+export function shopMenuHref(l: Location) {
+  return `${shopHref(l)}#${shopAnchors.menu}`;
+}
+
 export function fullAddress(l: Location) {
   return `${l.street}, ${l.city}, ${l.state} ${l.zip}`;
 }

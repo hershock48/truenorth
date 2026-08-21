@@ -3,7 +3,8 @@
 Spec build of [truenorthicecream.com](https://truenorthicecream.com) by
 [Glazed Web](https://glazedweb.com), August 2026. Next.js App Router, TypeScript,
 Tailwind 4, no CMS, no paid services. The client has not bought this; the footer
-credit reads "Concept build by" until they do.
+carries the studio credit until they do ("Double Dipped by" — Kevin's Aug 2026
+override of the glaze.md "Concept build by" spec-build wording).
 
 ## Run it
 
@@ -120,6 +121,32 @@ Behavior, verified by hand on the production build:
   the soft serve machine and espresso bar in Marshall, so soft serve, affogato,
   espresso drinks, and matcha are tagged `marshall` today. Every tag is one
   edit in `menu.ts` when the owners correct the split (checklist).
+- **The tag mechanism lives ONCE, in `src/data/shops.ts`** — filter, chip
+  label, and the narrowing rule (a child's `at` narrows its parent's, never
+  widens; a contradictory nesting is hidden everywhere and chip-less). Before
+  this module there were five hand-rolled copies and the chip labeler had
+  already drifted from the filters. Do not re-inline any of it. Same idea for
+  URLs: every link into a shop goes through `shopHref`/`orderHref`/
+  `shopCaseHref`/`shopMenuHref` in `site.ts` — the /order?at= param is the
+  SLUG, and a bare `l.key` would silently preselect the wrong shop for
+  Battle Creek.
+- **/order is request-rendered, deliberately.** The page reads `?at=`
+  server-side and passes it to the form as a prop. An earlier version used
+  `useSearchParams` in the client component, which bailed the form out of the
+  prerendered HTML entirely — blank page before hydration, dead end without
+  JS. If you "optimize" this back to static, you will reintroduce that.
+- **The flavor board is store-aware too** — `boardsFor` in `flavors.ts` filters
+  boards and flavors by the same `at` convention (soft serve board → Marshall),
+  each shop page renders its own case under `#case`, and the shared flavors
+  page marks anything one shop scoops alone. The hand-scooped flavors are
+  untagged until the owners hand over each shop's real case list (checklist) —
+  the structure is ready, the data waits for facts.
+- **"Whose shop?" is never ambiguous** — every surface that answers a customer
+  question resolves through a shop: the header ShopBar entries are visible
+  buttons (border, hover, arrow), the hero shop rows are doors into the shop
+  pages, the homepage case band links each shop's case, and /flavors and
+  /menu open with per-shop entry buttons. The UX rule, from the pjs build: the
+  customer picks their counter first; everything else renders through it.
 
 ## Audit state (August 17, 2026, this sandbox)
 
@@ -155,6 +182,9 @@ production build, all seven routes at 390 and 1440:
 - [ ] Confirm the per-shop offerings lines in `site.ts` — which shop runs the
       soft serve machine and the espresso bar (sources put both in Marshall;
       Battle Creek unconfirmed)
+- [ ] Get each shop's real daily case list from the owners and tag
+      `flavors.ts` (`at:` per flavor) — the boards are store-aware but the
+      hand-scooped flavors are untagged until the owners split them
 - [ ] Tell the owners their Marshall Google profile lists Friday as "12 AM–9 PM"
       (midnight typo) — offer to fix it with them
 - [ ] Matcha is listed with price "Ask" (PLACEHOLDER) — get the real price, and the

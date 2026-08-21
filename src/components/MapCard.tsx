@@ -1,6 +1,13 @@
 import Link from "next/link";
 import OpenNow from "@/components/OpenNow";
-import { fullAddress, mapsEmbedUrl, mapsUrl, type Location } from "@/data/site";
+import {
+  fullAddress,
+  mapsEmbedUrl,
+  mapsUrl,
+  orderHref,
+  shopHref,
+  type Location,
+} from "@/data/site";
 
 export default function MapCard({ location }: { location: Location }) {
   return (
@@ -40,11 +47,11 @@ export default function MapCard({ location }: { location: Location }) {
           <OpenNow location={location} />
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <Link href={`/${location.slug}`} className="btn-secondary !px-5 !py-2.5 text-sm">
+          <Link href={shopHref(location)} className="btn-secondary !px-5 !py-2.5 text-sm">
             The {location.name} shop
           </Link>
           <Link
-            href={`/order?at=${location.slug}`}
+            href={orderHref(location)}
             className="tap text-sm font-semibold text-north-deep underline-offset-4 hover:underline"
           >
             Order ahead →

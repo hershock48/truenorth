@@ -34,7 +34,7 @@ export default function CateringPage() {
       <PageHero
         kicker="Bring us along"
         title="Catering and events"
-        lede="From twenty-five people to three hundred and up. Tell us about the day and we will handle the dessert."
+        lede="From backyard birthdays to three hundred people and up. Tell us about the day and we will handle the dessert."
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-16">

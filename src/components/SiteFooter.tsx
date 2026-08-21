@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import GlazedPlate from "@/components/GlazedPlate";
-import { site, locations, fullAddress, mapsUrl } from "@/data/site";
+import { site, locations, fullAddress, mapsUrl, shopHref } from "@/data/site";
 
 export default function SiteFooter() {
   return (
@@ -28,7 +28,7 @@ export default function SiteFooter() {
         {locations.map((l) => (
           <div key={l.key}>
             <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold">
-              <Link href={`/${l.slug}`} className="tap underline-offset-4 hover:underline">
+              <Link href={shopHref(l)} className="tap underline-offset-4 hover:underline">
                 {l.name}
               </Link>
             </h2>

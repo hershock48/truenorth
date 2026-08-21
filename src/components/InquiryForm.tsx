@@ -181,7 +181,7 @@ export default function InquiryForm({ variant = "catering" }: { variant?: "cater
       </div>
 
       {status === "error" ? (
-        <p role="alert" className="mt-4 rounded-xl bg-cherry/10 px-4 py-3 text-sm font-medium text-cherry">
+        <p role="alert" className="mt-4 rounded-xl bg-cherry/10 px-4 py-3 text-sm font-medium text-cherry-deep">
           {error}
         </p>
       ) : null}

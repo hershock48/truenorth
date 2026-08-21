@@ -39,12 +39,52 @@ function escapeHtml(v: string) {
     .replace(/"/g, "&quot;");
 }
 
-function htmlPage(title: string, message: string, status: number, backHref: string) {
+/**
+ * The no-JS failure page NEVER throws away what the customer typed. It
+ * re-renders their submission as a small fix-and-resend form: the fields a
+ * person actually mistypes (name, phone, email, pickup time, flavor notes)
+ * come back visible and editable, everything else (shop, quantities) rides
+ * along as hidden inputs, and one submit re-posts the whole order. The link
+ * back to /order stays as the start-over option.
+ */
+const RESEND_VISIBLE: [name: string, label: string][] = [
+  ["name", "Your name"],
+  ["phone", "Phone"],
+  ["email", "Email"],
+  ["pickup", "When are you coming?"],
+  ["flavors", "Flavors and requests"],
+];
+
+function resendForm(b: Record<string, unknown>) {
+  const visibleNames = new Set(RESEND_VISIBLE.map(([n]) => n));
+  const hidden = Object.entries(b)
+    .filter(([k, v]) => !visibleNames.has(k) && k !== "company" && typeof v === "string" && v)
+    .map(
+      ([k, v]) =>
+        `<input type="hidden" name="${escapeHtml(k)}" value="${escapeHtml(v as string)}">`,
+    )
+    .join("");
+  const fields = RESEND_VISIBLE.map(
+    ([name, label]) => `<label style="display:block;text-align:left;margin-top:12px;font-weight:600;font-size:14px">${label}<br>
+<input name="${name}" value="${escapeHtml(clean(b[name], 2000))}" style="width:100%;box-sizing:border-box;margin-top:4px;padding:10px 12px;border:1px solid #17303A33;border-radius:10px;font:inherit"></label>`,
+  ).join("");
+  return `<form method="post" action="/api/order" style="max-width:26rem;margin:20px auto 0">${hidden}${fields}
+<button type="submit" style="margin-top:16px;padding:12px 24px;border:0;border-radius:999px;background:#1B6479;color:#FDF8EE;font:inherit;font-weight:600">Send it again</button></form>`;
+}
+
+function htmlPage(
+  title: string,
+  message: string,
+  status: number,
+  backHref: string,
+  body?: Record<string, unknown>,
+) {
   return new Response(
     `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>
 <body style="font-family:system-ui,sans-serif;background:#FDF8EE;color:#17303A;display:grid;place-items:center;min-height:100vh;margin:0;padding:24px;text-align:center">
 <div><h1 style="font-size:1.6rem">${title}</h1><p style="max-width:34rem;line-height:1.6">${message}</p>
-<p><a href="${backHref}" style="color:#1B6479">Go back to the order form</a></p></div></body></html>`,
+${body ? resendForm(body) : ""}
+<p style="margin-top:20px"><a href="${backHref}" style="color:#1B6479">Start over at the order form</a></p></div></body></html>`,
     { status, headers: { "Content-Type": "text/html; charset=utf-8" } },
   );
 }
@@ -70,7 +110,9 @@ export async function POST(request: Request) {
   }
 
   const fail = (error: string, status: number) =>
-    isForm ? htmlPage("One more thing", error, status, "/order") : NextResponse.json({ error }, { status });
+    isForm
+      ? htmlPage("One more thing", error, status, "/order", b)
+      : NextResponse.json({ error }, { status });
 
   // Honeypot. Real people never fill this in because they never see it.
   if (clean(b.company, 100)) {
