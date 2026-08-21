@@ -1,28 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { formatHour, type Location } from "@/data/site";
+import { formatHour, type Hours, type Location } from "@/data/site";
 
 /**
- * Live open/closed state for ONE shop, computed in America/Detroit so it is
- * correct for a visitor in any timezone. The two shops keep different hours
- * (Marshall from noon, Battle Creek from 2), so there is deliberately no
- * location-less version of this badge — every caller says which shop it means.
- * Renders nothing until mounted to avoid a hydration mismatch between server
- * and client clocks.
+ * Live open/closed state for one shop's hours, computed in America/Detroit so
+ * it is correct for a visitor in any timezone. The two shops keep different
+ * hours (Marshall from noon, Battle Creek from 2), so there is deliberately no
+ * location-less version — every caller says which shop it means. Returns null
+ * until mounted to avoid a hydration mismatch between server and client
+ * clocks; callers render a placeholder for that beat.
  */
-export default function OpenNow({
-  location,
-  label,
-  tone = "dark",
-}: {
-  location: Location;
-  /** Optional prefix, e.g. the shop name when two badges sit together. */
-  label?: string;
-  tone?: "dark" | "light";
-}) {
+export function useOpenState(hours: readonly Hours[]) {
   const [state, setState] = useState<{ open: boolean; text: string } | null>(null);
-  const { hours } = location;
 
   useEffect(() => {
     function compute() {
@@ -69,21 +59,43 @@ export default function OpenNow({
     return () => clearInterval(id);
   }, [hours]);
 
+  return state;
+}
+
+/** The pulsing status dot, shared by the badge and the shop bar. */
+export function StatusDot({ open }: { open: boolean }) {
+  const dot = open ? "bg-emerald-500" : "bg-cherry";
+  return (
+    <span className={`relative flex h-2 w-2`}>
+      {open && (
+        <span className={`absolute inline-flex h-full w-full animate-ping rounded-full ${dot} opacity-60`} />
+      )}
+      <span className={`relative inline-flex h-2 w-2 rounded-full ${dot}`} />
+    </span>
+  );
+}
+
+export default function OpenNow({
+  location,
+  label,
+  tone = "dark",
+}: {
+  location: Location;
+  /** Optional prefix, e.g. the shop name when two badges sit together. */
+  label?: string;
+  tone?: "dark" | "light";
+}) {
+  const state = useOpenState(location.hours);
+
   if (!state) {
     return <span className="inline-block h-5 w-40" aria-hidden />;
   }
 
-  const dot = state.open ? "bg-emerald-500" : "bg-cherry";
   const text = tone === "light" ? "text-cream/80" : "text-ink/70";
 
   return (
     <span className={`inline-flex items-center gap-2 text-sm font-medium ${text}`}>
-      <span className={`relative flex h-2 w-2`}>
-        {state.open && (
-          <span className={`absolute inline-flex h-full w-full animate-ping rounded-full ${dot} opacity-60`} />
-        )}
-        <span className={`relative inline-flex h-2 w-2 rounded-full ${dot}`} />
-      </span>
+      <StatusDot open={state.open} />
       {label ? (
         <>
           <span className={tone === "light" ? "font-semibold text-cream" : "font-semibold text-ink"}>

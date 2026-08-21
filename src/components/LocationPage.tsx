@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import MenuSectionCard from "@/components/MenuSectionCard";
 import OpenNow from "@/components/OpenNow";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
+import { menuFor } from "@/data/menu";
 import {
   formatHour,
   fullAddress,
@@ -14,11 +16,12 @@ import {
 } from "@/data/site";
 
 /**
- * One shop's page. The two routes (/marshall, /battle-creek) are thin wrappers
+ * One shop's page — the destination the rest of the site steers people into,
+ * pjs-style. The two routes (/marshall, /battle-creek) are thin wrappers
  * around this so a fact correction stays a one-place edit in site.ts. The
  * pages exist because the shops genuinely differ — hours and what's behind
- * the counter — and because "ice cream <city> MI" deserves a page that
- * answers for that city specifically.
+ * the counter — so each carries its own hours, its own menu (menuFor), and
+ * its own order-ahead entry point.
  */
 
 export function locationMetadata(l: Location): Metadata {
@@ -31,16 +34,17 @@ export function locationMetadata(l: Location): Metadata {
 
 export default function LocationPage({ location }: { location: Location }) {
   const other = locations.find((l) => l.key !== location.key)!;
+  const shopMenu = menuFor(location.key);
 
   return (
     <>
       <PageHero
         kicker="Our shops"
         title={`The ${location.name} shop`}
-        lede={location.note}
+        lede={`${location.note} ${location.offerings}`}
       />
 
-      <section className="mx-auto max-w-6xl px-5 pb-20">
+      <section className="mx-auto max-w-6xl px-5 pb-16">
         <div className="grid items-start gap-6 md:grid-cols-[1.1fr_1fr]">
           <Reveal className="lift overflow-hidden rounded-[--radius-panel] border border-ink/10">
             <iframe
@@ -114,25 +118,64 @@ export default function LocationPage({ location }: { location: Location }) {
                 </div>
               </div>
             </Reveal>
+
+            <Reveal delay={180}>
+              <div className="rounded-[--radius-panel] bg-north-deep p-6 text-cream">
+                <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold">
+                  Order ahead from {location.name}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-cream/85">
+                  Pints, quarts, sandwiches, cakes, and pies, ready at this
+                  counter when you are. Pay when you pick up.
+                </p>
+                <Link
+                  href={`/order?at=${location.slug}`}
+                  className="btn-primary mt-4 inline-flex bg-cream !text-north-deep"
+                >
+                  Start a pickup order
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </div>
+      </section>
 
-        <Reveal>
-          <div className="mt-10 rounded-[--radius-panel] bg-cream-dim px-6 py-6 md:px-8">
-            <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold text-ink">
-              Behind this counter
+      {/* This shop's menu, exactly as its counter serves it. */}
+      <section className="bg-cream-dim">
+        <div className="mx-auto max-w-6xl px-5 py-16">
+          <Reveal>
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
+              What the {location.name} counter serves
             </h2>
-            <p className="mt-2 max-w-3xl text-ink-soft">{location.offerings}</p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/flavors" className="btn-primary text-sm">
+            <p className="mt-2 max-w-2xl text-ink-soft">
+              This is {location.name}&apos;s own board. The{" "}
+              <Link
+                href="/menu"
+                className="tap font-medium text-north-deep underline-offset-4 hover:underline"
+              >
+                full menu
+              </Link>{" "}
+              shows both shops side by side.
+            </p>
+          </Reveal>
+          <div className="mt-8 grid gap-8 md:grid-cols-2">
+            {shopMenu.map((section, i) => (
+              <Reveal key={section.key} delay={(i % 2) * 80}>
+                <MenuSectionCard section={section} />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal>
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[--radius-panel] bg-white px-6 py-6 md:px-8">
+              <p className="text-lg font-medium text-ink">
+                The case rotates all the time — see what&apos;s scooping today.
+              </p>
+              <Link href="/flavors" className="btn-primary">
                 What&apos;s in the case
               </Link>
-              <Link href="/menu" className="btn-secondary text-sm">
-                Menu and prices
-              </Link>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
     </>
   );

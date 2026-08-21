@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import MenuSectionCard from "@/components/MenuSectionCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { menu } from "@/data/menu";
@@ -17,40 +18,14 @@ export default function MenuPage() {
       <PageHero
         kicker="The menu"
         title="Menu and prices"
-        lede="Scoops come as minis for the undecided, larges for the committed, and pints and quarts for the freezer at home."
+        lede="Scoops come as minis for the undecided, larges for the committed, and pints and quarts for the freezer at home. Most of it is at both shops; anything one counter does alone is marked."
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">
         <div className="grid gap-8 md:grid-cols-2">
           {menu.map((section, i) => (
             <Reveal key={section.key} delay={(i % 2) * 80}>
-              <section
-                aria-labelledby={`menu-${section.key}`}
-                className="h-full rounded-[--radius-panel] border border-ink/10 bg-white p-6 md:p-8"
-              >
-                <div className="flex items-baseline justify-between gap-3">
-                  <h2
-                    id={`menu-${section.key}`}
-                    className="font-[family-name:var(--font-display)] text-2xl font-bold text-ink"
-                  >
-                    {section.title}
-                  </h2>
-                  {section.subtitle ? (
-                    <p className="text-sm font-medium text-ink-soft">{section.subtitle}</p>
-                  ) : null}
-                </div>
-                <ul className="mt-5 divide-y divide-ink/5">
-                  {section.items.map((item) => (
-                    <li key={item.name} className="flex items-baseline justify-between gap-4 py-2.5">
-                      <div>
-                        <span className="font-medium text-ink">{item.name}</span>
-                        {item.note ? <p className="text-sm text-ink-soft">{item.note}</p> : null}
-                      </div>
-                      <span className="whitespace-nowrap font-semibold text-north-deep">{item.price}</span>
-                    </li>
-                  ))}
-                </ul>
-              </section>
+              <MenuSectionCard section={section} showShopTags />
             </Reveal>
           ))}
         </div>

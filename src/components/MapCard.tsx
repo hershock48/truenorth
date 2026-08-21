@@ -39,14 +39,17 @@ export default function MapCard({ location }: { location: Location }) {
         <div className="mt-3">
           <OpenNow location={location} />
         </div>
-        <p className="mt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <Link href={`/${location.slug}`} className="btn-secondary !px-5 !py-2.5 text-sm">
+            The {location.name} shop
+          </Link>
           <Link
-            href={`/${location.slug}`}
+            href={`/order?at=${location.slug}`}
             className="tap text-sm font-semibold text-north-deep underline-offset-4 hover:underline"
           >
-            More about the {location.name} shop →
+            Order ahead →
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

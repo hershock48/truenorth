@@ -53,10 +53,19 @@ image; remake it if the logo or tagline changes) and the copy on `/about`
 
 ## Forms
 
-`/api/inquiry` (catering + contact variants). Sends via Resend **from the
-glazedweb.com verified domain** with `reply_to` set to the customer, so client
-DNS is never on the critical path. See `.env.example` for the three variables;
-Kevin sets real values in the Vercel dashboard.
+`/api/inquiry` (catering + contact variants) and `/api/order` (pickup orders).
+Both send via Resend **from the glazedweb.com verified domain** with `reply_to`
+set to the customer, so client DNS is never on the critical path. See
+`.env.example` for the variables; Kevin sets real values in the Vercel
+dashboard. Orders deliver to `ORDER_TO` if set, else `INQUIRY_TO` — per-store
+inboxes are a one-line env change when the owners want them.
+
+`/api/order` specifics: item names and prices resolve server-side from
+`orderables` in `menu.ts` (a tampered post cannot invent a price), quantities
+clamp to 0–20, and an item the chosen shop doesn't carry is refused. **No
+payment in v1, deliberately**: order-to-inbox, pay at the counter — honest and
+zero-dependency for the pitch. Stripe/Square hosted checkout is the launch
+upgrade (checklist).
 
 Behavior, verified by hand on the production build:
 
@@ -99,11 +108,18 @@ Behavior, verified by hand on the production build:
   split them. Bonus pitch finding: the Marshall Google profile lists Friday as
   "12 AM–9 PM" — a midnight typo that third-party listings (Restaurantji,
   Bing) have scraped verbatim. Offer to fix the profile as part of onboarding.
-- **Each shop has its own page** (`/marshall`, `/battle-creek`), the layout
-  pattern proven on the pjs build: homepage cards carry per-shop hours, a live
-  per-shop open/closed badge, and a link to the shop's page; JSON-LD gives each
+- **The site is store-first** — the full pjs pattern, per the owner (Aug 2026):
+  each shop is a destination you click into. `/marshall` and `/battle-creek`
+  carry their own hours, their own filtered menu (`menuFor` in `menu.ts` honors
+  `at` tags on sections and items), and their own order entry point; a ShopBar
+  strip inside the header puts both shops one tap from every page; homepage
+  cards and the order form route people to their counter. JSON-LD gives each
   IceCreamShop node its own hours and URL. "Ice cream Battle Creek MI" now has
   a page that answers for Battle Creek.
+- **Store tags rest on the public record** — the Choose Marshall article puts
+  the soft serve machine and espresso bar in Marshall, so soft serve, affogato,
+  espresso drinks, and matcha are tagged `marshall` today. Every tag is one
+  edit in `menu.ts` when the owners correct the split (checklist).
 
 ## Audit state (August 17, 2026, this sandbox)
 
@@ -143,8 +159,11 @@ production build, all seven routes at 390 and 1440:
       (midnight typo) — offer to fix it with them
 - [ ] Matcha is listed with price "Ask" (PLACEHOLDER) — get the real price, and the
       rest of the espresso-bar lineup while at it
-- [ ] If they want online ordering (cakes/pies/pints pre-orders), scope it as a
-      Custom Order: Stripe or Square hosted checkout, built in, nothing rented
+- [ ] Ordering v1 (`/order`, order-to-inbox, pay at counter) is live — set
+      `ORDER_TO` (or let it fall back to `INQUIRY_TO`), submit a test order,
+      confirm arrival; ask the owners if each store wants its own inbox
+- [ ] Upgrade ordering to paid checkout when the owners want it: Stripe or
+      Square hosted checkout, built in, nothing rented
 - [ ] Confirm current flavor lists and set `boardUpdated`
 - [ ] Verify Google Maps embeds on the deployed URL
 - [ ] LCP < 2.5s / CLS < 0.1 on a throttled mobile profile against the deployment

@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import AnimatedLogo from "@/components/AnimatedLogo";
+import ShopBar from "@/components/ShopBar";
 import { usePathname } from "next/navigation";
 import { site } from "@/data/site";
 
 const links = [
   { href: "/flavors", label: "Flavors" },
   { href: "/menu", label: "Menu" },
+  { href: "/order", label: "Order" },
   { href: "/catering", label: "Catering" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -51,6 +53,8 @@ export default function SiteHeader() {
       data-stuck={stuck ? "" : undefined}
       className="site-header sticky top-0 z-40 bg-cream/95 backdrop-blur"
     >
+      {/* Inside <header> so the measured --header-h includes it. */}
+      <ShopBar />
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link href="/" className="flex items-center" aria-label={`${site.name} home`}>
           {/*
