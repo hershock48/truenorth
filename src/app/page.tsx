@@ -6,7 +6,7 @@ import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
 import OpenNow from "@/components/OpenNow";
 import Reveal from "@/components/Reveal";
-import { boards, boardUpdatedLabel } from "@/data/flavors";
+import { caseAll } from "@/data/liveCase";
 import { locations, shopCaseHref, shopHref } from "@/data/site";
 
 /*
@@ -15,10 +15,20 @@ import { locations, shopCaseHref, shopHref } from "@/data/site";
   Rendered-text repetition was counted, not vibed.
 */
 
-export default function Home() {
+/*
+  ISR, because the board can be live (liveCase.ts): the page re-renders in
+  the background at most once a minute, which is when the feed fetch runs.
+  A plain static page would freeze the build-time board forever — the exact
+  trap the /order page shipped with once already.
+*/
+export const revalidate = 60;
+
+export default async function Home() {
+  // Live from Scooplist when the feed is configured, static otherwise.
+  const { boards, updatedLabel } = await caseAll();
   // By key, not position — reordering the boards must not change what
   // "In the case today" shows.
-  const homemadeBoard = boards.find((b) => b.key === "homemade")!;
+  const homemadeBoard = boards.find((b) => b.key === "homemade") ?? boards[0];
   const homemadeCount = homemadeBoard.flavors.length;
 
   return (
@@ -98,7 +108,7 @@ export default function Home() {
                 </h2>
                 <p className="mt-2 max-w-xl text-cream/85">
                   The hand-scooped board both counters scoop from, rotating all
-                  the time. Last updated {boardUpdatedLabel}.
+                  the time. Last updated {updatedLabel}.
                 </p>
               </div>
               <Link
@@ -119,14 +129,17 @@ export default function Home() {
                   {f.name}
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/flavors"
-                  className="tap inline-flex rounded-full bg-cream px-4 py-2 text-sm font-semibold text-north-deep"
-                >
-                  and {homemadeCount - 12} more
-                </Link>
-              </li>
+              {/* Only when there genuinely are more — a live board can shrink. */}
+              {homemadeCount > 12 ? (
+                <li>
+                  <Link
+                    href="/flavors"
+                    className="tap inline-flex rounded-full bg-cream px-4 py-2 text-sm font-semibold text-north-deep"
+                  >
+                    and {homemadeCount - 12} more
+                  </Link>
+                </li>
+              ) : null}
             </ul>
           </Reveal>
           <Reveal delay={140}>

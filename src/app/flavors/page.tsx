@@ -4,7 +4,7 @@ import FlavorBoardCard from "@/components/FlavorBoardCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import ShopEntryLinks from "@/components/ShopEntryLinks";
-import { boards, boardUpdatedLabel } from "@/data/flavors";
+import { caseAll } from "@/data/liveCase";
 import { locations, shopCaseHref } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -14,13 +14,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/flavors" },
 };
 
-export default function FlavorsPage() {
+/* ISR so the live board actually goes live — see the note in app/page.tsx. */
+export const revalidate = 60;
+
+export default async function FlavorsPage() {
+  const { boards, updatedLabel } = await caseAll();
+
   return (
     <>
       <PageHero
         kicker="The board"
         title="In the case today"
-        lede={`The case rotates through about forty-five flavors a month, so this board changes often. Last updated ${boardUpdatedLabel}. Anything one shop scoops alone is marked; everything else is at both counters.`}
+        lede={`The case rotates through about forty-five flavors a month, so this board changes often. Last updated ${updatedLabel}. Anything one shop scoops alone is marked; everything else is at both counters.`}
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">

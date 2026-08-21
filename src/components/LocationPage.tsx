@@ -6,7 +6,7 @@ import MenuSectionCard from "@/components/MenuSectionCard";
 import OpenNow from "@/components/OpenNow";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { boardsFor, boardUpdatedLabel } from "@/data/flavors";
+import { caseFor } from "@/data/liveCase";
 import { menuFor } from "@/data/menu";
 import { uniformDailySpan } from "@/data/shops";
 import {
@@ -39,10 +39,10 @@ export function locationMetadata(l: Location): Metadata {
   };
 }
 
-export default function LocationPage({ location }: { location: Location }) {
+export default async function LocationPage({ location }: { location: Location }) {
   const other = locations.find((l) => l.key !== location.key)!;
   const shopMenu = menuFor(location.key);
-  const shopBoards = boardsFor(location.key);
+  const { boards: shopBoards, updatedLabel } = await caseFor(location.key);
   const span = uniformDailySpan(location.hours);
 
   return (
@@ -176,7 +176,7 @@ export default function LocationPage({ location }: { location: Location }) {
             </h2>
             <p className="mt-2 max-w-2xl text-cream/85">
               Everything this counter scoops comes off this rotation, and the
-              case changes daily — board last updated {boardUpdatedLabel}.
+              case changes daily — board last updated {updatedLabel}.
               Chasing a favorite? Call{" "}
               <a href={location.phoneHref} className="tap font-semibold text-cream underline-offset-4 hover:underline">
                 {location.phone}

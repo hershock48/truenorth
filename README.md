@@ -184,7 +184,10 @@ production build, all seven routes at 390 and 1440:
       Battle Creek unconfirmed)
 - [ ] Get each shop's real daily case list from the owners and tag
       `flavors.ts` (`at:` per flavor) — the boards are store-aware but the
-      hand-scooped flavors are untagged until the owners split them
+      hand-scooped flavors are untagged until the owners split them.
+      (Or skip the tags entirely: set `SCOOPLIST_FEED_URL` and the boards
+      render live from the owner's Scooplist case — `src/data/liveCase.ts`,
+      static fallback on any feed failure. The scooplist repo is the app.)
 - [ ] Tell the owners their Marshall Google profile lists Friday as "12 AM–9 PM"
       (midnight typo) — offer to fix it with them
 - [ ] Matcha is listed with price "Ask" (PLACEHOLDER) — get the real price, and the
