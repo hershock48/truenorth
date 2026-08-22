@@ -72,13 +72,21 @@ export default async function Home() {
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-north-deep md:mt-6">
             Marshall and Battle Creek, Michigan
           </p>
-          <h1 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-bold leading-tight tracking-tight text-ink md:text-6xl">
-            Homemade ice cream, made fresh every day.
+          {/*
+            THEIR line, not ours — it is the promise on their own site, and
+            Kevin picked it for the hero. The lede underneath carries the
+            plain facts a first-time visitor and a search engine need
+            ("ice cream", the towns, what is in the case), so the headline is
+            free to be the brand rather than a description.
+          */}
+          <h1 className="mt-4 font-[family-name:var(--font-display)] text-5xl font-bold leading-tight tracking-tight text-ink md:text-7xl">
+            Happiness is homemade.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft md:mx-0">
-            Around thirty hand-scooped flavors in the case at a time, churned in
-            the shop from real ingredients. No dyes, no stabilizers, nothing you
-            would not put in it yourself.
+            Ice cream made fresh every day in Marshall and Battle Creek —
+            around thirty hand-scooped flavors in the case at a time, churned
+            in the shop from real ingredients. No dyes, no stabilizers, nothing
+            you would not put in it yourself.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
             <Link href="/flavors" className="btn-primary">
@@ -229,7 +237,7 @@ export default async function Home() {
           <Reveal className="needle-settle">
             <CompassRose size={44} className="mx-auto text-north" />
             <h2 className="mt-5 font-[family-name:var(--font-display)] text-3xl font-bold md:text-4xl">
-              Happiness is homemade
+              Two shops, one recipe book
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-cream/85">
               True North started in a Marshall kitchen, a couple hundred quarts a
