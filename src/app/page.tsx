@@ -4,10 +4,9 @@ import AnimatedLogo from "@/components/AnimatedLogo";
 import CompassRose from "@/components/CompassRose";
 import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
-import OpenNow from "@/components/OpenNow";
 import Reveal from "@/components/Reveal";
 import { caseFor } from "@/data/liveCase";
-import { locations, shopCaseHref, shopHref } from "@/data/site";
+import { locations } from "@/data/site";
 
 /*
   Copy discipline (glaze.md): "homemade" is their word and their promise, so it
@@ -32,17 +31,15 @@ export default async function Home() {
   */
   const cases = await Promise.all(
     locations.map(async (l) => {
-      const { boards, updatedLabel } = await caseFor(l.key);
+      const { boards } = await caseFor(l.key);
       const homemade = boards.find((b) => b.key === "homemade") ?? boards[0];
       return {
         shop: l,
-        updatedLabel,
         flavors: homemade?.flavors ?? [],
         total: boards.reduce((n, b) => n + b.flavors.length, 0),
       };
     }),
   );
-  const updatedLabel = cases[0]?.updatedLabel ?? "";
 
   return (
     <>
@@ -50,22 +47,23 @@ export default async function Home() {
         Hero. On a phone this is one centred column with the PHOTO first —
         three problems fixed at once:
 
-          1. The mark was printing twice within 130px, once in the sticky
-             header and again here. On mobile the header already carries it,
-             so the hero copy drops it and starts on the photograph.
-          2. Left-aligned copy under a wordmark that nearly fills the width
+          1. Left-aligned copy under a wordmark that nearly fills the width
              read as "off centre" — there is no second column on a phone for
              the eye to balance against, so it centres.
-          3. The photo used to land BELOW the shop rows, stranded between the
-             hero and the next section. Ice cream should be the first thing
-             you see on an ice cream shop's website.
+          2. The photograph used to land BELOW the shop rows, stranded between
+             the hero and the next section, and on a phone it crowded out the
+             thing worth leading with. It is desktop-only now.
+          3. The mark leads on every width, because the motion IS the brand:
+             the needle spins in and settles on north. The sticky header
+             carries the same component small; both answer the same scroll.
 
-        Above md nothing changes: two columns, copy left, photo right, and
-        the mark still opens the page with the needle finding north.
+        Above md nothing changes: two columns, copy left, photo right.
       */}
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-8 md:grid-cols-[1.1fr_1fr] md:pt-20">
         <div className="hero-in text-center md:text-left">
-          <AnimatedLogo className="mx-auto hidden h-16 md:mx-0 md:block md:h-24" />
+          {/* Sized by WIDTH on a phone: at 878:185, h-20 computes to 380px and
+              runs off a 350px column. Height-sized from md up, where there is room. */}
+          <AnimatedLogo className="mx-auto w-[min(300px,100%)] md:mx-0 md:h-24 md:w-auto" />
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-north-deep md:mt-6">
             Marshall and Battle Creek, Michigan
           </p>
@@ -86,29 +84,15 @@ export default async function Home() {
             </Link>
           </div>
           {/*
-            One row per shop — they keep different hours, and each row IS the
-            door into that shop's page. Bordered and arrowed so it reads as a
-            button, not a status line.
+            The per-shop status rows used to live here. They came out once the
+            shops section moved directly beneath the hero: the same two names,
+            the same live open/closed, the same links, a screen apart. The
+            cards below say it properly — with hours, addresses and what each
+            counter is scooping — so the hero stops repeating them.
           */}
-          <div className="mx-auto mt-7 grid max-w-md gap-2.5 md:mx-0">
-            {locations.map((l) => (
-              <Link
-                key={l.key}
-                href={shopHref(l)}
-                className="group flex items-center justify-between gap-3 rounded-2xl border border-ink/15 bg-white/70 px-5 py-3 transition-colors hover:border-north-deep hover:bg-white"
-              >
-                <OpenNow location={l} label={l.name} />
-                <span
-                  aria-hidden
-                  className="font-semibold text-north-deep transition-transform group-hover:translate-x-0.5"
-                >
-                  →
-                </span>
-              </Link>
-            ))}
-          </div>
         </div>
-        <Reveal className="lift order-first overflow-hidden rounded-[--radius-panel] md:order-none">
+        {/* Desktop only: on a phone it pushed the shops below the fold. */}
+        <Reveal className="lift hidden overflow-hidden rounded-[--radius-panel] md:block">
           <Image
             src="/photos/flight-trays.jpg"
             alt="Three sampler trays of hand-scooped ice cream on the counter, nine scoops from vanilla to mint chip"
@@ -144,58 +128,13 @@ export default async function Home() {
         </div>
       </section>
       <MeltEdge color="var(--color-cream-dim)" />
-
-      {/* The case today — teal band with the melt below it */}
-      <section className="bg-north-deep text-cream">
-        <div className="mx-auto max-w-6xl px-5 py-16">
-          <Reveal>
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold md:text-4xl">
-                  In the case today
-                </h2>
-                <p className="mt-2 max-w-xl text-cream/85">
-                  The two counters scoop different cases, so here is each of
-                  them. Last updated {updatedLabel}.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {cases.map((c, i) => (
-              <Reveal key={c.shop.key} delay={90 + i * 80}>
-                <div className="h-full rounded-[--radius-panel] border border-cream/25 p-6">
-                  <h3 className="font-[family-name:var(--font-display)] text-2xl font-semibold">
-                    {c.shop.name}
-                  </h3>
-                  <p className="mt-1 text-sm font-medium text-cream">
-                    {c.total} flavors scooping today
-                  </p>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {c.flavors.slice(0, 8).map((f) => (
-                      <li
-                        key={f.name}
-                        className="rounded-full border border-cream/25 bg-cream/10 px-3.5 py-1.5 text-sm font-medium"
-                      >
-                        {f.name}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-5">
-                    <Link
-                      href={shopCaseHref(c.shop)}
-                      className="tap font-semibold text-cream underline-offset-4 hover:underline"
-                    >
-                      Everything in the {c.shop.name} case →
-                    </Link>
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-      <MeltEdge color="var(--color-north-deep)" />
+      {/*
+        The "In the case today" band used to sit here. It listed each shop's
+        name, count and flavour chips — which is exactly what the two cards
+        above now carry, one screen higher. Two answers to one question, back
+        to back, so the second one went. /flavors is still a tap away from the
+        hero and from each card.
+      */}
 
       {/* Photos + menu teaser */}
       <section className="mx-auto max-w-6xl px-5 py-16">

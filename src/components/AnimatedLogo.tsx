@@ -105,9 +105,20 @@ export default function AnimatedLogo({ className = "" }: { className?: string })
 
   return (
     <span
-      className={`relative block ${className}`}
+      className={`relative isolate block ${className}`}
       style={{ aspectRatio: "878 / 185" }}
     >
+      {/*
+        A wash of scoop colours behind the mark. Their logo is a flat-teal
+        raster and the house rule is never to redraw a client's mark, so the
+        colour goes BEHIND it: a blurred blob that drifts, showing through the
+        transparent parts of the PNG. Aria-hidden, purely decorative, and it
+        holds still under reduced motion.
+      */}
+      <span
+        aria-hidden
+        className="tn-logo-halo pointer-events-none absolute -inset-x-6 -inset-y-10 -z-10"
+      />
       {/*
         Plain <img>, deliberately: these are two tiny already-optimized PNGs
         composing one mark; next/image's wrapper and srcset add nothing and its

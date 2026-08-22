@@ -88,6 +88,29 @@
     outline-color: var(--color-cream);
   }
 
+  /*
+    The logo halo: soft scoop colours drifting behind the mark. Blurred and
+    low-opacity so it reads as warmth rather than decoration, and it never
+    touches the logo itself — contrast against the teal wordmark is unchanged
+    because the wash sits behind an opaque-inked PNG.
+  */
+  .tn-logo-halo {
+    background:
+      radial-gradient(38% 60% at 22% 45%, color-mix(in srgb, var(--color-scoop) 100%, transparent), transparent 70%),
+      radial-gradient(34% 55% at 52% 55%, color-mix(in srgb, var(--color-mint) 85%, transparent), transparent 70%),
+      radial-gradient(32% 55% at 78% 42%, color-mix(in srgb, var(--color-cherry) 38%, transparent), transparent 70%);
+    filter: blur(26px);
+    opacity: 0.75;
+    animation: tn-halo 14s ease-in-out infinite alternate;
+  }
+  @keyframes tn-halo {
+    0% { transform: translate3d(-2%, 0, 0) scale(1); }
+    100% { transform: translate3d(2%, -3%, 0) scale(1.06); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tn-logo-halo { animation: none; }
+  }
+
   /* SiteHeader overwrites this with its measured height once it mounts. */
   :root {
     --header-h: 72px;
