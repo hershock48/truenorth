@@ -6,7 +6,7 @@ import { locations } from "@/data/site";
 export const runtime = "nodejs";
 
 /**
- * Pickup orders, one route for both shops — the store field says which
+ * Pickup orders, one route for both shops, the store field says which
  * counter pulls the order. Same contract as /api/inquiry: JSON from the JS
  * form or a plain form post without JS, honeypot, and a failure path that
  * tells the truth (phone number, payload logged) instead of a fake "ok".
@@ -16,7 +16,7 @@ export const runtime = "nodejs";
  * are clamped to 0–20. No payment here on purpose: v1 is order-to-inbox,
  * pay at the counter; hosted checkout is the launch upgrade (README).
  *
- * Delivery: ORDER_TO if set (can differ per deployment), else INQUIRY_TO —
+ * Delivery: ORDER_TO if set (can differ per deployment), else INQUIRY_TO,
  * both shops read the same inbox today; per-store inboxes are a one-line env
  * change when the owners want them.
  */
@@ -161,12 +161,12 @@ export async function POST(request: Request) {
 
   const itemsText = lines.map((l) => `${l.qty} × ${l.name} (${l.price})`).join("\n");
   const rows: [string, string][] = [
-    ["Pickup at", `${store.name} — ${store.street}`],
+    ["Pickup at", `${store.name}, ${store.street}`],
     ["When", pickup || "not given"],
     ["Name", name],
     ["Phone", phone || "not given"],
     ["Email", email || "not given"],
-    ["Estimated total", `$${estimate.toFixed(2)} — pay at pickup`],
+    ["Estimated total", `$${estimate.toFixed(2)}, pay at pickup`],
   ];
 
   if (!key || !to) {
@@ -178,7 +178,7 @@ export async function POST(request: Request) {
   }
 
   const summary = lines.map((l) => `${l.qty}× ${l.name}`).join(", ");
-  const subject = `Pickup order — ${store.name}: ${name} (${summary})`;
+  const subject = `Pickup order, ${store.name}: ${name} (${summary})`;
 
   try {
     const resend = new Resend(key);
@@ -197,7 +197,7 @@ export async function POST(request: Request) {
         flavors || "none given",
       ].join("\n"),
       html: `
-        <h2 style="font-family:Georgia,serif">Pickup order — ${escapeHtml(store.name)}</h2>
+        <h2 style="font-family:Georgia,serif">Pickup order, ${escapeHtml(store.name)}</h2>
         <table style="font-family:system-ui,sans-serif;font-size:15px;border-collapse:collapse">
           ${rows
             .map(

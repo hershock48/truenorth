@@ -3,19 +3,19 @@
 @theme {
   /*
     The teal is not a choice, it is a measurement: every painted pixel of their
-    logo PNG is exactly #2A8196 (sampled, not eyeballed — 31,121 opaque pixels,
+    logo PNG is exactly #2A8196 (sampled, not eyeballed, 31,121 opaque pixels,
     one color). Everything else supports it.
 
     CONTRAST, MEASURED (WCAG ratios against cream #FDF8EE):
-      north      #2A8196  4.24  — passes only as large text (3:1) and graphics.
+      north      #2A8196  4.24 , passes only as large text (3:1) and graphics.
                                   NEVER body copy or small UI text on cream.
-      north-deep #1B6479  6.31  — the working teal: buttons, links, small text.
+      north-deep #1B6479  6.31 , the working teal: buttons, links, small text.
                                   A darkened derivative of the logo ink, and the
                                   reason small teal type on this site passes AA.
-      ink        #17303A 13.05  — body text. North at night.
-      waffle     #9D5B22  5.02  — warm accent, safe at any size on cream.
+      ink        #17303A 13.05 , body text. North at night.
+      waffle     #9D5B22  5.02 , warm accent, safe at any size on cream.
     The scoop cream #F9E5BE was sampled from their own vanilla photo.
-    Mint and cherry are decorative only: fills, dots, garnish. Never text —
+    Mint and cherry are decorative only: fills, dots, garnish. Never text,
     cherry on the cherry/10 error tint measures 4.41, an AA failure. When an
     error MESSAGE needs the cherry voice, use cherry-deep (#A23A26): 5.8 on
     the tinted background, 7.1 on white.
@@ -61,7 +61,7 @@
 
   /*
     Tailwind 4 dropped preflight's `button { cursor: pointer }`, so every
-    button here was showing the arrow — the mobile menu toggle, the shop
+    button here was showing the arrow, the mobile menu toggle, the shop
     radios and quantity steppers on /order, the form submits. Put it back,
     and leave disabled controls alone: a pointer on a dead button is a lie.
   */
@@ -80,7 +80,7 @@
 
   /*
     On the teal and ink bands the north-deep outline is the background
-    (1.0:1 on north-deep, 2.07:1 on ink — both invisible to a keyboard
+    (1.0:1 on north-deep, 2.07:1 on ink, both invisible to a keyboard
     user). Cream measures 6.31 on north-deep and 12.9 on ink.
   */
   .bg-north-deep :focus-visible,
@@ -91,7 +91,7 @@
   /*
     The logo halo: soft scoop colours drifting behind the mark. Blurred and
     low-opacity so it reads as warmth rather than decoration, and it never
-    touches the logo itself — contrast against the teal wordmark is unchanged
+    touches the logo itself, contrast against the teal wordmark is unchanged
     because the wash sits behind an opaque-inked PNG.
   */
   .tn-logo-halo {
@@ -115,7 +115,7 @@
     Sprinkles thrown off the spinning compass.
 
     Each sprinkle rides inside a full-size "ray" rotated to its own angle, so
-    the sprinkle itself only ever travels along one axis — transform-only, no
+    the sprinkle itself only ever travels along one axis, transform-only, no
     layout, and the distance is one custom property to retune. --fling is set
     per breakpoint by .tn-compass below.
   */
@@ -153,7 +153,7 @@
     }
   }
 
-  /* The resting frame is their compass on north — nothing missing, nothing thrown. */
+  /* The resting frame is their compass on north, nothing missing, nothing thrown. */
   @media (prefers-reduced-motion: reduce) {
     .tn-sprinkle { animation: none; opacity: 0; }
   }
@@ -480,7 +480,7 @@ html:not(.js) button[aria-controls="mobile-nav"] {
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   Glazed Web studio credit — pairs with components/GlazedCredit.
+   Glazed Web studio credit, pairs with components/GlazedCredit.
    Everything is scoped to .gw-credit. The words inherit the footer's own colour
    and size; the mark carries Glazed's own palette, because it is a logo and a
    logo does not take on the host's colours.
@@ -518,7 +518,7 @@ html:not(.js) button[aria-controls="mobile-nav"] {
 }
 .gw-credit-drips {
   transform-box: fill-box;
-  /* Top centre of the drip group — where the glaze leaves the donut. Scaling from
+  /* Top centre of the drip group, where the glaze leaves the donut. Scaling from
      anywhere else slides the drips off the donut instead of running them down. */
   transform-origin: 50% 0%;
   /* Resting is 1: the default state is his drawing at his lengths. */
@@ -530,19 +530,19 @@ html:not(.js) button[aria-controls="mobile-nav"] {
   transform: scaleY(1.22);
 }
 @media (prefers-reduced-motion: reduce) {
-  /* Nothing to suppress — there is no autoplay. The hover just stops easing. */
+  /* Nothing to suppress, there is no autoplay. The hover just stops easing. */
   .gw-credit-drips {
     transition-duration: 0s;
   }
 }
 
 /* ───────────────────────────────────────────────────────────────────────────
-   The signature plate — pairs with components/GlazedPlate.
+   The signature plate, pairs with components/GlazedPlate.
    Set the three values below per site, in that site's own palette block:
      --gw-above      the footer colour directly above (the drip's fill)
      --gw-plate      cream #FDF6EC under a dark footer, chocolate-2 #201712 under a light one
      --gw-plate-ink  cream on chocolate (16.41) or chocolate on cream (15.05); both AA
-   The inversion is not taste — a chocolate plate under a #191919 footer measures 1.00 and the
+   The inversion is not taste, a chocolate plate under a #191919 footer measures 1.00 and the
    drip vanishes. See the table in GlazedPlate for every footer in the account.
    ─────────────────────────────────────────────────────────────────────────── */
 .gw-plate {
@@ -561,7 +561,7 @@ html:not(.js) button[aria-controls="mobile-nav"] {
   color: var(--gw-above);
   fill: currentColor;
   /* Kills the hairline of plate colour that otherwise shows along the top edge from
-     subpixel rounding — the same -1px his DripDivider uses. */
+     subpixel rounding, the same -1px his DripDivider uses. */
   margin-bottom: -1px;
 }
 .gw-plate-bar {

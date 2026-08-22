@@ -56,13 +56,13 @@ export type Location = {
   phoneHref: string;
   /** A short line of character for the location card. */
   note: string;
-  /** What this shop in particular does — kept to confirmed facts. */
+  /** What this shop in particular does, kept to confirmed facts. */
   offerings: string;
   /**
-   * Hours are PER SHOP because they genuinely differ — the finding that shaped
+   * Hours are PER SHOP because they genuinely differ, the finding that shaped
    * this layout. Each shop's Google Business profile (Aug 21, 2026): Marshall
    * noon–9 daily, Battle Creek 2–9 daily. Their current site contradicts
-   * itself — header "12–9", hero "2–9" — because each number belongs to a
+   * itself, header "12–9", hero "2–9", because each number belongs to a
    * different store and the single-store-era template never split them. (The
    * Marshall profile also lists Friday as "12 AM–9 PM", a midnight typo that
    * third-party listings have been scraping verbatim.) Confirm both schedules
@@ -125,7 +125,7 @@ export function locationBySlug(slug: string) {
 
 /*
   Every link into a shop goes through these, so the URL contracts live in one
-  place: the /order?at= param is the SLUG (OrderForm matches on slug — a bare
+  place: the /order?at= param is the SLUG (OrderForm matches on slug, a bare
   l.key would silently preselect the wrong shop for Battle Creek), and the
   #case / #menu anchors must match the section ids LocationPage renders.
 */

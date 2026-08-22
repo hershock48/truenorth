@@ -4,8 +4,8 @@
  * teaser, and the flavor count all update together.
  *
  * Names came verbatim from truenorthicecream.com/flavors, August 2026, with two
- * deliberate edits: their page spells "Strawberry Lemondade Sorbet" — corrected
- * here — and allergen marks are structured data rather than "(N)" typed into
+ * deliberate edits: their page spells "Strawberry Lemondade Sorbet", corrected
+ * here, and allergen marks are structured data rather than "(N)" typed into
  * the name, so they render as real, consistent badges.
  *
  * The case rotates through roughly 45 flavors a month, so treat this as a
@@ -27,7 +27,7 @@ export type Flavor = {
    * tag, never widens it (shops.ts is the authority on the convention). The
    * owner says the two counters scoop different things; until he hands over
    * each shop's real case list (README checklist), the hand-scooped flavors
-   * stay untagged and the structure is ready — tag a flavor and every board,
+   * stay untagged and the structure is ready, tag a flavor and every board,
    * chip, and shop page updates itself.
    */
   at?: LocationKey[];
@@ -97,7 +97,7 @@ export type Board = {
 
 export const boards: Board[] = [
   { key: "homemade", title: "Homemade", subtitle: "Hand-scooped, made in the shop", flavors: homemade },
-  // The soft serve machine is Marshall's (Choose Marshall article) — same
+  // The soft serve machine is Marshall's (Choose Marshall article), same
   // sourcing and same one-edit correction as the menu's store tags.
   { key: "softserve", title: "Soft Serve", subtitle: "Cones, cups, and twists", flavors: softServe, at: ["marshall"] },
   { key: "adult", title: "Adult Flavors", subtitle: "21 and up, ID at the counter", flavors: adult },
@@ -113,13 +113,13 @@ export function boardsFor(key: LocationKey): Board[] {
 
 /**
  * The date the board was last edited. Rendered on the flavors page so a
- * visitor can see the list is current — and so a stale board is visible to
+ * visitor can see the list is current, and so a stale board is visible to
  * the owner instead of silently wrong. Update it when you update the lists.
  */
 export const boardUpdated = "2026-08-21";
 
 /**
- * The one rendered form of that date. Every surface uses this export — three
+ * The one rendered form of that date. Every surface uses this export, three
  * hand-rolled copies of the expression had already drifted (one showed the
  * year, two didn't). The T12:00:00 anchors parsing at local noon so the
  * printed date never slips a day across timezones.

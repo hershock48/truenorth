@@ -60,6 +60,25 @@ for (const route of ROUTES) {
         await new Promise((r) => setTimeout(r, 25));
       }
     });
+    /*
+      THEN WAIT FOR THE FADE TO FINISH. Sampling straight after the scroll pass
+      catches every Reveal mid-transition, and axe reports the blended pixel:
+      cream text at 40% over cream reads as "#f1e7d4 on #f6ebd8, ratio 1.03",
+      a failure that does not exist a quarter second later. Every colour in
+      such a report is off-token, which is the tell. getAnimations() covers
+      the real transitions; the timeout is the backstop for an infinite one
+      (the compass, the logo halo) that would otherwise never resolve.
+    */
+    await page.evaluate(async () => {
+      const running = document
+        .getAnimations()
+        .filter((a) => a.playState === "running")
+        .map((a) => a.finished.catch(() => {}));
+      await Promise.race([
+        Promise.all(running),
+        new Promise((r) => setTimeout(r, 1500)),
+      ]);
+    });
     await page.addScriptTag({ content: axe });
     const rows = await page.evaluate(async () => {
       const r = await window.axe.run(document, { runOnly: ["color-contrast"] });

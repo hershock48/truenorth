@@ -8,7 +8,7 @@ import type { LocationKey } from "@/data/shops";
  * The live flavor board, fed by Scooplist (the studio's flavor-board app).
  *
  * With SCOOPLIST_FEED_URL set, every board on this site renders from
- * GET {feed}/api/v1/case/{shop} — the owner taps a tub out at the counter
+ * GET {feed}/api/v1/case/{shop}, the owner taps a tub out at the counter
  * and the site follows within a minute, no deploy. Without the env var, or
  * on ANY feed failure, everything falls back to the static board in
  * flavors.ts and the site renders exactly as it did before Scooplist
@@ -67,7 +67,7 @@ function toFlavor(f: FeedFlavor): Flavor {
   };
 }
 
-/** Subtitles are site voice, not feed data — keep the static ones by key. */
+/** Subtitles are site voice, not feed data, keep the static ones by key. */
 function subtitleFor(key: string): string {
   return boards.find((b) => b.key === key)?.subtitle ?? "";
 }
@@ -81,7 +81,7 @@ function label(updatedAt: number | null): string {
   });
 }
 
-/** One shop's boards — live when the feed answers, static otherwise. */
+/** One shop's boards, live when the feed answers, static otherwise. */
 export async function caseFor(shop: LocationKey): Promise<CaseData> {
   const feed = await fetchFeed(shop);
   if (!feed) {

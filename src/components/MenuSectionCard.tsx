@@ -7,7 +7,7 @@ import type { MenuSection } from "@/data/menu";
  * One menu section as a card. The full-menu page passes `showShopTags` so
  * anything one shop doesn't serve gets a "{Shop} only" chip; the per-shop
  * pages pass a pre-filtered section and no tags. The chip sits beside the
- * title and never replaces the subtitle — a section's descriptor is content,
+ * title and never replaces the subtitle, a section's descriptor is content,
  * not a slot to reclaim.
  */
 export default function MenuSectionCard({

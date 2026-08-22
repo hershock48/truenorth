@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 import { locations, type Location } from "@/data/site";
 
 /**
- * The "which shop is mine?" entry row that opens /flavors and /menu — one
+ * The "which shop is mine?" entry row that opens /flavors and /menu, one
  * button per shop, same look on both pages by construction instead of by
  * copy-paste. `href` and `label` are functions of the shop so each page keeps
  * its own destination anchor and wording.

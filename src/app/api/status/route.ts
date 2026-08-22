@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
  * the deployment takes a second. Reports whether SCOOPLIST_FEED_URL is set,
  * whether that feed answers from here, and which source the boards actually
  * rendered from. The feed URL is a public address, and everything else is a
- * boolean or a count — nothing secret.
+ * boolean or a count, nothing secret.
  */
 export async function GET() {
   const configured = Boolean(process.env.SCOOPLIST_FEED_URL);
@@ -47,8 +47,8 @@ export async function GET() {
       summary: live
         ? "Live: the boards render from Scooplist."
         : configured
-          ? "SCOOPLIST_FEED_URL is set but the feed did not answer — showing the built-in board."
-          : "SCOOPLIST_FEED_URL is not set on this deployment — showing the built-in board.",
+          ? "SCOOPLIST_FEED_URL is set but the feed did not answer, showing the built-in board."
+          : "SCOOPLIST_FEED_URL is not set on this deployment, showing the built-in board.",
     },
     { headers: { "Cache-Control": "no-store" } },
   );

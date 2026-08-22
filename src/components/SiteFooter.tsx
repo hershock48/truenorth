@@ -9,7 +9,7 @@ export default function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-3">
         <div>
           {/*
-            The flat-teal logo measures 3.08 against this ink footer — enough
+            The flat-teal logo measures 3.08 against this ink footer, enough
             for a large graphic (3:1) but tight. The cream wordmark below it
             carries the name legibly; the logo is presence, not the only label.
           */}
@@ -72,7 +72,7 @@ export default function SiteFooter() {
       </div>
 
       {/*
-        "Double Dipped by", per Kevin (Aug 2026) — he overrode the glaze.md
+        "Double Dipped by", per Kevin (Aug 2026), he overrode the glaze.md
         "Concept build by" spec-build wording for this client. The donut pun
         lands fine in an ice cream shop.
       */}

@@ -1,14 +1,14 @@
 /**
  * The menu with prices, verbatim from truenorthicecream.com/menu, August 2026.
- * Prices change at the counter first — confirm this whole file with the owners
+ * Prices change at the counter first, confirm this whole file with the owners
  * before launch. It is on the README checklist.
  *
  * STORE TAGS. The two shops scoop different things, so sections and items can
  * carry `at`: which shops serve them. No tag means both; an item's tag NARROWS
  * its section's, never widens it (shops.ts is the authority on the
- * convention). What is tagged today rests on the public record — the Choose
+ * convention). What is tagged today rests on the public record, the Choose
  * Marshall article puts the soft serve machine and the espresso bar in
- * Marshall — and every tag is one edit here when the owners correct it
+ * Marshall, and every tag is one edit here when the owners correct it
  * (README checklist).
  */
 
@@ -86,7 +86,7 @@ export const menu: MenuSection[] = [
     /*
       No "Espresso bar in Marshall" subtitle, deliberately: the espresso items
       carry their own Marshall tags (chipped on /menu, filtered elsewhere), and
-      a section subtitle survives per-shop filtering — Battle Creek's own board
+      a section subtitle survives per-shop filtering, Battle Creek's own board
       was rendering the other shop's amenity as its Drinks heading.
     */
     items: [
@@ -120,7 +120,7 @@ export function menuFor(key: LocationKey): MenuSection[] {
 }
 
 /**
- * Things a customer can order ahead for pickup — freezer goods, not cones.
+ * Things a customer can order ahead for pickup, freezer goods, not cones.
  * Cakes and pies need lead time; the order form says so. Soft-serve pints
  * inherit the Marshall tag, so the form only offers them for Marshall pickup.
  */

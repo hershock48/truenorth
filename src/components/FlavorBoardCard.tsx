@@ -20,7 +20,7 @@ const ACCENT: Record<string, { ribbon: string; rule: string }> = {
 /**
  * One flavor board as a card, shared by the all-shops flavors page and the
  * per-shop pages. On the shared page, a board or flavor one shop scoops alone
- * gets a "{Shop} only" chip (same mechanism as the menu — shops.ts computes
+ * gets a "{Shop} only" chip (same mechanism as the menu, shops.ts computes
  * the label from the same effective tag the filters use); the shop pages pass
  * pre-filtered boards and no chips. The chip sits beside the title and never
  * replaces the subtitle.

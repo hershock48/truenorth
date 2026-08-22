@@ -7,7 +7,7 @@ import { formatHour, type Hours, type Location } from "@/data/site";
  * Live open/closed state for one shop's hours, computed in America/Detroit so
  * it is correct for a visitor in any timezone. The two shops keep different
  * hours (Marshall from noon, Battle Creek from 2), so there is deliberately no
- * location-less version — every caller says which shop it means. Returns null
+ * location-less version, every caller says which shop it means. Returns null
  * until mounted to avoid a hydration mismatch between server and client
  * clocks; callers render a placeholder for that beat.
  */
@@ -120,7 +120,7 @@ export default function OpenNow({
 
   /*
     Pre-hydration and no-JS: real text, never an empty box. The shop's name
-    and standing hours are static facts — only the live open/closed state
+    and standing hours are static facts, only the live open/closed state
     waits for the client clock. This span is the server-rendered HTML, so it
     is also what crawlers and screen readers get on first read.
   */

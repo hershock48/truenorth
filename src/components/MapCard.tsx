@@ -18,11 +18,11 @@ import type { Flavor } from "@/data/flavors";
  * live status sits beside it, the hours are a real table, and two real
  * buttons close it out. The old version opened with a half-height Google
  * map, which took all the visual weight and made two shops look like two
- * map widgets — the map lives on the shop's own page, where someone who
+ * map widgets, the map lives on the shop's own page, where someone who
  * wants directions is already headed.
  *
  * `showMap` puts it back for /contact, where a map IS the point.
- * `scooping` adds a few of what that counter has today — the difference
+ * `scooping` adds a few of what that counter has today, the difference
  * between "here are our addresses" and "here is what you would eat".
  */
 export default function MapCard({
@@ -120,7 +120,7 @@ export default function MapCard({
           </div>
         ) : null}
 
-        {/* Buttons, not text links — the pjs card ends on something you press. */}
+        {/* Buttons, not text links, the pjs card ends on something you press. */}
         <div className="mt-auto flex flex-wrap gap-3 pt-5">
           {ORDERING_LIVE ? (
             <>

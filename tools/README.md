@@ -1,7 +1,7 @@
 # tools
 
 Verification harnesses, kept because they have each caught something real and are
-tedious to rewrite from memory. They are not part of the site — nothing here is
+tedious to rewrite from memory. They are not part of the site, nothing here is
 imported by the Next build, and the two packages they need are deliberately **not**
 in `package.json`, so a production deploy never installs a browser driver.
 
@@ -33,7 +33,7 @@ launches it explicitly. Do not run `playwright install`.
 | `egress.mjs` | Can the browser reach the public internet at all? (Currently: no.) |
 
 Each file opens with the specific failure that caused it to exist. Those comments are
-the point — read the one you are about to use.
+the point, read the one you are about to use.
 
 ## Two rules before you believe any of them
 
@@ -43,7 +43,7 @@ the point — read the one you are about to use.
 **Kill stale servers by PID and confirm the port is clear first.** An old process
 still holding the port keeps serving the old build, the new stylesheet 404s, the page
 renders unstyled, and then `audit.mjs` reports a 1834px overflow, console errors and
-an error boundary — none of it real. Never `pkill -f "next start"`: that pattern
+an error boundary, none of it real. Never `pkill -f "next start"`: that pattern
 matches your own shell's command line and kills the session.
 
 ```bash
@@ -57,6 +57,6 @@ for C in $(curl -s http://127.0.0.1:4490/ | grep -o '/_next/static/css/[a-z0-9]*
 done
 ```
 
-A number too large to be plausible — a big overflow on a page that was clean five
-minutes ago — is evidence of a broken environment, not a broken layout. Check the
+A number too large to be plausible, a big overflow on a page that was clean five
+minutes ago, is evidence of a broken environment, not a broken layout. Check the
 server before you check the CSS.

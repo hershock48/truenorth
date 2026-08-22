@@ -41,7 +41,7 @@ function escapeHtml(v: string) {
  * honest: the error page carries the same message and the phone number.
  */
 function htmlPage(title: string, message: string, status: number, backHref: string) {
-  // backHref is a real link, not javascript:history.back() — this page exists
+  // backHref is a real link, not javascript:history.back(), this page exists
   // precisely for visitors without JavaScript.
   return new Response(
     `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>

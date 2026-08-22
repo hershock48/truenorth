@@ -8,7 +8,7 @@ import { site, locations } from "@/data/site";
 /**
  * Sora carries display sizes: geometric and slightly technical, which is the
  * compass side of the brand. Figtree carries body copy, which is the warm
- * side. Both are downloaded at build time by next/font — nothing is fetched
+ * side. Both are downloaded at build time by next/font, nothing is fetched
  * from a third party at runtime.
  */
 const display = Sora({
@@ -48,11 +48,11 @@ export const metadata: Metadata = {
     title: `${site.name} | Homemade ice cream, made fresh daily`,
     description: site.blurb,
     /*
-      ABSOLUTE, ON THE PITCH HOST, DELIBERATELY — for now. A relative /og.jpg
+      ABSOLUTE, ON THE PITCH HOST, DELIBERATELY, for now. A relative /og.jpg
       resolves against metadataBase (their real domain), where nothing is
       deployed yet, so sharing the demo would show no picture. glaze.md §3:
       og:image lives on an origin that actually serves it. At launch this
-      goes back to plain "/og.jpg" — it is on the README checklist.
+      goes back to plain "/og.jpg", it is on the README checklist.
     */
     images: [
       {
@@ -75,8 +75,8 @@ export const metadata: Metadata = {
 
 /*
   One IceCreamShop node per location, linked from an Organization node, so
-  each shop carries its own address, phone, page URL, and — because the two
-  schedules genuinely differ — its own hours. Same constants the visible site
+  each shop carries its own address, phone, page URL, and, because the two
+  schedules genuinely differ, its own hours. Same constants the visible site
   renders; one edit changes both.
 */
 const hoursSpecFor = (l: (typeof locations)[number]) => [

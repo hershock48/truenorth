@@ -12,8 +12,8 @@ import { site } from "@/data/site";
  * redrawn: `scripts` in the repo history cut the original PNG into two layers,
  * verified by pixel diff (reassembly bbox: None, i.e. identical):
  *
- *   logo-plate.png  — TRUE, the small N, NORTH ICE CREAM. Never moves.
- *   logo-star.png   — the 158x158 compass star, cropped so the box center sits
+ *   logo-plate.png , TRUE, the small N, NORTH ICE CREAM. Never moves.
+ *   logo-star.png  , the 158x158 compass star, cropped so the box center sits
  *                     on the star's measured ink center (offset 0.00, -0.50px),
  *                     which is what makes rotation wobble-free.
  *
@@ -21,7 +21,7 @@ import { site } from "@/data/site";
  * of the 878x185 original. It covers only the zero-ink gap columns either side
  * of the star, so the text layers can never be clipped by it.
  *
- * MOTION RULES (glaze.md §4): the un-animated state is the finished logo —
+ * MOTION RULES (glaze.md §4): the un-animated state is the finished logo,
  * no JS, reduced motion, or a dead rAF loop all leave the composite identical
  * to the original PNG at rest. Transform-only, so it never triggers layout.
  * The loop parks itself when settled instead of spinning the main thread.
@@ -59,7 +59,7 @@ export default function AnimatedLogo({ className = "" }: { className?: string })
     const step = () => {
       velocity += -STIFFNESS * angle - DAMPING * velocity;
       angle += velocity;
-      // Travel stop IN THE INTEGRATOR — clamping only in the scroll handler
+      // Travel stop IN THE INTEGRATOR, clamping only in the scroll handler
       // let accumulated velocity overshoot the limit between events (measured
       // at 49.7 over a 30 cap in the first tuning). The limit is now a full
       // revolution: enough to really spin, never enough to wind up forever.

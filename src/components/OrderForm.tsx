@@ -10,13 +10,13 @@ type Status = "idle" | "sending" | "done" | "error";
 /**
  * Order-ahead for pickup, wired PER SHOP: the shop picker is the first step,
  * the `preselect` prop (the ?at= slug, read server-side by the page so this
- * form prerenders into the HTML — see order/page.tsx for why) points it at
- * the right counter, and the item list is that shop's own — soft serve pints
+ * form prerenders into the HTML, see order/page.tsx for why) points it at
+ * the right counter, and the item list is that shop's own, soft serve pints
  * only show for Marshall because the data says so, not the form. Same
  * contract as InquiryForm: JSON post with JS, plain form post without, and
  * the failure path tells the truth with a phone number.
  *
- * No payment on purpose. This is v1 — order goes to the shop's inbox, customer
+ * No payment on purpose. This is v1, order goes to the shop's inbox, customer
  * pays at the counter. Stripe/Square hosted checkout is the launch upgrade on
  * the README checklist.
  */
@@ -85,7 +85,7 @@ export default function OrderForm({ preselect }: { preselect?: string }) {
           <a href={store.phoneHref} className="font-medium text-north-deep underline-offset-4 hover:underline">
             {store.phone}
           </a>
-          . You pay at pickup — card or cash.
+          . You pay at pickup, card or cash.
         </p>
       </div>
     );
@@ -133,7 +133,7 @@ export default function OrderForm({ preselect }: { preselect?: string }) {
           ))}
         </div>
         <p className="mt-4 text-sm leading-relaxed text-ink-soft">
-          The two shops scoop different things — switching shops updates the
+          The two shops scoop different things, switching shops updates the
           list. Cakes and pies need a few days; the shop confirms timing when
           they confirm the order.
         </p>
@@ -260,11 +260,11 @@ export default function OrderForm({ preselect }: { preselect?: string }) {
           <p className="text-sm text-ink-soft">
             {estimate > 0 ? (
               <>
-                Estimated <span className="font-semibold text-ink">${estimate.toFixed(2)}</span> —
+                Estimated <span className="font-semibold text-ink">${estimate.toFixed(2)}</span>,
                 pay at pickup.
               </>
             ) : (
-              <>Nothing is charged online — you pay at the counter.</>
+              <>Nothing is charged online, you pay at the counter.</>
             )}
           </p>
           <button

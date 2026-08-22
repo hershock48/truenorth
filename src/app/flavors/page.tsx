@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/flavors" },
 };
 
-/* ISR so the live board actually goes live — see the note in app/page.tsx. */
+/* ISR so the live board actually goes live, see the note in app/page.tsx. */
 export const revalidate = 60;
 
 /*
@@ -21,8 +21,8 @@ export const revalidate = 60;
 
   This page used to merge both cases into a single list with "{Shop} only"
   chips, and it was the site's worst screen: you could not tell whose case
-  you were reading, and the honest answer — "some of these, at one of our
-  two shops" — is useless to someone deciding where to drive. Worse, it
+  you were reading, and the honest answer, "some of these, at one of our
+  two shops", is useless to someone deciding where to drive. Worse, it
   was actively misleading: Battle Creek scoops one hand-scooped flavor
   today, and the merged page showed twelve.
 
@@ -44,7 +44,7 @@ export default async function FlavorsPage({
       <PageHero
         kicker="The board"
         title={`In the ${shop.name} case`}
-        lede={`${count} flavors scooping at our ${shop.name} shop right now — the case changes daily, and this list follows it. Last updated ${updatedLabel}.`}
+        lede={`${count} flavors scooping at our ${shop.name} shop right now. The case changes daily, and this list follows it. Last updated ${updatedLabel}.`}
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">

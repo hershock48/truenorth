@@ -6,7 +6,7 @@ import AnimatedLogo from "@/components/AnimatedLogo";
 import { usePathname } from "next/navigation";
 import { ORDERING_LIVE, site } from "@/data/site";
 
-/* Ordering is built but off for the demo — see ORDERING_LIVE in site.ts. */
+/* Ordering is built but off for the demo, see ORDERING_LIVE in site.ts. */
 const links = [
   { href: "/flavors", label: "Flavors" },
   { href: "/menu", label: "Menu" },

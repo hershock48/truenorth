@@ -24,18 +24,18 @@ import {
 } from "@/data/site";
 
 /**
- * One shop's page — the destination the rest of the site steers people into,
+ * One shop's page, the destination the rest of the site steers people into,
  * pjs-style. The two routes (/marshall, /battle-creek) are thin wrappers
  * around this so a fact correction stays a one-place edit in site.ts. The
- * pages exist because the shops genuinely differ — hours and what's behind
- * the counter — so each carries its own hours, its own menu (menuFor), and
+ * pages exist because the shops genuinely differ, hours and what's behind
+ * the counter, so each carries its own hours, its own menu (menuFor), and
  * its own order-ahead entry point.
  */
 
 export function locationMetadata(l: Location): Metadata {
   return {
     title: `${l.name} Shop`,
-    description: `True North Ice Cream in ${l.city}, MI — ${l.hoursSummary.toLowerCase()} at ${fullAddress(l)}. ${l.offerings}`,
+    description: `True North Ice Cream in ${l.city}, MI, ${l.hoursSummary.toLowerCase()} at ${fullAddress(l)}. ${l.offerings}`,
     alternates: { canonical: `/${l.slug}` },
   };
 }
@@ -168,7 +168,7 @@ export default async function LocationPage({ location }: { location: Location })
       </section>
 
       {/*
-        This shop's board. The copy claims the rotation, not the day's case —
+        This shop's board. The copy claims the rotation, not the day's case,
         the case genuinely changes daily and the per-flavor split waits on the
         owners' real lists (flavors.ts), so the honest promise is "this is
         what this counter scoops from, call to confirm today."
@@ -181,7 +181,7 @@ export default async function LocationPage({ location }: { location: Location })
             </h2>
             <p className="mt-2 max-w-2xl text-cream/85">
               Everything this counter scoops comes off this rotation, and the
-              case changes daily — board last updated {updatedLabel}.
+              case changes daily, board last updated {updatedLabel}.
               Chasing a favorite? Call{" "}
               <a href={location.phoneHref} className="tap font-semibold text-cream underline-offset-4 hover:underline">
                 {location.phone}
@@ -231,7 +231,7 @@ export default async function LocationPage({ location }: { location: Location })
               <p className="text-lg font-medium text-ink">
                 {ORDERING_LIVE
                   ? "Want it waiting for you? Pints, quarts, cakes, and pies, ready at this counter."
-                  : `Cakes, pies, and pints to go — call the ${location.name} shop and we will have it ready.`}
+                  : `Cakes, pies, and pints to go, call the ${location.name} shop and we will have it ready.`}
               </p>
               {ORDERING_LIVE ? (
                 <Link href={orderHref(location)} className="btn-primary">

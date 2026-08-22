@@ -10,14 +10,14 @@ import { locations } from "@/data/site";
 
 /*
   Copy discipline (glaze.md): "homemade" is their word and their promise, so it
-  appears in the hero and nowhere else on this page — once, where it counts.
+  appears in the hero and nowhere else on this page, once, where it counts.
   Rendered-text repetition was counted, not vibed.
 */
 
 /*
   ISR, because the board can be live (liveCase.ts): the page re-renders in
   the background at most once a minute, which is when the feed fetch runs.
-  A plain static page would freeze the build-time board forever — the exact
+  A plain static page would freeze the build-time board forever, the exact
   trap the /order page shipped with once already.
 */
 export const revalidate = 60;
@@ -44,11 +44,11 @@ export default async function Home() {
   return (
     <>
       {/*
-        Hero. On a phone this is one centred column with the PHOTO first —
+        Hero. On a phone this is one centred column with the PHOTO first,
         three problems fixed at once:
 
           1. Left-aligned copy under a wordmark that nearly fills the width
-             read as "off centre" — there is no second column on a phone for
+             read as "off centre", there is no second column on a phone for
              the eye to balance against, so it centres.
           2. The photograph used to land BELOW the shop rows, stranded between
              the hero and the next section, and on a phone it crowded out the
@@ -63,7 +63,7 @@ export default async function Home() {
         <div className="hero-in text-center md:text-left">
           {/*
             THE COMPASS ALONE, not the full lockup. The sticky header carries
-            the wordmark on every page, so repeating it here bought nothing —
+            the wordmark on every page, so repeating it here bought nothing,
             and the star is the part that moves, which is the whole idea: it
             wakes a turn off north, rings back to it, and throws sprinkles
             doing it. Their own star from the logo, never a redraw.
@@ -73,17 +73,17 @@ export default async function Home() {
             Marshall and Battle Creek, Michigan
           </p>
           {/*
-            THEIR line, not ours — it is the promise on their own site, and
+            THEIR line, not ours, it is the promise on their own site, and
             Kevin picked it for the hero. The lede underneath carries the
             plain facts a first-time visitor and a search engine need
             ("ice cream", the towns, what is in the case), so the headline is
             free to be the brand rather than a description.
           */}
           <h1 className="mt-4 font-[family-name:var(--font-display)] text-5xl font-bold leading-tight tracking-tight text-ink md:text-7xl">
-            Happiness is homemade.
+            Happiness is Homemade.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft md:mx-0">
-            Ice cream made fresh every day in Marshall and Battle Creek —
+            Ice cream made fresh every day in Marshall and Battle Creek,
             around thirty hand-scooped flavors in the case at a time, churned
             in the shop from real ingredients. No dyes, no stabilizers, nothing
             you would not put in it yourself.
@@ -100,8 +100,8 @@ export default async function Home() {
             The per-shop status rows used to live here. They came out once the
             shops section moved directly beneath the hero: the same two names,
             the same live open/closed, the same links, a screen apart. The
-            cards below say it properly — with hours, addresses and what each
-            counter is scooping — so the hero stops repeating them.
+            cards below say it properly, with hours, addresses and what each
+            counter is scooping, so the hero stops repeating them.
           */}
         </div>
         {/* Desktop only: on a phone it pushed the shops below the fold. */}
@@ -116,12 +116,12 @@ export default async function Home() {
           />
         </Reveal>
       </section>
-      {/* The hero sits on the page cream, so the drip is cream — the trap is
+      {/* The hero sits on the page cream, so the drip is cream, the trap is
           that this MUST be the colour of the band ABOVE it, and it melts onto
           the cream-dim shops section below. */}
       <MeltEdge color="var(--color-cream)" />
 
-      {/* Locations — first after the hero: which shop, before which flavor. */}
+      {/* Locations, first after the hero: which shop, before which flavor. */}
       <section className="bg-cream-dim">
         <div className="mx-auto max-w-6xl px-5 py-16">
           <Reveal>
@@ -129,7 +129,7 @@ export default async function Home() {
               Two shops, one freezer full of good ideas
             </h2>
             <p className="mt-2 max-w-2xl text-ink-soft">
-              Marshall scoops from noon, Battle Creek from 2 — both open every
+              Marshall scoops from noon, Battle Creek from 2, both open every
               day until 9. Each shop keeps its own counter, so see what yours
               does best.
             </p>
@@ -147,7 +147,7 @@ export default async function Home() {
       <MeltEdge color="var(--color-cream-dim)" />
       {/*
         The "In the case today" band used to sit here. It listed each shop's
-        name, count and flavour chips — which is exactly what the two cards
+        name, count and flavour chips, which is exactly what the two cards
         above now carry, one screen higher. Two answers to one question, back
         to back, so the second one went. /flavors is still a tap away from the
         hero and from each card.
@@ -155,14 +155,21 @@ export default async function Home() {
 
       {/* Photos + menu teaser */}
       <section className="mx-auto max-w-6xl px-5 py-16">
-        <div className="grid gap-6 md:grid-cols-3">
+        {/*
+          Two photographs, not three. Three read as a contact sheet, and on a
+          phone they stack into a long run of pictures before the sentence
+          they are illustrating. The pair that survived shows the two
+          different things the shops sell: a hand-scooped waffle basket and a
+          soft serve flight. Taller, because two can afford the room.
+        */}
+        <div className="grid gap-6 md:grid-cols-2">
           <Reveal className="lift overflow-hidden rounded-[--radius-card]">
             <Image
               src="/photos/waffle-basket.jpg"
               alt="A scoop of chocolate toffee ice cream in a waffle basket"
               width={1024}
               height={767}
-              className="h-64 w-full object-cover"
+              className="h-64 w-full object-cover md:h-72"
             />
           </Reveal>
           <Reveal delay={80} className="lift overflow-hidden rounded-[--radius-card]">
@@ -171,26 +178,17 @@ export default async function Home() {
               alt="Soft serve flights with waffle pieces and dipping sauces"
               width={768}
               height={1024}
-              className="h-64 w-full object-cover"
-            />
-          </Reveal>
-          <Reveal delay={160} className="lift overflow-hidden rounded-[--radius-card]">
-            <Image
-              src="/photos/mint-chip.jpg"
-              alt="A bowl of mint chip ice cream"
-              width={1024}
-              height={1014}
-              className="h-64 w-full object-cover"
+              className="h-64 w-full object-cover md:h-72"
             />
           </Reveal>
         </div>
         <Reveal>
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[--radius-panel] bg-cream-dim px-6 py-6 md:px-8">
             <p className="text-lg font-medium text-ink">
-              Scoops from $4.75 at both shops, sundaes, splits, shakes, and ice
-              cream nachos. Soft serve from $3.75 and a real espresso bar —
-              matcha included — at the Marshall counter. Cakes and pies made to
-              order.
+              Scoops from $4.75. Banana splits, sundaes, malts, and ice cream
+              nachos, which are exactly what they sound like. The Marshall
+              counter adds soft serve from $3.75, real espresso, and matcha.
+              Cakes and pies made to order, so plan a little.
             </p>
             <Link href="/menu" className="btn-primary">
               Menu and prices

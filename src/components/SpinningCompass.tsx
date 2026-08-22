@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
  * WHY THE STAR AND NOT A REDRAW. `/brand/logo-star.png` is their own mark:
  * the repo's scripts cut the original PNG into two layers (plate + star) and
  * verified the reassembly pixel-for-pixel. So this is the client's compass,
- * not the CompassRose ornament, which stays what it has always been — site
+ * not the CompassRose ornament, which stays what it has always been, site
  * furniture that must never stand in for the mark. The full wordmark still
  * opens every page from the sticky header.
  *
@@ -16,7 +16,7 @@ import { useEffect, useRef } from "react";
  * north and rings back to it, and scrolling kicks it. Transform-only, and the
  * loop parks itself when settled instead of holding the main thread.
  *
- * The sprinkles are decoration on top of that — CSS-only, transform-only,
+ * The sprinkles are decoration on top of that, CSS-only, transform-only,
  * aria-hidden, and gone entirely under reduced motion, where the resting
  * frame is simply their compass sitting on north.
  */

@@ -13,8 +13,8 @@
  *    is invisible to axe until it has been revealed.
  *  - It compares documentElement.scrollWidth to clientWidth for overflow rather
  *    than looking for wide elements. Elements wider than the viewport inside an
- *    overflow-hidden parent are completely normal — a marquee track, a scaled
- *    hero image — and flagging them produces a page of false positives.
+ *    overflow-hidden parent are completely normal, a marquee track, a scaled
+ *    hero image, and flagging them produces a page of false positives.
  *  - It listens for pageerror as well as console errors, because an uncaught
  *    exception during hydration does not always reach the console listener.
  *
@@ -24,7 +24,7 @@
  *
  * Point it at a locally served PRODUCTION build (`npm run build` then
  * `npx next start`), never the dev server: dev serves different CSS and hides
- * build-time failures. And read the stale-server section of gotchas.md first —
+ * build-time failures. And read the stale-server section of gotchas.md first, 
  * the most common cause of an alarming audit is that the stylesheet 404'd and the
  * page rendered unstyled.
  *
@@ -139,7 +139,7 @@ for (const route of ROUTES) {
 }
 
 const list = (a, n = 5) => (a.length ? [...new Set(a)].slice(0, n).join(" | ") : "none");
-console.log(`\n=== ${BASE} — ${ROUTES.length} route(s) at ${WIDTHS.map((x) => x[0]).join(" and ")}px ===`);
+console.log(`\n=== ${BASE}, ${ROUTES.length} route(s) at ${WIDTHS.map((x) => x[0]).join(" and ")}px ===`);
 console.log(`axe violations total: ${violations}`);
 console.log(`horizontal overflow:  ${list(overflow)}`);
 console.log(`console errors:       ${list(errors)}`);
