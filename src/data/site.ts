@@ -108,6 +108,17 @@ export const locations: Location[] = [
   },
 ];
 
+/*
+  ORDERING IS BUILT AND OFF.
+
+  /order and /api/order work end to end (see the README), but the demo does
+  not show them: an order button in front of the owner promises a service
+  nobody has switched on yet, and "it does not really send" is the wrong
+  sentence to say in a pitch. Flip this to true the day ORDER_TO is set and
+  the owners want it - every entry point reads this one flag.
+*/
+export const ORDERING_LIVE = false;
+
 export function locationBySlug(slug: string) {
   return locations.find((l) => l.slug === slug);
 }

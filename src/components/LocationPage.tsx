@@ -10,6 +10,7 @@ import { caseFor } from "@/data/liveCase";
 import { menuFor } from "@/data/menu";
 import { uniformDailySpan } from "@/data/shops";
 import {
+  ORDERING_LIVE,
   formatHour,
   fullAddress,
   locations,
@@ -141,6 +142,9 @@ export default async function LocationPage({ location }: { location: Location })
               </div>
             </Reveal>
 
+            {/* Ordering is built but off for the demo - see ORDERING_LIVE.
+                Not rendered at all: a hidden link is still a link. */}
+            {ORDERING_LIVE ? (
             <Reveal delay={180}>
               <div className="rounded-[--radius-panel] bg-north-deep p-6 text-cream">
                 <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold">
@@ -158,6 +162,7 @@ export default async function LocationPage({ location }: { location: Location })
                 </Link>
               </div>
             </Reveal>
+            ) : null}
           </div>
         </div>
       </section>
@@ -224,12 +229,19 @@ export default async function LocationPage({ location }: { location: Location })
           <Reveal>
             <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[--radius-panel] bg-white px-6 py-6 md:px-8">
               <p className="text-lg font-medium text-ink">
-                Want it waiting for you? Pints, quarts, cakes, and pies, ready
-                at this counter.
+                {ORDERING_LIVE
+                  ? "Want it waiting for you? Pints, quarts, cakes, and pies, ready at this counter."
+                  : `Cakes, pies, and pints to go — call the ${location.name} shop and we will have it ready.`}
               </p>
-              <Link href={orderHref(location)} className="btn-primary">
-                Order from {location.name}
-              </Link>
+              {ORDERING_LIVE ? (
+                <Link href={orderHref(location)} className="btn-primary">
+                  Order from {location.name}
+                </Link>
+              ) : (
+                <a href={location.phoneHref} className="btn-primary">
+                  Call {location.phone}
+                </a>
+              )}
             </div>
           </Reveal>
         </div>

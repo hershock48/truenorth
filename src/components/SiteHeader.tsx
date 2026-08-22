@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import AnimatedLogo from "@/components/AnimatedLogo";
 import { usePathname } from "next/navigation";
-import { site } from "@/data/site";
+import { ORDERING_LIVE, site } from "@/data/site";
 
+/* Ordering is built but off for the demo — see ORDERING_LIVE in site.ts. */
 const links = [
   { href: "/flavors", label: "Flavors" },
   { href: "/menu", label: "Menu" },
-  { href: "/order", label: "Order" },
+  ...(ORDERING_LIVE ? [{ href: "/order", label: "Order" }] : []),
   { href: "/catering", label: "Catering" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },

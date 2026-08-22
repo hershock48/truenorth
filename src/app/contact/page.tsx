@@ -25,7 +25,7 @@ export default function ContactPage() {
         <div className="grid gap-6 md:grid-cols-2">
           {locations.map((l, i) => (
             <Reveal key={l.key} delay={i * 80}>
-              <MapCard location={l} />
+              <MapCard location={l} showMap />
             </Reveal>
           ))}
         </div>

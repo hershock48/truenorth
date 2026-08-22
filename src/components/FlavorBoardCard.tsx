@@ -4,6 +4,19 @@ import { effectiveTag, shopOnlyLabel } from "@/data/shops";
 import { locations } from "@/data/site";
 import type { Board } from "@/data/flavors";
 
+/*
+  A flavor board should look like flavors. Each board gets a scoop color for
+  its top ribbon and heading rule - drawn from the palette already measured
+  in globals.css, so nothing new needed a contrast check: these are fills and
+  rules, never text.
+*/
+const ACCENT: Record<string, { ribbon: string; rule: string }> = {
+  homemade: { ribbon: "from-waffle/70 to-scoop", rule: "bg-waffle/40" },
+  softserve: { ribbon: "from-north/60 to-mint", rule: "bg-north/35" },
+  dairyfree: { ribbon: "from-mint to-scoop", rule: "bg-mint" },
+  adult: { ribbon: "from-cherry/60 to-waffle/60", rule: "bg-cherry/35" },
+};
+
 /**
  * One flavor board as a card, shared by the all-shops flavors page and the
  * per-shop pages. On the shared page, a board or flavor one shop scoops alone
@@ -24,8 +37,13 @@ export default function FlavorBoardCard({
   return (
     <section
       aria-labelledby={`board-${board.key}`}
-      className="h-full rounded-[--radius-panel] border border-ink/10 bg-white p-6 md:p-8"
+      className="h-full overflow-hidden rounded-[--radius-panel] border border-ink/10 bg-white"
     >
+      <div
+        aria-hidden
+        className={`h-2 w-full bg-gradient-to-r ${(ACCENT[board.key] ?? ACCENT.homemade).ribbon}`}
+      />
+      <div className="p-6 md:p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h2
           id={`board-${board.key}`}
@@ -36,7 +54,8 @@ export default function FlavorBoardCard({
         </h2>
         <p className="text-sm font-medium text-ink-soft">{board.subtitle}</p>
       </div>
-      <ul className="mt-5 divide-y divide-ink/5">
+      <div aria-hidden className={`mt-3 h-1 w-14 rounded-full ${(ACCENT[board.key] ?? ACCENT.homemade).rule}`} />
+      <ul className="mt-4 divide-y divide-ink/5">
         {board.flavors.map((f) => {
           const flavorTag =
             showShopTags && !boardTag
@@ -60,6 +79,7 @@ export default function FlavorBoardCard({
           );
         })}
       </ul>
+      </div>
     </section>
   );
 }

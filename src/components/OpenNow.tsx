@@ -79,13 +79,34 @@ export default function OpenNow({
   location,
   label,
   tone = "dark",
+  pill = false,
 }: {
   location: Location;
   /** Optional prefix, e.g. the shop name when two badges sit together. */
   label?: string;
   tone?: "dark" | "light";
+  /** Colored capsule, pjs-style, for sitting beside a shop's name. */
+  pill?: boolean;
 }) {
   const state = useOpenState(location.hours);
+
+  if (pill) {
+    const shut = state ? !state.open : false;
+    return (
+      <span
+        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
+          !state
+            ? "bg-cream-dim text-ink-soft"
+            : shut
+              ? "bg-cherry/12 text-cherry-deep"
+              : "bg-mint/35 text-ink"
+        }`}
+      >
+        {state ? <StatusDot open={state.open} /> : null}
+        {state ? state.text : location.hoursSummary}
+      </span>
+    );
+  }
 
   const text = tone === "light" ? "text-cream/80" : "text-ink/70";
   const labelPart = label ? (

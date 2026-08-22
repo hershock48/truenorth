@@ -129,11 +129,11 @@ export default async function Home() {
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {cases.map((c, i) => (
               <Reveal key={c.shop.key} delay={90 + i * 80}>
-                <div className="h-full rounded-[--radius-panel] border border-cream/20 bg-cream/5 p-6">
+                <div className="h-full rounded-[--radius-panel] border border-cream/25 p-6">
                   <h3 className="font-[family-name:var(--font-display)] text-2xl font-semibold">
                     {c.shop.name}
                   </h3>
-                  <p className="mt-1 text-sm text-cream/70">
+                  <p className="mt-1 text-sm font-medium text-cream">
                     {c.total} flavors scooping today
                   </p>
                   <ul className="mt-4 flex flex-wrap gap-2">
@@ -222,9 +222,10 @@ export default async function Home() {
             </p>
           </Reveal>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {locations.map((l, i) => (
-              <Reveal key={l.key} delay={i * 90}>
-                <MapCard location={l} />
+            {cases.map((c, i) => (
+              <Reveal key={c.shop.key} delay={i * 90}>
+                {/* Each card carries a taste of that counter, not just an address. */}
+                <MapCard location={c.shop} scooping={c.flavors} />
               </Reveal>
             ))}
           </div>
