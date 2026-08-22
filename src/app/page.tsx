@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import AnimatedLogo from "@/components/AnimatedLogo";
+import SpinningCompass from "@/components/SpinningCompass";
 import CompassRose from "@/components/CompassRose";
 import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
@@ -61,9 +61,14 @@ export default async function Home() {
       */}
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-8 md:grid-cols-[1.1fr_1fr] md:pt-20">
         <div className="hero-in text-center md:text-left">
-          {/* Sized by WIDTH on a phone: at 878:185, h-20 computes to 380px and
-              runs off a 350px column. Height-sized from md up, where there is room. */}
-          <AnimatedLogo className="mx-auto w-[min(300px,100%)] md:mx-0 md:h-24 md:w-auto" />
+          {/*
+            THE COMPASS ALONE, not the full lockup. The sticky header carries
+            the wordmark on every page, so repeating it here bought nothing —
+            and the star is the part that moves, which is the whole idea: it
+            wakes a turn off north, rings back to it, and throws sprinkles
+            doing it. Their own star from the logo, never a redraw.
+          */}
+          <SpinningCompass className="mx-auto w-[132px] md:mx-0 md:w-[188px]" />
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-north-deep md:mt-6">
             Marshall and Battle Creek, Michigan
           </p>
@@ -103,6 +108,10 @@ export default async function Home() {
           />
         </Reveal>
       </section>
+      {/* The hero sits on the page cream, so the drip is cream — the trap is
+          that this MUST be the colour of the band ABOVE it, and it melts onto
+          the cream-dim shops section below. */}
+      <MeltEdge color="var(--color-cream)" />
 
       {/* Locations — first after the hero: which shop, before which flavor. */}
       <section className="bg-cream-dim">

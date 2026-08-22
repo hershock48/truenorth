@@ -111,6 +111,53 @@
     .tn-logo-halo { animation: none; }
   }
 
+  /*
+    Sprinkles thrown off the spinning compass.
+
+    Each sprinkle rides inside a full-size "ray" rotated to its own angle, so
+    the sprinkle itself only ever travels along one axis — transform-only, no
+    layout, and the distance is one custom property to retune. --fling is set
+    per breakpoint by .tn-compass below.
+  */
+  .tn-ray {
+    transform: rotate(var(--a));
+  }
+
+  .tn-sprinkle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: block;
+    width: 0.62rem;
+    height: 0.24rem;
+    margin: -0.12rem 0 0 -0.31rem;
+    border-radius: 9999px;
+    opacity: 0;
+    animation: tn-fling 3.4s cubic-bezier(0.2, 0.7, 0.4, 1) infinite;
+  }
+
+  @keyframes tn-fling {
+    0% { transform: translateY(calc(var(--fling) * -0.28)) rotate(0deg); opacity: 0; }
+    12% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translateY(calc(var(--fling) * -1)) rotate(300deg); opacity: 0; }
+  }
+
+  .tn-compass {
+    --fling: 7.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .tn-compass {
+      --fling: 10.5rem;
+    }
+  }
+
+  /* The resting frame is their compass on north — nothing missing, nothing thrown. */
+  @media (prefers-reduced-motion: reduce) {
+    .tn-sprinkle { animation: none; opacity: 0; }
+  }
+
   /* SiteHeader overwrites this with its measured height once it mounts. */
   :root {
     --header-h: 72px;
