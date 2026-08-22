@@ -59,6 +59,19 @@
     color: var(--color-ink);
   }
 
+  /*
+    Tailwind 4 dropped preflight's `button { cursor: pointer }`, so every
+    button here was showing the arrow — the mobile menu toggle, the shop
+    radios and quantity steppers on /order, the form submits. Put it back,
+    and leave disabled controls alone: a pointer on a dead button is a lie.
+  */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-north-deep);
     outline-offset: 3px;
