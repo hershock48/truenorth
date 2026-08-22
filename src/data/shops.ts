@@ -57,7 +57,7 @@ export function shopOnlyLabel(
 /**
  * The single daily open/close span, when every day genuinely shares one —
  * both shops do today. Returns null the moment any day diverges, so surfaces
- * that render "one span for the whole week" (ShopBar, the shop-page hours
+ * that render "one span for the whole week" (the shop-page hours
  * line) fall back honestly instead of showing Sunday's hours as everyone's.
  */
 export function uniformDailySpan(hours: readonly Hours[]) {
