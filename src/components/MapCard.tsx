@@ -38,8 +38,11 @@ export default function MapCard({
 
   return (
     <div className="lift flex h-full flex-col overflow-hidden rounded-[--radius-panel] border border-ink/10 bg-white">
-      {/* A ribbon of the shop's colors, so a card reads as ice cream at a glance. */}
-      <div aria-hidden className="h-1.5 w-full bg-gradient-to-r from-scoop via-mint to-north" />
+      {/* A ribbon of the shop's colors, so a card reads as ice cream at a
+          glance. The full sprinkle run (tn-ribbon), and a touch taller: the
+          old scoop-to-teal gradient was three quiet colors doing a quiet
+          thing on a page already reading too quiet. */}
+      <div aria-hidden className="tn-ribbon h-2 w-full" />
 
       {showMap ? (
         <iframe
@@ -110,7 +113,10 @@ export default function MapCard({
                 <li
                   key={f.name}
                   className={`rounded-full px-3 py-1 text-sm font-medium text-ink ${
-                    ["bg-scoop", "bg-mint/60", "bg-cherry/15", "bg-north/15", "bg-waffle/15"][i % 5]
+                    /* Warmer cycle than the old one: fuller mint, blush and
+                       sherbet tints in place of the gray-leaning cherry/15
+                       and waffle/15. Ink text on every tint, AA everywhere. */
+                    ["bg-scoop", "bg-mint/70", "bg-blush", "bg-sherbet/30", "bg-north/15"][i % 5]
                   }`}
                 >
                   {f.name}

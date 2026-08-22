@@ -31,6 +31,17 @@
   --color-mint: #A8CE8F;
   --color-cherry: #C0452F;
   --color-cherry-deep: #A23A26;
+  /*
+    The sherbet round, added after a viewer read the teal-and-cream page as
+    "a hospital or a financial advisor". Teal is their logo and stays; these
+    put scoop colors AROUND it. Same rule as mint/cherry: sherbet is
+    decorative only (3.0 on cream, never text). The two -soft tints are
+    BACKGROUNDS for bands and panels; ink on either measures 11+, and every
+    text token that lands on them is re-checked by tools/contrast.mjs.
+  */
+  --color-sherbet: #EF8A3F;
+  --color-blush: #F9DDD4;
+  --color-mint-soft: #E6F1D8;
 
   --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
@@ -163,6 +174,20 @@
     --header-h: 72px;
   }
 
+}
+
+/* The full sprinkle run in one stripe: shop-card ribbons and anywhere a
+   band needs to say "ice cream" in 6px. Tailwind's from/via/to caps at one
+   via, and this wants the whole handful. */
+.tn-ribbon {
+  background: linear-gradient(
+    90deg,
+    var(--color-cherry),
+    var(--color-sherbet),
+    var(--color-scoop),
+    var(--color-mint),
+    var(--color-north)
+  );
 }
 
 @layer components {

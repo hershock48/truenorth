@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SpinningCompass from "@/components/SpinningCompass";
+import Sprinkles from "@/components/Sprinkles";
 import CompassRose from "@/components/CompassRose";
 import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
@@ -69,7 +70,9 @@ export default async function Home() {
             doing it. Their own star from the logo, never a redraw.
           */}
           <SpinningCompass className="mx-auto w-[132px] md:mx-0 md:w-[188px]" />
-          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-north-deep md:mt-6">
+          {/* Cherry, not teal: the first words after the mark set the page's
+              temperature, and teal-on-cream was reading clinical. */}
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-cherry-deep md:mt-6">
             Marshall and Battle Creek, Michigan
           </p>
           {/*
@@ -121,10 +124,14 @@ export default async function Home() {
           the cream-dim shops section below. */}
       <MeltEdge color="var(--color-cream)" />
 
-      {/* Locations, first after the hero: which shop, before which flavor. */}
-      <section className="bg-cream-dim">
+      {/* Locations, first after the hero: which shop, before which flavor.
+          The band is SCOOP, the warm vanilla sampled from their own photo:
+          the old cream-dim was a shade of the same beige as everything
+          around it, which is where the "financial advisor" read came from. */}
+      <section className="bg-scoop">
         <div className="mx-auto max-w-6xl px-5 py-16">
           <Reveal>
+            <Sprinkles />
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
               Two shops, one freezer full of good ideas
             </h2>
@@ -144,7 +151,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <MeltEdge color="var(--color-cream-dim)" />
+      <MeltEdge color="var(--color-scoop)" />
       {/*
         The "In the case today" band used to sit here. It listed each shop's
         name, count and flavour chips, which is exactly what the two cards
@@ -156,34 +163,38 @@ export default async function Home() {
       {/* Photos + menu teaser */}
       <section className="mx-auto max-w-6xl px-5 py-16">
         {/*
-          Two photographs, not three. Three read as a contact sheet, and on a
-          phone they stack into a long run of pictures before the sentence
-          they are illustrating. The pair that survived shows the two
-          different things the shops sell: a hand-scooped waffle basket and a
-          soft serve flight. Taller, because two can afford the room.
+          Two photographs, not three, and the two most COLORFUL ones in the
+          set: the green mint chip and the yellow lemon cup. The old pair
+          (chocolate in a waffle basket, white soft serve) was handsome and
+          beige, and a viewer's "didn't love the photos" tracked exactly
+          with the beige. The rest of the set is chocolate-and-vanilla
+          toned; the real fix beyond this swap is three bright shots from
+          the shop (Blue Moon is BLUE), noted in the README checklist.
         */}
         <div className="grid gap-6 md:grid-cols-2">
           <Reveal className="lift overflow-hidden rounded-[--radius-card]">
             <Image
-              src="/photos/waffle-basket.jpg"
-              alt="A scoop of chocolate toffee ice cream in a waffle basket"
+              src="/photos/mint-chip.jpg"
+              alt="A cup piled with green mint chip ice cream"
               width={1024}
-              height={767}
+              height={1014}
               className="h-64 w-full object-cover md:h-72"
             />
           </Reveal>
           <Reveal delay={80} className="lift overflow-hidden rounded-[--radius-card]">
             <Image
-              src="/photos/soft-serve-flights.jpg"
-              alt="Soft serve flights with waffle pieces and dipping sauces"
-              width={768}
-              height={1024}
+              src="/photos/lemon-cup.jpg"
+              alt="Two scoops of bright lemon ice cream in a cup"
+              width={720}
+              height={960}
               className="h-64 w-full object-cover md:h-72"
             />
           </Reveal>
         </div>
         <Reveal>
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[--radius-panel] bg-cream-dim px-6 py-6 md:px-8">
+          {/* Mint, because the panel sits between two photographs of green
+              and yellow ice cream and should join the conversation. */}
+          <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-[--radius-panel] bg-mint-soft px-6 py-6 md:px-8">
             <p className="text-lg font-medium text-ink">
               Scoops from $4.75. Banana splits, sundaes, malts, and ice cream
               nachos, which are exactly what they sound like. The Marshall
@@ -197,18 +208,29 @@ export default async function Home() {
         </Reveal>
       </section>
 
-      {/* Catering band */}
-      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2">
+      {/* Catering band, on blush: the page's bands now go cream, scoop,
+          cream, blush, ink, an actual sundae instead of three creams in a
+          row. The melt above it must be CREAM (the band above), the melt
+          after it blush, the seam rule. */}
+      <MeltEdge color="var(--color-cream)" />
+      <section className="bg-blush">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2">
         <Reveal className="lift order-2 overflow-hidden rounded-[--radius-panel] md:order-1">
+          {/* The toffee cup: the ONE photo in the set with a big block of
+              brand-adjacent color in it, the bright blue cup. */}
           <Image
-            src="/photos/lemon-cup.jpg"
-            alt="Two scoops of lemon ice cream in a cup on a wooden table"
-            width={720}
+            src="/photos/toffee-cup.jpg"
+            alt="A heaping scoop of toffee ice cream in a bright blue cup"
+            width={662}
             height={960}
-            className="h-80 w-full object-cover"
+            /* object-bottom: the blue cup IS the color this photo was picked
+               for, and it lives in the bottom half; a center crop showed
+               beige scoop on a dark background, rendered and seen. */
+            className="h-80 w-full object-cover object-bottom"
           />
         </Reveal>
         <Reveal delay={80} className="order-1 md:order-2">
+          <Sprinkles />
           <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
             We bring the ice cream to you
           </h2>
@@ -227,7 +249,9 @@ export default async function Home() {
             </Link>
           </div>
         </Reveal>
+        </div>
       </section>
+      <MeltEdge color="var(--color-blush)" />
 
       {/* About teaser */}
       <section className="bg-ink text-cream">

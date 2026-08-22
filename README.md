@@ -185,6 +185,13 @@ production build, all seven routes at 390 and 1440:
 - [ ] Get each shop's real daily case list from the owners and tag
       `flavors.ts` (`at:` per flavor), the boards are store-aware but the
       hand-scooped flavors are untagged until the owners split them.
+- [ ] Ask the owners for three or four of their BRIGHTEST photos (Blue Moon
+      is blue, the sorbets are pink and purple, sprinkle cones exist) and
+      swap them into the homepage. The current six-photo set skews
+      chocolate-and-vanilla beige; a viewer read the page as clinical and
+      the fix so far is color in the design (scoop/blush bands, sprinkle
+      accents) plus promoting the two most colorful shots we have. Real
+      vivid photography finishes the job.
       (Or skip the tags entirely: set `SCOOPLIST_FEED_URL` and the boards
       render live from the owner's Scooplist case, `src/data/liveCase.ts`,
       static fallback on any feed failure. The scooplist repo is the app.)
