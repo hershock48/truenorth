@@ -46,28 +46,38 @@ export default async function Home() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-14 md:grid-cols-[1.1fr_1fr] md:pt-20">
-        <div className="hero-in">
-          {/*
-            The mark, large, with the live needle — the first thing the page
-            does is the brand finding north. The header carries the same
-            component small; both react to the same scroll, which reads as one
-            system rather than a repeat.
-          */}
-          <AnimatedLogo className="h-16 md:h-24" />
-          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-north-deep">
+      {/*
+        Hero. On a phone this is one centred column with the PHOTO first —
+        three problems fixed at once:
+
+          1. The mark was printing twice within 130px, once in the sticky
+             header and again here. On mobile the header already carries it,
+             so the hero copy drops it and starts on the photograph.
+          2. Left-aligned copy under a wordmark that nearly fills the width
+             read as "off centre" — there is no second column on a phone for
+             the eye to balance against, so it centres.
+          3. The photo used to land BELOW the shop rows, stranded between the
+             hero and the next section. Ice cream should be the first thing
+             you see on an ice cream shop's website.
+
+        Above md nothing changes: two columns, copy left, photo right, and
+        the mark still opens the page with the needle finding north.
+      */}
+      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-8 md:grid-cols-[1.1fr_1fr] md:pt-20">
+        <div className="hero-in text-center md:text-left">
+          <AnimatedLogo className="mx-auto hidden h-16 md:mx-0 md:block md:h-24" />
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-north-deep md:mt-6">
             Marshall and Battle Creek, Michigan
           </p>
           <h1 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-bold leading-tight tracking-tight text-ink md:text-6xl">
             Homemade ice cream, made fresh every day.
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft md:mx-0">
             Around thirty hand-scooped flavors in the case at a time, churned in
             the shop from real ingredients. No dyes, no stabilizers, nothing you
             would not put in it yourself.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
             <Link href="/flavors" className="btn-primary">
               See what&apos;s in the case
             </Link>
@@ -80,7 +90,7 @@ export default async function Home() {
             door into that shop's page. Bordered and arrowed so it reads as a
             button, not a status line.
           */}
-          <div className="mt-7 grid max-w-md gap-2.5">
+          <div className="mx-auto mt-7 grid max-w-md gap-2.5 md:mx-0">
             {locations.map((l) => (
               <Link
                 key={l.key}
@@ -98,7 +108,7 @@ export default async function Home() {
             ))}
           </div>
         </div>
-        <Reveal className="lift overflow-hidden rounded-[--radius-panel]">
+        <Reveal className="lift order-first overflow-hidden rounded-[--radius-panel] md:order-none">
           <Image
             src="/photos/flight-trays.jpg"
             alt="Three sampler trays of hand-scooped ice cream on the counter, nine scoops from vanilla to mint chip"
