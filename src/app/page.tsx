@@ -110,6 +110,31 @@ export default async function Home() {
         </Reveal>
       </section>
 
+      {/* Locations — first after the hero: which shop, before which flavor. */}
+      <section className="bg-cream-dim">
+        <div className="mx-auto max-w-6xl px-5 py-16">
+          <Reveal>
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
+              Two shops, one freezer full of good ideas
+            </h2>
+            <p className="mt-2 max-w-2xl text-ink-soft">
+              Marshall scoops from noon, Battle Creek from 2 — both open every
+              day until 9. Each shop keeps its own counter, so see what yours
+              does best.
+            </p>
+          </Reveal>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            {cases.map((c, i) => (
+              <Reveal key={c.shop.key} delay={i * 90}>
+                {/* Each card carries a taste of that counter, not just an address. */}
+                <MapCard location={c.shop} scooping={c.flavors} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+      <MeltEdge color="var(--color-cream-dim)" />
+
       {/* The case today — teal band with the melt below it */}
       <section className="bg-north-deep text-cream">
         <div className="mx-auto max-w-6xl px-5 py-16">
@@ -207,31 +232,6 @@ export default async function Home() {
           </div>
         </Reveal>
       </section>
-
-      {/* Locations */}
-      <section className="bg-cream-dim">
-        <div className="mx-auto max-w-6xl px-5 py-16">
-          <Reveal>
-            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
-              Two shops, one freezer full of good ideas
-            </h2>
-            <p className="mt-2 max-w-2xl text-ink-soft">
-              Marshall scoops from noon, Battle Creek from 2 — both open every
-              day until 9. Each shop keeps its own counter, so see what yours
-              does best.
-            </p>
-          </Reveal>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {cases.map((c, i) => (
-              <Reveal key={c.shop.key} delay={i * 90}>
-                {/* Each card carries a taste of that counter, not just an address. */}
-                <MapCard location={c.shop} scooping={c.flavors} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-      <MeltEdge color="var(--color-cream-dim)" />
 
       {/* Catering band */}
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2">
