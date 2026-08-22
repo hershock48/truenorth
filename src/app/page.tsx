@@ -188,7 +188,7 @@ export default async function Home() {
               Scoops from $4.75. Banana splits, sundaes, malts, and ice cream
               nachos, which are exactly what they sound like. The Marshall
               counter adds soft serve from $3.75, real espresso, and matcha.
-              Cakes and pies made to order, so plan a little.
+              Cakes and pies made to order!
             </p>
             <Link href="/menu" className="btn-primary">
               Menu and prices
