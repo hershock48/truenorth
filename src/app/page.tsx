@@ -6,7 +6,7 @@ import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
 import OpenNow from "@/components/OpenNow";
 import Reveal from "@/components/Reveal";
-import { caseAll } from "@/data/liveCase";
+import { caseFor } from "@/data/liveCase";
 import { locations, shopCaseHref, shopHref } from "@/data/site";
 
 /*
@@ -24,12 +24,25 @@ import { locations, shopCaseHref, shopHref } from "@/data/site";
 export const revalidate = 60;
 
 export default async function Home() {
-  // Live from Scooplist when the feed is configured, static otherwise.
-  const { boards, updatedLabel } = await caseAll();
-  // By key, not position — reordering the boards must not change what
-  // "In the case today" shows.
-  const homemadeBoard = boards.find((b) => b.key === "homemade") ?? boards[0];
-  const homemadeCount = homemadeBoard.flavors.length;
+  /*
+    ONE CASE PER SHOP, never a merged list. The band used to blend both
+    shops' hand-scooped boards into one row of chips, so a Battle Creek
+    customer read twelve flavors when their counter had one. Each shop now
+    gets its own column, named, with its own count and its own link.
+  */
+  const cases = await Promise.all(
+    locations.map(async (l) => {
+      const { boards, updatedLabel } = await caseFor(l.key);
+      const homemade = boards.find((b) => b.key === "homemade") ?? boards[0];
+      return {
+        shop: l,
+        updatedLabel,
+        flavors: homemade?.flavors ?? [],
+        total: boards.reduce((n, b) => n + b.flavors.length, 0),
+      };
+    }),
+  );
+  const updatedLabel = cases[0]?.updatedLabel ?? "";
 
   return (
     <>
@@ -107,55 +120,44 @@ export default async function Home() {
                   In the case today
                 </h2>
                 <p className="mt-2 max-w-xl text-cream/85">
-                  The hand-scooped board both counters scoop from, rotating all
-                  the time. Last updated {updatedLabel}.
+                  The two counters scoop different cases, so here is each of
+                  them. Last updated {updatedLabel}.
                 </p>
               </div>
-              <Link
-                href="/flavors"
-                className="tap font-semibold text-cream underline-offset-4 hover:underline"
-              >
-                The full board →
-              </Link>
             </div>
           </Reveal>
-          <Reveal delay={90}>
-            <ul className="mt-8 flex flex-wrap gap-2.5">
-              {homemadeBoard.flavors.slice(0, 12).map((f) => (
-                <li
-                  key={f.name}
-                  className="rounded-full border border-cream/25 bg-cream/10 px-4 py-2 text-sm font-medium"
-                >
-                  {f.name}
-                </li>
-              ))}
-              {/* Only when there genuinely are more — a live board can shrink. */}
-              {homemadeCount > 12 ? (
-                <li>
-                  <Link
-                    href="/flavors"
-                    className="tap inline-flex rounded-full bg-cream px-4 py-2 text-sm font-semibold text-north-deep"
-                  >
-                    and {homemadeCount - 12} more
-                  </Link>
-                </li>
-              ) : null}
-            </ul>
-          </Reveal>
-          <Reveal delay={140}>
-            {/* "Whose case?" gets a one-tap answer, per shop. */}
-            <div className="mt-7 flex flex-wrap gap-x-8 gap-y-2">
-              {locations.map((l) => (
-                <Link
-                  key={l.key}
-                  href={shopCaseHref(l)}
-                  className="tap font-semibold text-cream underline-offset-4 hover:underline"
-                >
-                  The {l.name} board →
-                </Link>
-              ))}
-            </div>
-          </Reveal>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            {cases.map((c, i) => (
+              <Reveal key={c.shop.key} delay={90 + i * 80}>
+                <div className="h-full rounded-[--radius-panel] border border-cream/20 bg-cream/5 p-6">
+                  <h3 className="font-[family-name:var(--font-display)] text-2xl font-semibold">
+                    {c.shop.name}
+                  </h3>
+                  <p className="mt-1 text-sm text-cream/70">
+                    {c.total} flavors scooping today
+                  </p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {c.flavors.slice(0, 8).map((f) => (
+                      <li
+                        key={f.name}
+                        className="rounded-full border border-cream/25 bg-cream/10 px-3.5 py-1.5 text-sm font-medium"
+                      >
+                        {f.name}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-5">
+                    <Link
+                      href={shopCaseHref(c.shop)}
+                      className="tap font-semibold text-cream underline-offset-4 hover:underline"
+                    >
+                      Everything in the {c.shop.name} case →
+                    </Link>
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
       <MeltEdge color="var(--color-north-deep)" />

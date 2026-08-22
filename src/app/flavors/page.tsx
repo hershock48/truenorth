@@ -3,42 +3,83 @@ import Link from "next/link";
 import FlavorBoardCard from "@/components/FlavorBoardCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import ShopEntryLinks from "@/components/ShopEntryLinks";
-import { caseAll } from "@/data/liveCase";
-import { locations, shopCaseHref } from "@/data/site";
+import { caseFor } from "@/data/liveCase";
+import { locations, locationBySlug, orderHref, shopHref } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Flavors",
   description:
-    "What's in the case today at True North Ice Cream: hand-scooped flavors, soft serve, dairy-free scoops and sorbets, and 21+ adult flavors. Updated as the case changes.",
+    "What's in the case today at True North Ice Cream, shop by shop: hand-scooped flavors, soft serve, dairy-free scoops and sorbets, and 21+ adult flavors.",
   alternates: { canonical: "/flavors" },
 };
 
 /* ISR so the live board actually goes live — see the note in app/page.tsx. */
 export const revalidate = 60;
 
-export default async function FlavorsPage() {
-  const { boards, updatedLabel } = await caseAll();
+/*
+  ONE SHOP AT A TIME, ALWAYS.
+
+  This page used to merge both cases into a single list with "{Shop} only"
+  chips, and it was the site's worst screen: you could not tell whose case
+  you were reading, and the honest answer — "some of these, at one of our
+  two shops" — is useless to someone deciding where to drive. Worse, it
+  was actively misleading: Battle Creek scoops one hand-scooped flavor
+  today, and the merged page showed twelve.
+
+  So there is no merged view. Pick a shop; see that shop's case; every
+  heading says which shop it is.
+*/
+export default async function FlavorsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ at?: string }>;
+}) {
+  const { at } = await searchParams;
+  const shop = locationBySlug(at ?? "") ?? locations[0];
+  const { boards, updatedLabel } = await caseFor(shop.key);
+  const count = boards.reduce((n, b) => n + b.flavors.length, 0);
 
   return (
     <>
       <PageHero
         kicker="The board"
-        title="In the case today"
-        lede={`The case rotates through about forty-five flavors a month, so this board changes often. Last updated ${updatedLabel}. Anything one shop scoops alone is marked; everything else is at both counters.`}
+        title={`In the ${shop.name} case`}
+        lede={`${count} flavors scooping at our ${shop.name} shop right now — the case changes daily, and this list follows it. Last updated ${updatedLabel}.`}
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">
-        {/*
-          "Which board is mine?" answered before the boards, not after: one
-          tap into either shop's own page, where its board renders filtered.
-        */}
-        <ShopEntryLinks href={shopCaseHref} label={(l) => `The ${l.name} board`} />
+        {/* The shop is the first decision, and it is never implied. */}
+        <Reveal>
+          <div
+            role="tablist"
+            aria-label="Choose a shop"
+            className="mb-8 flex flex-wrap gap-3"
+          >
+            {locations.map((l) => {
+              const current = l.key === shop.key;
+              return (
+                <Link
+                  key={l.key}
+                  href={`/flavors?at=${l.slug}`}
+                  role="tab"
+                  aria-selected={current}
+                  className={`tap rounded-full px-6 py-3 font-semibold transition-colors ${
+                    current
+                      ? "bg-north-deep text-cream"
+                      : "border border-ink/20 text-ink hover:border-north-deep hover:text-north-deep"
+                  }`}
+                >
+                  {l.name}
+                </Link>
+              );
+            })}
+          </div>
+        </Reveal>
 
         <div className="grid gap-8 md:grid-cols-2">
           {boards.map((board, i) => (
             <Reveal key={board.key} delay={(i % 2) * 80}>
-              <FlavorBoardCard board={board} showShopTags />
+              <FlavorBoardCard board={board} />
             </Reveal>
           ))}
         </div>
@@ -51,25 +92,23 @@ export default async function FlavorsPage() {
               ID at the counter. Everything is made without added dyes, hormones, or stabilizers.
             </p>
             <p className="mt-3 text-ink-soft">
-              Chasing a favorite? Call your shop and we will tell you if it is
-              scooping:{" "}
-              {locations.map((l, i) => (
-                <span key={l.key}>
-                  {i > 0 ? " · " : ""}
-                  {l.name}{" "}
-                  <a
-                    href={l.phoneHref}
-                    className="font-medium text-north-deep underline-offset-4 hover:underline"
-                  >
-                    {l.phone}
-                  </a>
-                </span>
-              ))}
-              . Want a flavor made for your event or a custom cake?{" "}
-              <Link href="/catering" className="font-medium text-north-deep underline-offset-4 hover:underline">
-                We do special orders.
-              </Link>
+              Chasing a favorite? Call {shop.name} at{" "}
+              <a
+                href={shop.phoneHref}
+                className="font-medium text-north-deep underline-offset-4 hover:underline"
+              >
+                {shop.phone}
+              </a>{" "}
+              and we will tell you if it is in today.
             </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link href={orderHref(shop)} className="btn-primary text-sm">
+                Order from {shop.name}
+              </Link>
+              <Link href={shopHref(shop)} className="btn-secondary text-sm">
+                The {shop.name} shop
+              </Link>
+            </div>
           </div>
         </Reveal>
       </section>
