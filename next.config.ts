@@ -31,14 +31,25 @@ const nextConfig: NextConfig = {
   // to the build and would bury the real site under /demo on launch day.
   // Accepted wart: links are root-relative, so the /demo prefix drops off
   // after the first click. Nothing 404s.
-  // Delete the pitch file and these rewrites once the client signs or passes.
+  // Delete the pitch folder and these rewrites once the client signs or passes.
+  //
+  // The proposal is a FOLDER (public/pitch/truenorth/), not a lone html file,
+  // because it carries its own favicons and its own share card. Without them
+  // the page falls back to the origin root and a Glazed sales document goes
+  // out wearing the client's own mark and the demo's picture.
   async rewrites() {
     const onPitchHost = [{ type: "host" as const, value: "truenorth.glazedweb.com" }];
     return {
       beforeFiles: [
-        { source: "/", destination: "/pitch/truenorth.html", has: onPitchHost },
+        { source: "/", destination: "/pitch/truenorth/index.html", has: onPitchHost },
         { source: "/demo", destination: "/", has: onPitchHost },
         { source: "/demo/:path*", destination: "/:path*", has: onPitchHost },
+        // The proposal answers at "/" on the pitch host and NOWHERE else. Any
+        // other hostname (the .vercel.app name, the client's domain on launch
+        // day) asking for /pitch/... gets the 404 it should. Schulers has this
+        // guard; this build did not, which left the letter readable at a
+        // second address that nothing points at but anything can crawl.
+        { source: "/pitch/:path*", destination: "/_not-found", missing: onPitchHost },
       ],
     };
   },

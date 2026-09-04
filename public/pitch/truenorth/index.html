@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Glazed Web &times; True North Ice Cream &middot; Proposal</title>
+<meta name="description" content="A website proposal for True North Ice Cream in Marshall and Battle Creek, Michigan. Every claim links to the evidence.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Glazed Web">
+<meta property="og:url" content="https://truenorth.glazedweb.com/">
+<meta property="og:title" content="Can your website tell somebody what is in the case right now?">
+<meta property="og:description" content="A website proposal for True North Ice Cream, where every claim links to the proof.">
+<!--
+  KEVIN, BEFORE SENDING: /pitch/truenorth/og.jpg DOES NOT EXIST YET.
+  This letter's third finding is that their homepage has no share picture. If
+  this link gets pasted anywhere before that file is rendered, the letter
+  commits the exact fault it is auditing. Render it at 1200x630, under 1MB,
+  everything readable between x=285 and x=915, nothing under 28px, headline =
+  the h1 question. The demo's own card stays at /og.jpg and is a DIFFERENT
+  file (glaze/link-cards.md): demo card says what the business is, proposal
+  card says what the letter argues.
+-->
+<meta property="og:image" content="https://truenorth.glazedweb.com/pitch/truenorth/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Can your website tell somebody what is in the case right now? A proposal from Glazed Web.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Can your website tell somebody what is in the case right now?">
+<meta name="twitter:description" content="A website proposal for True North Ice Cream, where every claim links to the proof.">
+<meta name="twitter:image" content="https://truenorth.glazedweb.com/pitch/truenorth/og.jpg">
+<meta name="theme-color" content="#FDF6EC">
+<!--
+  Icons are declared with ABSOLUTE paths and they are not optional. "/" and
+  "/demo" are rewrites on this host, so a relative icon path resolves against
+  the rewritten route and misses. Undeclared, the page falls back to
+  /favicon.ico at the origin root, and a Glazed sales document goes out
+  wearing the client's own mark. SVG first, .ico second: Safari will not take
+  an SVG through rel=icon.
+-->
+<link rel="icon" href="/pitch/truenorth/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/pitch/truenorth/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="256x256" href="/pitch/truenorth/icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/pitch/truenorth/apple-touch-icon.png">
+<style>
+/*
+  One stylesheet, one file, no build step, so this page can be hand-edited on a
+  phone if a call goes sideways.
+
+  A deliberate single look, warm paper, in every viewer setting. color-scheme
+  is pinned to light and every colour on the page is stated rather than
+  inherited, so a reader whose phone is in dark mode gets the same readable
+  document instead of a browser's guess at inverting it.
+*/
+:root{
+ --paper:#FDF6EC; --card:#FFFDF8;
+ --ink:#2B1E16; --ink2:#201712; --body:#6B5747; --mute:#7A6753; --line:#E8DCC8;
+ --pink:#E84D8A; --pink-d:#CE3672; --pink-t:#FCE7F0;
+ /* Pink that has to survive on the paper background rather than on a card:
+    --pink-d measures 4.45 there, a fail, and 4.7 on --card, which is why the
+    same colour passes inside a claim and fails outside one. Token, not
+    element. */
+ --pink-ink:#C9356F;
+ --green:#BFE07A; --green-b:#A9D65C; --green-d:#467C3D; --green-t:#F1F8DC;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+/* The base size is a working knob only if it is set where rem resolves.
+   Children here are sized in rem, so the number lives on html. */
+html{font-size:16.5px;background:var(--paper)}
+/*
+  overflow-wrap is the 320px guard, and this document is full of the tokens
+  that need it: scooplist.glazedweb.com/login/truenorth is 39 unbreakable
+  characters and truenorthicecream@gmail.com is 27. Nothing rect-based catches
+  them, because a bare text node is not an element and the paragraph's border
+  box stays put while its line overflows. break-word only fires when a single
+  token cannot fit its line, so nothing else on the page moves.
+*/
+body{background:var(--paper);color:var(--body);font-family:var(--sans);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4,.k,nav,.num{font-family:var(--sans)}
+.k{font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--green-d)}
+h2{font-size:clamp(30px,4.4vw,48px);font-weight:800;color:var(--ink);letter-spacing:-1.6px;line-height:1.08;margin:10px 0 14px}
+h3{font-size:19px;font-weight:800;color:var(--ink);margin:34px 0 10px;letter-spacing:-.4px}
+p{margin:0 0 14px}
+strong{color:var(--ink);font-weight:600}
+a{color:var(--pink-ink)}
+.rule{height:3px;width:52px;background:var(--pink);border-radius:2px;margin:0 0 18px}
+/* scroll-margin parks an anchored eyebrow under the 62px sticky bar instead
+   of behind it. */
+section{padding:60px 0;border-top:1px solid var(--line);scroll-margin-top:78px}
+section:first-of-type{border-top:0}
+
+/* header */
+header{position:sticky;top:0;z-index:60;background:rgba(253,246,236,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand .gmark{height:38px;width:auto;margin-bottom:-6px}
+.bstack{display:flex;flex-direction:column;line-height:1.15}
+.brand .bw{font-family:var(--sans);font-weight:800;font-size:19px;color:var(--ink);letter-spacing:-.6px;line-height:1.1}
+.brand .bw span{font-weight:350;color:var(--mute)}
+.brand .forname{font-size:.72rem;color:var(--mute);font-style:italic}
+nav{display:flex;gap:22px;align-items:center;font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+nav a{color:var(--mute);text-decoration:none;white-space:nowrap}
+nav a:hover{color:var(--pink-d)}
+/* The one action worth carrying on every scroll wears the letter's own pill,
+   the same shape as the verify buttons, so the header's CTA and the body's
+   evidence links read as one family. */
+nav .navcta{border:1.5px solid var(--pink);color:var(--pink-ink);padding:7px 14px;border-radius:999px;transition:all .16s}
+nav .navcta:hover{background:var(--pink);color:#fff}
+@media(max-width:720px){nav{display:none}.brand .forname{display:none}}
+
+/* hero */
+.hero{padding:66px 0 54px;text-align:left}
+.hero .gmark{height:96px;width:auto;margin-bottom:24px}
+/* Capped at 47px, not DeVine's 60. The question is thirty characters a line
+   and the wrap is 712px inside: at 60px the first line measures 884px and the
+   three deliberate line breaks stop meaning anything, because the browser
+   re-breaks each of them in the wrong place. The cap is set from that
+   measurement, not from taste. */
+.hero h1{font-family:var(--sans);font-size:clamp(38px,5.5vw,47px);font-weight:800;color:var(--ink);letter-spacing:-2px;line-height:1.06}
+.hero h1 em{font-style:normal;color:var(--pink)}
+.hero .sub{font-size:1.12rem;color:var(--body);margin-top:20px;max-width:31em}
+.forwho{margin-top:26px;font-family:var(--sans);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);line-height:1.9}
+.forwho b{color:var(--ink)}
+/* The nav hides below 720px on a document that asks to be read on a phone, so
+   both of its destinations ride this row as well and mobile never loses them. */
+.herocta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:22px 0 0}
+.herocta a{display:inline-block;background:var(--pink-d);color:#fff;font-family:var(--sans);font-weight:700;font-size:.82rem;letter-spacing:.05em;text-transform:uppercase;padding:15px 26px;border-radius:999px;text-decoration:none;box-shadow:0 6px 16px -6px rgba(206,54,114,.55);transition:transform .15s ease,background .15s ease}
+.herocta a:hover{background:var(--green);color:var(--ink);transform:translateY(-2px)}
+.herocta a.ghost{background:transparent;color:var(--ink);box-shadow:none;border:1.5px solid var(--line)}
+.herocta a.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.herocta span{font-size:.9rem;color:var(--mute);max-width:28em}
+@media(max-width:520px){.herocta a{width:100%;text-align:center}}
+
+/* tldr */
+.tldr{background:var(--ink);color:#F6EFE4;border-radius:16px;padding:26px 26px 22px;margin-top:38px}
+.tldr .k{color:var(--green)}
+.tldr ul{list-style:none;margin:14px 0 0}
+.tldr li{display:flex;gap:12px;padding:9px 0;border-top:1px solid rgba(255,255,255,.1);font-size:.97rem;line-height:1.5}
+.tldr li:first-child{border-top:0}
+.tldr .n{font-family:var(--sans);font-weight:800;color:var(--green);flex:0 0 auto;font-size:.8rem;padding-top:3px}
+.tldr b{color:#fff}
+.tldr a{color:var(--green)}
+
+/* The thesis box. ONE per letter, for the sentence the whole pitch hangs on.
+   A second one dilutes the first, which is the mistake this file does not
+   repeat. */
+.gap{background:var(--pink-t);border-left:5px solid var(--pink);border-radius:0 13px 13px 0;padding:24px 26px;margin:30px 0 14px}
+.gap .big{font-family:var(--sans);font-weight:800;font-size:1.35rem;line-height:1.3;color:var(--ink);letter-spacing:-.3px;margin:0 0 12px}
+.gap p{margin:0;font-size:1rem;line-height:1.65}
+
+/* claim cards */
+.claim{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 20px;margin:12px 0;transition:border-color .16s,transform .16s}
+.claim:hover{border-color:var(--pink);transform:translateY(-1px)}
+.claim h4{font-family:var(--sans);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+.claim p{font-size:.95rem;margin:0 0 10px}
+.claim p:last-of-type{margin-bottom:0}
+.verify{display:inline-flex;align-items:center;gap:7px;margin-top:12px;margin-right:6px;font-family:var(--sans);font-size:.71rem;font-weight:700;
+ letter-spacing:.1em;text-transform:uppercase;color:var(--pink-d);text-decoration:none;border:1.5px solid var(--pink);
+ padding:7px 13px;border-radius:999px;transition:all .16s}
+.verify:hover{background:var(--pink);color:#fff}
+/* Not a link, so not an <a>. An anchor with no href is unfocusable and
+   announces as nothing. */
+.verify.plain{border-color:var(--line);color:var(--mute);cursor:default}
+.verify.plain:hover{background:transparent;color:var(--mute)}
+/* Same pill outside a claim card, where it sits on paper rather than on a
+   card and needs the darker token. */
+.verify.loose{color:var(--pink-ink);letter-spacing:.08em;padding:7px 14px}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:.83em;color:var(--mute)}
+
+/* price */
+.pricebox{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.pricebox>div{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:20px}
+.pricebox .n{font-family:var(--sans);font-size:2rem;font-weight:800;color:var(--ink);letter-spacing:-.03em;line-height:1}
+.pricebox .per{font-size:1rem;color:var(--mute)}
+.pricebox .l{font-size:.85rem;color:var(--mute);margin-top:7px;line-height:1.4}
+@media(max-width:600px){.pricebox{grid-template-columns:1fr}}
+/* The market figure is struck and static, never animated into place. A reader
+   with scripts blocked has to be looking at the price we are charging, so the
+   real number is what sits in the markup and the anchor is only ever context
+   beside it. */
+.anchor{font-size:.9rem;color:var(--mute);margin:0 0 4px}
+.anchor s{color:var(--mute)}
+
+/* demo panels */
+.demo{background:linear-gradient(135deg,#201712,#3A2416);color:#F6EFE4;border-radius:18px;padding:32px;margin:22px 0;text-align:center}
+.demo .k{color:var(--green)}
+.demo h3{color:#fff;margin:10px 0 8px;font-size:1.4rem}
+/* margin:0 auto, and not overridden inline. A max-width block inside a centred
+   parent pins to the left edge with margin:0 and only its text centres, which
+   reads as crooked against the eyebrow above it. */
+.demo p{color:#D8CBBA;font-size:.98rem;max-width:34em;margin:0 auto}
+.demo strong,.demo b{color:#fff}
+.demo a.cta{display:inline-block;background:var(--pink-d);color:#fff;font-family:var(--sans);font-weight:700;font-size:.82rem;box-shadow:0 6px 16px -6px rgba(206,54,114,.55);
+ letter-spacing:.09em;text-transform:uppercase;padding:15px 30px;border-radius:999px;text-decoration:none;transition:all .18s;
+ max-width:100%;text-indent:.09em;box-sizing:border-box}
+.demo a.cta:hover{background:var(--green);color:var(--ink);transform:translateY(-2px)}
+/* An inline link inside the dark panel is a LINK. The pill above used to
+   apply to every a in here, which put a full-size button in the middle of a
+   sentence and gave the Scooplist address more visual weight than the one
+   action this letter asks for. */
+.demo a:not(.cta){color:var(--green);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.demo a:not(.cta):hover{color:#fff}
+.demo .fine{font-size:.84rem;opacity:.72;margin-top:18px}
+/* Modifier classes, not inline style attributes, so the next one of these is
+   a copy rather than a hand job. */
+.demo--left{text-align:left}
+.demo--left p{max-width:none;margin:0 0 12px}
+.demo--left p:last-child{margin-bottom:0}
+.demo--light{background:var(--card);color:var(--body);border:2px solid var(--green)}
+.demo--light .k{color:var(--green-d)}
+.demo--light h3{color:var(--ink)}
+.demo--light p{color:var(--body)}
+.demo--light strong{color:var(--ink)}
+/*
+  On a phone a long address is nearly as wide as the card, and an inline-block
+  that outgrows its line does not centre, it overflows right, with its shadow
+  running under the card edge. Smaller type and tighter padding put it back
+  inside, which matters because this is a button we are asking somebody to
+  press on exactly this screen.
+*/
+@media(max-width:430px){
+ .demo{padding:26px 18px}
+ .demo a{font-size:.72rem;padding:14px 20px;letter-spacing:.06em;text-indent:.06em}
+}
+
+/* the proof list: measured or checkable claims, so they get ticks rather than
+   bullets. Nothing goes in here that has not been run. */
+.proof{list-style:none;margin:10px 0 4px}
+.proof li{position:relative;padding:7px 0 7px 26px;font-size:.97rem;border-top:1px solid var(--line)}
+.proof li:first-child{border-top:0}
+.proof li::before{content:"";position:absolute;left:2px;top:15px;width:9px;height:9px;border-radius:50%;background:var(--green-b)}
+.proof b{color:var(--ink)}
+
+/* steps */
+.step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.step .no{font-family:var(--sans);font-weight:800;font-size:.78rem;color:#fff;background:var(--pink);width:28px;height:28px;
+ border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.step h4{font-family:var(--sans);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:4px}
+.step p{font-size:.95rem;margin:0 0 10px}
+.step p:last-child{margin-bottom:0}
+/*
+  The 320px bug in every flex row on this page, and the reason the body's
+  overflow-wrap is not enough on its own. A flex item's min-width defaults to
+  auto, so it refuses to shrink below the widest unbreakable token inside it,
+  and overflow-wrap:break-word does not move min-content. glazedweb.com/
+  agreement/truenorth in step two is 33 characters and pushed the whole row
+  past the viewport at 320. min-width:0 lets the item shrink to its container;
+  the wrap rule then does the breaking. Applies to every flex child that holds
+  running text.
+*/
+.step>div,.tldr li>span,footer .wrap>div{min-width:0}
+
+.verdict{background:var(--green-t);border:1.5px solid var(--green);border-radius:12px;padding:17px 19px;font-size:.98rem;line-height:1.55;margin:14px 0}
+.verdict b{color:var(--ink)}
+.verdict p{margin:0 0 10px}
+.verdict p:last-child{margin:0}
+
+footer{background:var(--ink);color:#B9A894;padding:44px 0;font-size:.86rem;margin-top:20px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer .gmark{height:78px;width:auto;opacity:.95}
+footer .bw{display:block;font-weight:800;font-size:21px;color:#F6EFE4;letter-spacing:-.6px;margin-bottom:5px}
+footer .bw span{font-weight:350;color:#A6907F}
+footer a{color:var(--green)}
+.conf{font-size:.72rem;color:#D8CBBA;margin-top:14px;letter-spacing:.04em}
+.note{font-size:.85rem;color:var(--mute);font-style:italic;line-height:1.5}
+.note+.note{margin-top:10px}
+
+/* --- the mark, and its drip, lifted from glazedweb.com --- */
+/* The gradients are defined ONCE, here, and the three copies of the mark
+   reference them. Three inlined <defs> blocks with the same ids is the bug
+   that gets copied forward every time this stylesheet moves. */
+.gdefs{position:absolute;width:0;height:0;overflow:hidden}
+.gmark{display:block;overflow:visible}
+.gmark .goo{transform-box:fill-box;transform-origin:50% 0;animation:breathe 6s ease-in-out infinite}
+.gmark .wob1,.gmark .wob2,.gmark .wob3,.gmark .wobB{transform-box:fill-box;transform-origin:50% 0}
+.gmark .wob1{animation:sagg 3.8s ease-in-out -.6s infinite}
+.gmark .wob2{animation:sagg 4.9s ease-in-out -2.1s infinite}
+.gmark .wob3{animation:sagg 4.3s ease-in-out -1.3s infinite}
+.gmark .wobB{animation:sagg 5.6s ease-in-out -3s infinite}
+.gmark .string{transform-box:fill-box;transform-origin:50% 0;animation:stringy 3.4s cubic-bezier(.55,.1,.8,.5) infinite}
+.gmark .droplet{transform-box:fill-box;transform-origin:center;animation:fall 3.4s cubic-bezier(.5,.08,.85,.6) infinite}
+.gmark .droplet2{transform-box:fill-box;transform-origin:center;animation:fall2 5.1s cubic-bezier(.5,.08,.85,.6) -2.4s infinite}
+@keyframes breathe{0%,to{transform:scaleY(1)}50%{transform:scaleY(1.02)}}
+@keyframes sagg{0%,to{transform:scaleY(1) scaleX(1)}50%{transform:scaleY(1.07) scaleX(.98)}}
+@keyframes stringy{0%{transform:scaleY(.1);opacity:0}25%{transform:scaleY(.8);opacity:1}60%{transform:scaleY(1.7);opacity:.85}80%{transform:scaleY(2.4);opacity:0}to{transform:scaleY(.1);opacity:0}}
+@keyframes fall{0%{transform:translateY(-16px) scaleY(1.5) scaleX(.7);opacity:0}22%{transform:translateY(-8px) scaleY(1.2) scaleX(.85);opacity:1}60%{transform:translateY(10px) scale(1);opacity:1}to{transform:translateY(38px) scaleY(1.15) scaleX(.9);opacity:0}}
+@keyframes fall2{0%{transform:translateY(-10px) scaleY(1.4) scaleX(.75);opacity:0}25%{transform:translateY(-4px) scale(1);opacity:1}65%{transform:translateY(8px) scale(1);opacity:1}to{transform:translateY(26px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .gmark .goo,.gmark .wob1,.gmark .wob2,.gmark .wob3,.gmark .wobB,
+ .gmark .string,.gmark .droplet,.gmark .droplet2{animation:none}
+ .claim:hover,.herocta a:hover,.demo a:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<svg class="gdefs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="gwDark" x1="0" y1="92" x2="0" y2="165" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#5FA850"></stop><stop offset="100%" stop-color="#43813A"></stop></linearGradient>
+<linearGradient id="gwLight" x1="0" y1="92" x2="0" y2="215" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#D9EDA0"></stop><stop offset="55%" stop-color="#BFE07A"></stop><stop offset="100%" stop-color="#A3CE55"></stop></linearGradient>
+<radialGradient id="gwPink" cx="40%" cy="34%" r="75%"><stop offset="0%" stop-color="#F887B2"></stop><stop offset="55%" stop-color="#E84D8A"></stop><stop offset="100%" stop-color="#CE3672"></stop></radialGradient>
+<linearGradient id="gwCreep" x1="0" y1="90" x2="0" y2="124" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#E3F2B0"></stop><stop offset="100%" stop-color="#C3E181"></stop></linearGradient>
+</defs></svg>
+
+<header><div class="wrap">
+ <a class="brand" href="#top" aria-label="Glazed Web">
+  <svg class="gmark" viewBox="0 0 200 250" overflow="visible" aria-hidden="true"><g class="goo"><g fill="url(#gwDark)"><ellipse cx="100" cy="110" rx="38" ry="15"></ellipse><path class="wobB" d="M 86 100 C 86 116, 87 130, 88 142 C 88 148, 91 149, 92 142 C 93 130, 92 114, 92 100 Z"></path><path d="M 114 100 C 114 112, 115 124, 116 134 C 116 140, 119 141, 120 134 C 121 124, 120 110, 120 100 Z"></path></g><g fill="url(#gwLight)"><path class="wob1" d="M 64 100 C 63 120, 65 138, 66 152 C 66 164, 68 172, 74 173 C 80 172, 83 165, 82 154 C 84 136, 85 116, 86 100 Z"></path><path class="wob2" d="M 92 100 C 91 128, 93 152, 94 172 C 94 188, 97 199, 104 200 C 111 199, 114 190, 112 174 C 113 150, 114 124, 114 100 Z"></path><path class="wob3" d="M 120 100 C 119 116, 120 130, 121 142 C 121 152, 123 159, 129 160 C 134 159, 137 153, 135 144 C 136 130, 137 114, 137 100 Z"></path></g></g><path class="string" d="M 104 199 L 104 209" stroke="#BFE07A" stroke-width="2.5" stroke-linecap="round" fill="none"></path><g class="droplet"><circle cx="104" cy="213" r="7" fill="#BFE07A"></circle><circle cx="102" cy="211" r="2" fill="#F1F8DC" opacity="0.9"></circle></g><circle class="droplet2" cx="74" cy="186" r="4.5" fill="#BFE07A"></circle><circle cx="100" cy="70" r="52" fill="url(#gwPink)"></circle><path d="M 56 98 A 52 52 0 0 0 144 98 C 142 94, 138 92, 134 94 C 130 97, 129 102, 125 104 C 119 106, 116 98, 110 96 C 104 94, 103 102, 98 105 C 93 107, 90 100, 84 97 C 78 95, 76 100, 71 102 C 66 103, 62 100, 56 98 Z" fill="url(#gwCreep)"></path><path d="M 68 106 A 42 42 0 0 0 84 116" fill="none" stroke="#F1F8DC" stroke-width="4" stroke-linecap="round" opacity="0.85"></path><path d="M 97 144 Q 103 151 109 144" fill="none" stroke="#55974A" stroke-width="4" stroke-linecap="round"></path><g stroke="#F1F8DC" fill="none" stroke-linecap="round"><path d="M 97 128 C 96 148, 97 166, 100 182" stroke-width="4.5" opacity="0.85"></path><path d="M 69 118 C 68 132, 70 146, 71 156" stroke-width="3.5" opacity="0.8"></path><path d="M 124 114 C 123 124, 125 138, 126 148" stroke-width="3.5" opacity="0.8"></path></g><circle cx="100" cy="192" r="2.5" fill="#F1F8DC" opacity="0.9"></circle><circle cx="100" cy="72" r="13" fill="#FDF6EC"></circle><circle cx="100" cy="72" r="13" fill="none" stroke="#C22F6B" stroke-width="3" opacity="0.3"></circle><path d="M 62 46 A 44 44 0 0 1 82 28" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"></path><circle cx="92" cy="26" r="3.5" fill="#FFFFFF"></circle></svg>
+  <span class="bstack"><span class="bw">glazed<span>web</span></span><span class="forname">for True North</span></span>
+ </a>
+ <!-- Four destinations since 2026-09-04. The August nav listed four of five
+      sections, omitted the last one, and vanished below 720px on a letter
+      that asks to be read on a phone. Both CTAs are duplicated in the hero
+      row for exactly that reason. -->
+ <nav>
+  <a href="#cost">Cost</a><a href="#next">Next</a><a href="/demo">The site</a><a class="navcta" href="https://www.glazedweb.com/schedule" target="_blank" rel="noopener">Book the call &#8599;</a>
+ </nav>
+</div></header>
+
+<main>
+<div class="hero" id="top"><div class="wrap">
+ <svg class="gmark" viewBox="0 0 200 250" overflow="visible" aria-hidden="true"><g class="goo"><g fill="url(#gwDark)"><ellipse cx="100" cy="110" rx="38" ry="15"></ellipse><path class="wobB" d="M 86 100 C 86 116, 87 130, 88 142 C 88 148, 91 149, 92 142 C 93 130, 92 114, 92 100 Z"></path><path d="M 114 100 C 114 112, 115 124, 116 134 C 116 140, 119 141, 120 134 C 121 124, 120 110, 120 100 Z"></path></g><g fill="url(#gwLight)"><path class="wob1" d="M 64 100 C 63 120, 65 138, 66 152 C 66 164, 68 172, 74 173 C 80 172, 83 165, 82 154 C 84 136, 85 116, 86 100 Z"></path><path class="wob2" d="M 92 100 C 91 128, 93 152, 94 172 C 94 188, 97 199, 104 200 C 111 199, 114 190, 112 174 C 113 150, 114 124, 114 100 Z"></path><path class="wob3" d="M 120 100 C 119 116, 120 130, 121 142 C 121 152, 123 159, 129 160 C 134 159, 137 153, 135 144 C 136 130, 137 114, 137 100 Z"></path></g></g><path class="string" d="M 104 199 L 104 209" stroke="#BFE07A" stroke-width="2.5" stroke-linecap="round" fill="none"></path><g class="droplet"><circle cx="104" cy="213" r="7" fill="#BFE07A"></circle><circle cx="102" cy="211" r="2" fill="#F1F8DC" opacity="0.9"></circle></g><circle class="droplet2" cx="74" cy="186" r="4.5" fill="#BFE07A"></circle><circle cx="100" cy="70" r="52" fill="url(#gwPink)"></circle><path d="M 56 98 A 52 52 0 0 0 144 98 C 142 94, 138 92, 134 94 C 130 97, 129 102, 125 104 C 119 106, 116 98, 110 96 C 104 94, 103 102, 98 105 C 93 107, 90 100, 84 97 C 78 95, 76 100, 71 102 C 66 103, 62 100, 56 98 Z" fill="url(#gwCreep)"></path><path d="M 68 106 A 42 42 0 0 0 84 116" fill="none" stroke="#F1F8DC" stroke-width="4" stroke-linecap="round" opacity="0.85"></path><path d="M 97 144 Q 103 151 109 144" fill="none" stroke="#55974A" stroke-width="4" stroke-linecap="round"></path><g stroke="#F1F8DC" fill="none" stroke-linecap="round"><path d="M 97 128 C 96 148, 97 166, 100 182" stroke-width="4.5" opacity="0.85"></path><path d="M 69 118 C 68 132, 70 146, 71 156" stroke-width="3.5" opacity="0.8"></path><path d="M 124 114 C 123 124, 125 138, 126 148" stroke-width="3.5" opacity="0.8"></path></g><circle cx="100" cy="192" r="2.5" fill="#F1F8DC" opacity="0.9"></circle><circle cx="100" cy="72" r="13" fill="#FDF6EC"></circle><circle cx="100" cy="72" r="13" fill="none" stroke="#C22F6B" stroke-width="3" opacity="0.3"></circle><path d="M 62 46 A 44 44 0 0 1 82 28" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"></path><circle cx="92" cy="26" r="3.5" fill="#FFFFFF"></circle></svg>
+ <div class="k">Website proposal &middot; True North Ice Cream</div>
+ <h1>Can your website tell somebody<br>what is in the case right now?<br><em>Not yet.</em></h1>
+ <p class="sub">We went through truenorthicecream.com page by page on September 4, 2026, and wrote down only what we could prove. Every claim below carries the link it came from, so you can check us.</p>
+ <div class="forwho">
+  Prepared by <b>Kevin Hershock &middot; Glazed Web</b><br>
+  Marshall, Michigan &middot; September 2026<br>
+  <b>Every claim below links to the evidence.</b>
+ </div>
+ <p class="herocta"><a href="/demo">See the new site &#8599;</a><a class="ghost" href="https://www.glazedweb.com/schedule" target="_blank" rel="noopener">Book the call &#8599;</a><span>Built already, with your flavors, your prices and your two shops in it. The flavor board on it is live from your own case.</span></p>
+
+ <div class="tldr">
+  <div class="k">The short version</div>
+  <ul>
+   <li><span class="n">01</span><span>One website, two shops. Your header says you open at noon and the line directly under it says two o'clock. <b>Both are true and neither says which shop.</b></span></li>
+   <li><span class="n">02</span><span>Share your address in a text message and <b>the preview has no picture in it</b>. On an ice cream shop.</span></li>
+   <li><span class="n">03</span><span>Your flavors page has not changed since <b>February 1, 2025</b>, and it does not say which shop scoops what.</span></li>
+   <li><span class="n">04</span><span>Catering is your biggest ticket and that page has <b>no form on it at all</b>.</span></li>
+   <li><span class="n">05</span><span>The rebuild is live at <a class="cta" href="/demo">truenorth.glazedweb.com/demo</a>, and its flavor board <b>is already reading from your case</b>, not from a file we type.</span></li>
+  </ul>
+ </div>
+</div></div>
+
+<section id="found" aria-labelledby="h-found"><div class="wrap">
+ <div class="k">Section one</div>
+ <div class="rule"></div>
+ <h2 id="h-found">What we found.</h2>
+
+ <p>First, what this is not. It is not a critique of your ice cream or your shops. You make it in the shop, daily, and Marshall alone has <strong>625 Google reviews averaging 4.7</strong>. The product is not the problem. The problem is that the website undersells it, and the case you rebuild behind the counter every day never reaches anybody who is not standing in front of it.</p>
+
+ <p>Worth saying too, because it is true: plenty on your site is right. Both shop numbers in your header are tap-to-call, so a customer on a phone reaches you in one press. Your flavors page carries allergen marks. Your menu publishes real prices instead of asking people to phone for them. Your copyright line reads 2026. Every photograph on your homepage is served from your own address, exactly one script on the page comes from anybody else's server, and there is no web company's name in your footer using your shop as an advertisement. Plenty of local businesses can say none of that. What follows is the part that is costing you customers, read out of your own pages on <strong>September 4, 2026</strong>, with a link on every claim so you can check it yourself.</p>
+
+ <div class="claim">
+  <h4>The hours contradict themselves on the same screen</h4>
+  <p>The strip across the top of every page reads <span class="mono">Mon-Sun 12-9pm</span>. The first paragraph of your homepage, sitting directly underneath it, reads <span class="mono">Open 2-9pm every day.</span> Both numbers are correct. Marshall opens at noon and Battle Creek opens at two. Nothing on the page says which is which, so a customer reads one screen that disagrees with itself and believes whichever line their eye landed on.</p>
+  <a class="verify" href="https://truenorthicecream.com/" target="_blank" rel="noopener">Your homepage &#8599;</a>
+ </div>
+
+ <div class="claim">
+  <h4>Google is handed one of those times, and for Marshall it is the wrong one</h4>
+  <p>The gray summary printed under your name in a search result comes from one sentence buried in your homepage: <span class="mono">We believe in the magic of homemade ice cream. Made daily in our shop in Marshall, MI. Open 2-9 pm every day.</span> That identical sentence is also what a shared link shows and what the page tells search engines about itself. It puts Battle Creek's opening time next to the words <em>our shop in Marshall</em>. At one o'clock on a Saturday it tells a family standing on Kalamazoo Avenue that you do not open for another hour.</p>
+  <a class="verify" href="https://truenorthicecream.com/" target="_blank" rel="noopener">Your homepage &#8599;</a>
+  <a class="verify" href="https://www.google.com/search?q=true+north+ice+cream+marshall" target="_blank" rel="noopener">Search your own name &#8599;</a>
+ </div>
+
+ <div class="claim">
+  <h4>Shared links show no picture</h4>
+  <p>A link preview is built from a handful of tags in the page. Your homepage carries six of them and the one that holds the photograph is not among them. It also asks for the big-picture layout by name, <span class="mono">summary_large_image</span>, with no picture to put in it. So a customer who texts your address to a friend sends a headline and a gray box. You sell the most photogenic product in town.</p>
+  <span class="verify plain">Paste your web address into Messenger and watch the preview</span>
+ </div>
+
+ <div class="claim">
+  <h4>Search engines have no business record for you</h4>
+  <p>Underneath every page sits a block of machine-readable facts, the part a search engine reads instead of guessing. Yours describes a website. It carries a breadcrumb trail, an organization, a page, a site and a search box. It carries no street address, no opening time, no phone number and no menu, for either shop. Your addresses, your hours and your entire price list are on the site for people and exist nowhere a machine can read them, which is why Google is left inventing your hours out of that one sentence.</p>
+  <a class="verify" href="https://truenorthicecream.com/" target="_blank" rel="noopener">Your homepage &#8599;</a>
+ </div>
+
+ <div class="claim">
+  <h4>The whole site is six pages, and neither shop has one</h4>
+  <p>Your sitemap lists six pages with the date each was last changed: the homepage (March 29, 2025), About (October 25, 2024), Contact (November 11, 2024), Flavors (February 1, 2025), Menu (February 1, 2025), and Catering and Events (February 3, 2026). There is no Marshall page and no Battle Creek page. Somebody in Battle Creek typing <em>ice cream near me</em> has nothing of yours to land on, and the same is true in Marshall.</p>
+  <a class="verify" href="https://truenorthicecream.com/page-sitemap.xml" target="_blank" rel="noopener">Your sitemap &#8599;</a>
+ </div>
+
+ <div class="claim">
+  <h4>The flavors page has been frozen for nineteen months</h4>
+  <p>Its last change was February 1, 2025, nineteen months and three days ago. It lists forty-one flavors in four sections, and it opens by telling the reader <span class="mono">Our Flavors are Always Changing!</span> One of them is spelled <span class="mono">Strawberry Lemondade</span> on the line directly above a description that spells lemonade correctly.</p>
+  <p>The explanation is the useful part. On February 3, 2026 somebody did real work on this site: sixty-five menu items touched and four new menu categories built. The flavors page did not move, because its list is typed into the page by hand rather than pulled from the menu. It was left behind by your own update, and it will be left behind by the next one.</p>
+  <a class="verify" href="https://truenorthicecream.com/flavors/" target="_blank" rel="noopener">The flavors page &#8599;</a>
+  <a class="verify" href="https://truenorthicecream.com/page-sitemap.xml" target="_blank" rel="noopener">The dates &#8599;</a>
+ </div>
+
+ <div class="claim">
+  <h4>Catering cannot be booked</h4>
+  <p>There is no form on your catering page. Not a short one, not a broken one. There is no field to type into anywhere on it, and no booking tool embedded either. The page tells the reader to email <span class="mono">truenorthicecream@gmail.com</span> or call <span class="mono">(517) 937-6299</span>, and that number is plain text rather than a link, so on a phone it cannot be tapped. It is also a third number in a third area code, sitting on a site whose own header carries two 269 numbers.</p>
+  <p>Your published catering prices run up to a tier called <span class="mono">301 and up</span>. That booking currently arrives, if it arrives, as a Gmail thread containing whatever details the customer happened to think of.</p>
+  <a class="verify" href="https://truenorthicecream.com/catering-events/" target="_blank" rel="noopener">The catering page &#8599;</a>
+ </div>
+
+ <div class="claim">
+  <h4>The contact page maps one shop</h4>
+  <p>There is one map on it and it is pinned to <span class="mono">403+S+Kalamazoo+Ave</span>. Battle Creek gets a line of text, 928 W Columbia Ave, with no map, no pin and no directions link, so anybody heading there has to copy the address out of the page and paste it somewhere else.</p>
+  <p>Your one working form is on this page as well: name, email, message. It is a perfectly good contact form and it captures nothing a caterer needs. The catering page never links to it.</p>
+  <a class="verify" href="https://truenorthicecream.com/contact/" target="_blank" rel="noopener">The contact page &#8599;</a>
+ </div>
+
+ <div class="claim">
+  <h4>Your Marshall Google listing says you open at midnight on Friday</h4>
+  <p>Six days a week it reads <span class="mono">12-9 PM</span>. Friday reads <span class="mono">12 AM-9 PM</span>. One character, and it has travelled: Yelp shows <span class="mono">12:00 AM - 9:00 PM</span>, Bing writes it out as <span class="mono">Midnight - 9 PM</span>, MapQuest has <span class="mono">Fri 12 am - 9 pm</span>, and Restaurantji refreshed its page on September 2, 2026 and still carries it. Restaurantji's web address for you also still contains the shop's old name.</p>
+  <p>Battle Creek has a quieter version of the same problem. Google and Bing say that shop opens at two. Yelp and MapQuest say noon. The Battle Creek Yelp page is unclaimed, so nobody there can correct it today even if they wanted to.</p>
+  <a class="verify" href="https://www.google.com/maps/search/True+North+Ice+Cream+403+S+Kalamazoo+Ave+Marshall+MI+49068" target="_blank" rel="noopener">Marshall on Google &#8599;</a>
+  <a class="verify" href="https://www.yelp.com/biz/true-north-ice-cream-marshall" target="_blank" rel="noopener">Marshall on Yelp &#8599;</a>
+  <a class="verify" href="https://www.restaurantji.com/mi/marshall/side-track-ice-cream-/" target="_blank" rel="noopener">Restaurantji &#8599;</a>
+  <a class="verify" href="https://www.yelp.com/biz/true-north-icecream-battle-creek" target="_blank" rel="noopener">Battle Creek on Yelp &#8599;</a>
+ </div>
+
+ <div class="gap">
+  <p class="big">None of the nine is the real one.</p>
+  <p>The real one is that your website was built for one ice cream shop and you
+  now run two. Every finding above is that single fact showing up somewhere
+  different. One set of hours, so the page argues with itself. One description,
+  so Marshall is handed Battle Creek's opening time. One map, so Battle Creek is
+  an address in a paragraph. One flavor list, so it cannot say which case a
+  flavor is in. Six pages, and neither shop has one. A family in Marshall at one
+  on a Saturday reads Google and decides you are shut. Somebody planning a
+  wedding at eleven at night finds your catering page and has nothing to press.
+  Nobody was careless. The website is answering with the only answer it has.</p>
+ </div>
+
+ <p class="note">How this was done, and what was not done. Everything above was
+ read out of your own pages and your own listings on September 4, 2026, and
+ every claim carries the link that proves it. We read the markup. We did not run
+ a speed test, so there is no load time here and no score of any kind, because
+ nobody measured one. For completeness: your homepage sends 131,533 bytes of
+ markup before a single photograph loads, roughly half of it stylesheet pasted
+ into the page across twelve separate blocks. Compressed that is 27.8 KB on the
+ wire. It is an observation about tidiness, not about speed, and it is not going
+ to be dressed up as one.</p>
+</div></section>
+
+<section id="two-shops" aria-labelledby="h-two-shops"><div class="wrap">
+ <div class="k">Section two</div>
+ <div class="rule"></div>
+ <h2 id="h-two-shops">The part that matters most.</h2>
+
+ <h3>There is no single place that knows you have two shops</h3>
+ <p>Your site holds one hours value, one description, one map and one flavor list, because it was built when there was one shop. When Battle Creek opened, nothing underneath it had a slot to put a second shop in. Somebody typed the second phone number into the header strip, which is the only place it would fit, and everything else stayed pointed at Marshall.</p>
+ <p>That is the whole of section one. It is why the hours argue with themselves, why the description carries the wrong store's opening time, why the map knows one street, why the flavors page cannot tell a customer which case a flavor is in, and why there is no page for a Battle Creek search to land on. <strong>It is what a one-shop website looks like two shops later.</strong></p>
+ <p>Every surface on the rebuild resolves a shop before it answers a customer's question. Not a location toggle bolted onto a single-shop site. Two shops, all the way down, so a third one is an entry in a file rather than a rebuild.</p>
+
+ <h3>You own it. All of it.</h3>
+ <p>Written down, not implied. When the build fee is paid in full, these are yours: the design, the source code, the content, the accounts, the code repository, the hosting project, and every login to them. The domain stays registered in your name and transfers to any registrar you name, free, whenever you ask. After launch it is month to month, thirty days' notice, no penalty, and the site keeps working on the way out the door. The terms are one plain-English page published at <a href="https://www.glazedweb.com/agreement" target="_blank" rel="noopener">glazedweb.com/agreement</a>, the same page every client gets.</p>
+ <p>Nothing underneath the site is rented. No page-builder license, no form service, no booking platform taking a cut, no plugin bill arriving in a year. <strong>If a feature can be written instead of rented, we write it.</strong></p>
+
+ <h3>Three questions worth asking any web vendor, including us</h3>
+ <p><strong>1.</strong> If we stop paying you, what do we keep? <strong>2.</strong> Whose name is the domain registered in? <strong>3.</strong> Can we leave in thirty days? Our answers are everything, yours, and yes. Ask us the same three in person and hold us to them.</p>
+
+ <p class="note">One thing this letter is not going to pretend. Your current setup
+ is not a hostage situation. Your site sits on hosting you pay for, the
+ photographs are served from your own address, and no web company's name is in
+ your footer using your shop as its portfolio. A great many small businesses
+ cannot say that, and you can. The problem with your website is not who holds
+ it. It is that it was built to describe one shop and is now being asked to run
+ two.</p>
+</div></section>
+
+<section id="build" aria-labelledby="h-build"><div class="wrap">
+ <div class="k">Section three</div>
+ <div class="rule"></div>
+ <h2 id="h-build">What we built.</h2>
+ <p>Not a description of a website. We built it, so the rest of this section is mostly a list of what to click.</p>
+
+ <div class="demo">
+  <div class="k">Open it now</div>
+  <h3>The site is built, and it is your menu inside it.</h3>
+  <p>Every item on your menu at your published prices, your catering tiers by
+  headcount, and both shops with their own hours, their own addresses and their
+  own maps. Open it on the phone in your pocket.</p>
+  <a href="/demo">truenorth.glazedweb.com/demo &#8599;</a>
+  <p class="fine">A working concept, not a finished site. Where a fact has never
+  been published anywhere, we left the gap visible rather than invent a number,
+  and the screen it belongs to says so.</p>
+ </div>
+
+ <p><strong>Two shops, each with a page of its own.</strong> <a href="/demo/marshall">truenorth.glazedweb.com/demo/marshall</a> and <a href="/demo/battle-creek">/demo/battle-creek</a>. Each carries its own hours, its own case, its own filtered menu, its own address and its own map, with a bar at the top of every page putting the other shop one tap away. Finding five, answered.</p>
+
+ <p><strong>Hours that cannot disagree with themselves.</strong> Every fact about a shop lives in one file, and the page, the header, the open-right-now line and the machine-readable block all read it. Change noon to eleven in that one place and it changes everywhere at once. Findings one and two cannot happen on this site, because there is nowhere for a second set of hours to hide.</p>
+
+ <p><strong>A business record a search engine can read.</strong> Each shop page carries its own: <span class="mono">IceCreamShop</span>, its street address, and its opening hours as real times, <span class="mono">opens 12:00</span> for Marshall and <span class="mono">opens 14:00</span> for Battle Creek, both closing at <span class="mono">21:00</span>. Finding four, made permanent, and Google stops having to guess.</p>
+
+ <p><strong>A picture on every shared link.</strong> One card for the site, sized properly, so a customer's recommendation arrives looking like ice cream. Finding three.</p>
+
+ <p><strong>The flavor board.</strong> This one has a section of its own, because it is the part that is already running. <a href="#board">Skip ahead to section four</a> if you only read one thing.</p>
+
+ <ul class="proof">
+  <li><b>Both shops carry their own machine-readable record.</b> Open a shop page and the address and the opening time are in the source, per shop, in the format Google reads.</li>
+  <li><b>The catering form posts without JavaScript.</b> It is a real form with a real destination, not a script that fails quietly on a bad connection in a parking lot.</li>
+  <li><b>The flavor feed can never take the site down.</b> Three seconds to answer, and on any failure every board falls back to the last published list.</li>
+  <li><b>You can ask the site what it is reading.</b> One address answers whether the boards came from your case or from a file. It is in section four and it is not a screenshot.</li>
+  <li><b>Nothing rented underneath.</b> No plugin subscriptions, no page-builder license, no per-feature upsell arriving later.</li>
+ </ul>
+
+ <p><strong>A catering funnel that never closes.</strong> <a href="/demo/catering">A real form at /demo/catering</a>: name, email, phone, the event date, the guest count, which kind of service, and room to say the rest. It lands in your inbox with the customer's own address set as the reply, it works at two in the afternoon and at midnight, and a hidden field keeps the robots out of it. Finding seven.</p>
+
+ <p><strong>A contact page that knows both addresses.</strong> <a href="/demo/contact">Two shops, two maps, two sets of hours, two numbers.</a> Finding eight.</p>
+
+ <p><strong>The small one, because it proves somebody read the site.</strong> The sorbet is spelled Lemonade.</p>
+
+ <p class="note">What is provisional on it, said here rather than discovered
+ later. The photographs are yours, used with permission for this concept. The
+ year Battle Creek opened is marked as a placeholder on the page itself, because
+ it has never been published anywhere. And which shop runs the soft serve
+ machine and which runs the espresso bar is our reading of one Choose Marshall
+ article rather than your word, so if we have it backwards, correcting it is one
+ edit.</p>
+</div></section>
+
+<section id="board" aria-labelledby="h-board"><div class="wrap">
+ <div class="k">Section four</div>
+ <div class="rule"></div>
+ <h2 id="h-board">The board is already live.</h2>
+
+ <p>Your own flavors page says it better than we could: <span class="mono">Our Flavors are Always Changing!</span> The trouble is that keeping a website current is somebody's job, and at nine o'clock at night in a shop it is nobody's job. So we did not build a way for us to update your flavors. We wired the website to the case.</p>
+
+ <div class="demo demo--left">
+  <div class="k">How it works</div>
+  <h3>You tap a tub out. The website follows.</h3>
+  <p><strong>You tap.</strong> Sign in at <a href="https://scooplist.glazedweb.com/login/truenorth" target="_blank" rel="noopener">scooplist.glazedweb.com/login/truenorth</a> on the phone in your apron. Tap the flavor, tap <em>Tub's empty, take it off the board</em>. Two taps and it is off the site. Putting the next one in is the same two taps the other way, from a library of every flavor you have ever churned.</p>
+  <p><strong>The site follows.</strong> Every board on the website reads the same feed on a sixty second cycle. No deploy, nobody to text, nothing to remember, and no second list to keep in step with the first.</p>
+  <p><strong>If it breaks, nobody sees it.</strong> The site gives the feed three seconds to answer. On any failure every board falls back to the last published list and the page renders exactly as it did before any of this existed. A menu that sometimes fails is worse than one that is occasionally a day stale, so the feed is an enhancement and never a dependency.</p>
+ </div>
+
+ <p>Three ways to check that, none of them a screenshot. The first is the machine's own answer: ask the site what it is reading and it replies <span class="mono">"source":"scooplist"</span>, <span class="mono">"reachable":true</span>, <span class="mono">"status":200</span>. The second is the board rendering from that feed. The third is the same case as a wall board, sized for a screen behind the counter, which comes with it.</p>
+
+ <p>
+  <a class="verify loose" href="https://truenorth.glazedweb.com/api/status" target="_blank" rel="noopener">Ask the site what it is reading &#8599;</a>
+  <a class="verify loose" href="/demo/flavors">The board on the site &#8599;</a>
+  <a class="verify loose" href="https://scooplist.glazedweb.com/board/truenorth/marshall" target="_blank" rel="noopener">The same case as a wall board &#8599;</a>
+ </p>
+
+ <h3>Sign in on your phone, tap a tub out, then refresh the flavors page.</h3>
+ <p>That is the whole demonstration, and it is the only part of this letter you can prove wrong in ten seconds. The sign-in code is yours whenever you want it, and handing it over is about two minutes of the meeting.</p>
+
+ <h3>What else is already behind that sign-in</h3>
+ <ul class="proof">
+  <li><b>The library.</b> Every flavor you have ever churned, with its description, its allergens, its prices by size and a photograph, kept whether or not it is in the case today.</li>
+  <li><b>Running low and on deck.</b> A flavor can be marked nearly gone without being pulled, and the next one can be lined up before it goes in.</li>
+  <li><b>One case per shop, never merged.</b> Marshall and Battle Creek are separate boards because they are separate cases, which is the entire argument of section two in a working screen.</li>
+  <li><b>History.</b> How many days a flavor lasted, how often it came back, and what share of the last ninety days it was on the board. Nobody has ever been able to tell you that.</li>
+  <li><b>Your whole library and every case entry ever, as one file you download yourself.</b> No request to us, no export fee, no waiting. It is both the backup and the ownership promise in a form you can hold.</li>
+ </ul>
+
+ <p class="note">Read the board today and Battle Creek looks thin, because it is:
+ twelve flavors against Marshall's thirty-one, and its homemade case holds one.
+ That is not a bug and it is not being hidden behind a screenshot. Nobody at
+ your shops has signed in yet, so what is on those boards is what we typed in
+ off your own flavors page, and we stopped filling Battle Creek in because
+ guessing at that case is the exact thing this is meant to end. Marshall's board
+ was last touched on September 4. Battle Creek's was last touched on August 22,
+ and the site says so on the page, out loud, with the date on it. That is the
+ promise: it shows what somebody tapped, not what somebody wished.</p>
+</div></section>
+
+<section id="sell" aria-labelledby="h-sell"><div class="wrap">
+ <div class="k">Section five</div>
+ <div class="rule"></div>
+ <h2 id="h-sell">The part that can take money.</h2>
+
+ <h3>Catering is a big ticket that arrives as one phone call</h3>
+ <p>Your published price list runs to a tier called <span class="mono">301 and up</span> at $3.75 a head for homemade. One party at that size is a bigger ticket than a good Saturday, and the way to start one today is a Gmail address and a phone number that cannot be tapped.</p>
+ <p>What belongs there is a qualifying form rather than a contact form: the date, the headcount, which shop, whether they want homemade, soft serve or sandwiches, and room for the rest. It arrives as a brief you can price without a phone call, from the person who was going to think about calling you and then did not. That form is already on the demo. What it asks is the part worth arguing about in person, because you know what makes an inquiry useful the moment it lands and we do not.</p>
+
+ <h3>Pre-orders, built and switched off</h3>
+ <p>The order page and the code behind it work end to end today. Item names and prices resolve on the server from your own menu, so a tampered order cannot invent a price. Quantities clamp. An item the chosen shop does not carry is refused rather than accepted and disappointed. It works with JavaScript switched off.</p>
+ <p>And it is off, behind a single switch, because an order button put in front of an owner promises a service nobody has turned on. <strong>It takes no cards.</strong> Version one is order ahead and pay at the counter, exactly as your register already works. Taking cards online needs a payment account in your name, is a separate decision and a separate quote, and this letter is not going to imply otherwise.</p>
+
+ <p class="note">We have no idea how much of your revenue catering is today, and
+ nothing in this letter assumes an answer. It is the first question we would ask
+ you, because if it is a bigger number than it looks from outside then the site
+ should be built around it rather than beside it.</p>
+</div></section>
+
+<section id="cost" aria-labelledby="h-cost"><div class="wrap">
+ <div class="k">Section six</div>
+ <div class="rule"></div>
+ <h2 id="h-cost">What it costs.</h2>
+
+ <p>Straight off the public menu, the same number anyone reading our site gets. This is the Baker's Dozen: the full multi-page site, priced in the open for everyone.</p>
+ <p class="anchor">Our published market figure for a build this size is <s>$3,900</s>. The menu price is what you pay.<br><a class="verify loose" href="https://www.glazedweb.com" target="_blank" rel="noopener">The published menu &#8599;</a></p>
+
+ <div class="pricebox">
+  <div><div class="n">$2,000</div><div class="l">The build, once. Everything in sections three, four and five, finished and launched on truenorthicecream.com. Half to start, half at launch, and you own all of it from the day the balance clears.</div></div>
+  <div><div class="n">$150<span class="per">/mo</span></div><div class="l">Hosting, SSL, security updates, backups, domain renewal where we hold it, the flavor-board account for both shops, and edits. New catering tier, a price change, new hours? Send a text. Flavors you change yourself.</div></div>
+ </div>
+
+ <p>That is <strong>$3,800</strong> across the first twelve months, then <strong>$1,800 a year</strong>, and <strong>$11,000</strong> over five years. The flavor board is inside it, for both shops. So are the catering form, the contact form, both shop pages and the search and listings work. There is no separate platform fee and no plugin bill underneath it.</p>
+
+ <ul class="proof">
+  <li><b>Month to month after launch.</b> Thirty days' notice, no early termination penalty, and you leave with the whole site working.</li>
+  <li><b>Two hours of edits a month are in the monthly.</b> Flavors are not an edit and never count against it, because you change those yourself. That is the whole point of the arrangement.</li>
+  <li><b>Nothing is ever added to your bill without you hearing the price first.</b> That promise lives in the agreement, not only in this letter.</li>
+ </ul>
+
+ <p class="note">An earlier version of this letter, written in August, quoted
+ $1,900 and $99. It also said the price came straight off our public menu, and
+ it did. The menu moved on September 1, and $2,000 and $150 is the menu price
+ today, the same number anyone reading glazedweb.com gets. It now also carries
+ the flavor-board account for both shops, which the August number did not. If
+ you saw the old figure and it matters, say so in the meeting.</p>
+</div></section>
+
+<section id="next" aria-labelledby="h-next"><div class="wrap">
+ <div class="k">Section seven</div>
+ <div class="rule"></div>
+ <h2 id="h-next">What happens next.</h2>
+
+ <div class="step"><div class="no">1</div><div><h4>Book the call</h4><p>Half an hour, at either shop, whenever suits the counter. The site and the live board are already built, on our own time, before you owe anything, so the meeting is not a presentation. It is you signing in on your own phone, tapping a tub out, and telling us where we got it wrong.</p><p>If the answer at the end is no, that is a fine answer and it cost you nothing.</p></div></div>
+
+ <div class="step"><div class="no">2</div><div><h4>What happens if it is yes</h4><p>The agreement is already written and it is waiting at <a href="https://www.glazedweb.com/agreement/truenorth" target="_blank" rel="noopener">glazedweb.com/agreement/truenorth</a>. Two documents: the plain-English terms every client gets, and an Exhibit A carrying your scope and your numbers. You type your name, both of us get the signed record by email, and the monthly starts from the card form on the same page. Nothing is owed before the invoice arrives.</p></div></div>
+
+ <h3>What we would need from you</h3>
+ <p>The current lineup in both cases. Confirmation on both hour schedules and every price. Which shop runs the soft serve machine and which runs the espresso bar. The year Battle Creek opened. Your Instagram handle. Your name and your business's registered name for the agreement. And a look at any photographs you love that are not on the site. That is genuinely the list.</p>
+
+ <div class="verdict">
+  <p><b>Two things we will do whether or not any of this goes anywhere.</b></p>
+  <p><b>The Friday typo.</b> Your Marshall Google listing says <span class="mono">12 AM-9 PM</span> on Fridays. We will fix it with you and send you every third-party listing we found that copied it, with a link to each one, so they can be corrected at the source. It is not billable work and we are not going to pretend it is. It needs doing.</p>
+  <p><b>Mail on your own domain.</b> You already own truenorthicecream.com. Connecting it to your inbox means a catering quote arrives from hello@truenorthicecream.com instead of a Gmail address, which reads differently to somebody comparing three caterers. It takes about an hour and we will do it with you at the shop.</p>
+ </div>
+
+ <div class="demo">
+  <div class="k">The one thing to do</div>
+  <h3>Half an hour, at your counter.</h3>
+  <p>Pick a time that suits the shop. Bring the skeptical questions.</p>
+  <a class="cta" href="https://www.glazedweb.com/schedule" target="_blank" rel="noopener">Book the call &#8599;</a>
+ </div>
+
+ <p class="note">Written by Kevin Hershock, who lives in Marshall. Glazed Web
+ builds and looks after websites for businesses here, one at a time, by hand.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+ <div>
+  <span class="bw">glazed<span>web</span></span> Kevin Hershock &middot; Marshall, Michigan<br>
+  <a href="https://www.glazedweb.com" target="_blank" rel="noopener">glazedweb.com</a> &middot; <a href="mailto:kevin@glazedweb.com">kevin@glazedweb.com</a>
+  <div class="conf">Prepared for True North Ice Cream &middot; September 2026 &middot; Valid 60 days</div>
+ </div>
+ <svg class="gmark" viewBox="0 0 200 250" overflow="visible" aria-hidden="true"><g class="goo"><g fill="url(#gwDark)"><ellipse cx="100" cy="110" rx="38" ry="15"></ellipse><path class="wobB" d="M 86 100 C 86 116, 87 130, 88 142 C 88 148, 91 149, 92 142 C 93 130, 92 114, 92 100 Z"></path><path d="M 114 100 C 114 112, 115 124, 116 134 C 116 140, 119 141, 120 134 C 121 124, 120 110, 120 100 Z"></path></g><g fill="url(#gwLight)"><path class="wob1" d="M 64 100 C 63 120, 65 138, 66 152 C 66 164, 68 172, 74 173 C 80 172, 83 165, 82 154 C 84 136, 85 116, 86 100 Z"></path><path class="wob2" d="M 92 100 C 91 128, 93 152, 94 172 C 94 188, 97 199, 104 200 C 111 199, 114 190, 112 174 C 113 150, 114 124, 114 100 Z"></path><path class="wob3" d="M 120 100 C 119 116, 120 130, 121 142 C 121 152, 123 159, 129 160 C 134 159, 137 153, 135 144 C 136 130, 137 114, 137 100 Z"></path></g></g><path class="string" d="M 104 199 L 104 209" stroke="#BFE07A" stroke-width="2.5" stroke-linecap="round" fill="none"></path><g class="droplet"><circle cx="104" cy="213" r="7" fill="#BFE07A"></circle><circle cx="102" cy="211" r="2" fill="#F1F8DC" opacity="0.9"></circle></g><circle class="droplet2" cx="74" cy="186" r="4.5" fill="#BFE07A"></circle><circle cx="100" cy="70" r="52" fill="url(#gwPink)"></circle><path d="M 56 98 A 52 52 0 0 0 144 98 C 142 94, 138 92, 134 94 C 130 97, 129 102, 125 104 C 119 106, 116 98, 110 96 C 104 94, 103 102, 98 105 C 93 107, 90 100, 84 97 C 78 95, 76 100, 71 102 C 66 103, 62 100, 56 98 Z" fill="url(#gwCreep)"></path><path d="M 68 106 A 42 42 0 0 0 84 116" fill="none" stroke="#F1F8DC" stroke-width="4" stroke-linecap="round" opacity="0.85"></path><path d="M 97 144 Q 103 151 109 144" fill="none" stroke="#55974A" stroke-width="4" stroke-linecap="round"></path><g stroke="#F1F8DC" fill="none" stroke-linecap="round"><path d="M 97 128 C 96 148, 97 166, 100 182" stroke-width="4.5" opacity="0.85"></path><path d="M 69 118 C 68 132, 70 146, 71 156" stroke-width="3.5" opacity="0.8"></path><path d="M 124 114 C 123 124, 125 138, 126 148" stroke-width="3.5" opacity="0.8"></path></g><circle cx="100" cy="192" r="2.5" fill="#F1F8DC" opacity="0.9"></circle><circle cx="100" cy="72" r="13" fill="#201712"></circle><circle cx="100" cy="72" r="13" fill="none" stroke="#C22F6B" stroke-width="3" opacity="0.3"></circle><path d="M 62 46 A 44 44 0 0 1 82 28" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"></path><circle cx="92" cy="26" r="3.5" fill="#FFFFFF"></circle></svg>
+</div></footer>
+</body></html>
