@@ -11,7 +11,7 @@ import type { Board } from "@/data/flavors";
   rules, never text.
 */
 const ACCENT: Record<string, { ribbon: string; rule: string }> = {
-  homemade: { ribbon: "from-waffle/70 to-scoop", rule: "bg-waffle/40" },
+  handscooped: { ribbon: "from-waffle/70 to-scoop", rule: "bg-waffle/40" },
   softserve: { ribbon: "from-north/60 to-mint", rule: "bg-north/35" },
   dairyfree: { ribbon: "from-mint to-scoop", rule: "bg-mint" },
   adult: { ribbon: "from-cherry/60 to-waffle/60", rule: "bg-cherry/35" },
@@ -41,7 +41,7 @@ export default function FlavorBoardCard({
     >
       <div
         aria-hidden
-        className={`h-2 w-full bg-gradient-to-r ${(ACCENT[board.key] ?? ACCENT.homemade).ribbon}`}
+        className={`h-2 w-full bg-gradient-to-r ${(ACCENT[board.key] ?? ACCENT.handscooped).ribbon}`}
       />
       <div className="p-6 md:p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
@@ -54,7 +54,7 @@ export default function FlavorBoardCard({
         </h2>
         <p className="text-sm font-medium text-ink-soft">{board.subtitle}</p>
       </div>
-      <div aria-hidden className={`mt-3 h-1 w-14 rounded-full ${(ACCENT[board.key] ?? ACCENT.homemade).rule}`} />
+      <div aria-hidden className={`mt-3 h-1 w-14 rounded-full ${(ACCENT[board.key] ?? ACCENT.handscooped).rule}`} />
       <ul className="mt-4 divide-y divide-ink/5">
         {board.flavors.map((f) => {
           const flavorTag =

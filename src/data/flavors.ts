@@ -95,8 +95,18 @@ export type Board = {
   at?: LocationKey[];
 };
 
+/*
+  BOARD KEYS ARE SCOOPLIST'S KEYS, not our titles. The live feed
+  (liveCase.ts) sends its own key and label per board, and this file is what
+  a key is looked up in: the subtitle by key, the accent colour by key, and
+  the homepage's "which board do the shop cards show" by key. Scooplist's
+  scoops preset calls the first board `handscooped`, so ours does too, and
+  the TITLE stays Homemade because that is their word and their promise.
+  Rename a key here only when the Scooplist preset renames it, or a live
+  board silently loses its subtitle and its colour.
+*/
 export const boards: Board[] = [
-  { key: "homemade", title: "Homemade", subtitle: "Hand-scooped, made in the shop", flavors: homemade },
+  { key: "handscooped", title: "Homemade", subtitle: "Hand-scooped, made in the shop", flavors: homemade },
   // The soft serve machine is Marshall's (Choose Marshall article), same
   // sourcing and same one-edit correction as the menu's store tags.
   { key: "softserve", title: "Soft Serve", subtitle: "Cones, cups, and twists", flavors: softServe, at: ["marshall"] },

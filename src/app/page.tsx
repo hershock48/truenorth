@@ -33,7 +33,7 @@ export default async function Home() {
   const cases = await Promise.all(
     locations.map(async (l) => {
       const { boards } = await caseFor(l.key);
-      const homemade = boards.find((b) => b.key === "homemade") ?? boards[0];
+      const homemade = boards.find((b) => b.key === "handscooped") ?? boards[0];
       return {
         shop: l,
         flavors: homemade?.flavors ?? [],
