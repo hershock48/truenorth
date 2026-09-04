@@ -13,3 +13,8 @@ next-env.d.ts
 
 # misc
 .DS_Store
+
+# render harness output: screenshots and the summary are evidence for the
+# session that produced them, not repo content. og.jpg IS tracked, because it
+# is the share card the letter points at.
+/tools/out/
