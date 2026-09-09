@@ -38,13 +38,22 @@ export default function AboutPage() {
 
       <section className="mx-auto max-w-6xl px-5 pb-20">
         <div className="grid items-center gap-10 md:grid-cols-2">
-          <Reveal className="lift overflow-hidden rounded-[--radius-panel]">
+          {/*
+            Their carved sign, the second mark, flat and still (the sunrise
+            stays a homepage signature). Here because the homepage shows it
+            desktop-only and most of their visitors are on a phone; a story
+            page is where a sign belongs anyway, next to the paragraph that
+            explains the name. No lift, no rounded panel: the sign carries
+            its own frame. The toffee cup this replaces still leads the
+            photo band on the homepage.
+          */}
+          <Reveal className="flex justify-center">
             <Image
-              src="/photos/toffee-cup.jpg"
-              alt="A generous scoop of toffee ice cream in a blue striped cup"
-              width={662}
-              height={960}
-              className="h-96 w-full object-cover"
+              src="/brand/logo-sign.png"
+              alt="True North Ice Cream, on their carved sign: snowy peaks, pines and a low sun under a teal sky"
+              width={1263}
+              height={743}
+              className="h-auto w-full max-w-[34rem]"
             />
           </Reveal>
           <Reveal delay={80}>

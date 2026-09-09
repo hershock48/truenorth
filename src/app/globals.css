@@ -123,6 +123,26 @@
   }
 
   /*
+    The sun on the carved sign comes up from behind the peaks (SignRising).
+    Starts 140% of its own height low, which puts its top under the lowest
+    point of the ridge across its width, so the first frame shows no sun at
+    all; the delay lets the hero reveal land first. Ease-out, slowing as it
+    clears the ridge. `both` holds the hidden state through the delay and the
+    risen state forever after. Transform only. Under reduced motion it does
+    not animate and is simply up, the finished drawing.
+  */
+  .tn-sun {
+    animation: tn-sunrise 2.1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.5s both;
+  }
+  @keyframes tn-sunrise {
+    from { transform: translate3d(0, 140%, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tn-sun { animation: none; }
+  }
+
+  /*
     Sprinkles thrown off the spinning compass.
 
     Each sprinkle rides inside a full-size "ray" rotated to its own angle, so

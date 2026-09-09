@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SpinningCompass from "@/components/SpinningCompass";
+import SignRising from "@/components/SignRising";
 import Sprinkles from "@/components/Sprinkles";
 import CompassRose from "@/components/CompassRose";
 import MapCard from "@/components/MapCard";
@@ -124,14 +125,9 @@ export default async function Home() {
           the fold.
         */}
         <Reveal className="hidden justify-center md:flex">
-          <Image
-            src="/brand/logo-sign.png"
-            alt="True North Ice Cream, on their carved sign: snowy peaks, a low sun and pines under a teal sky"
-            width={1263}
-            height={743}
-            priority
-            className="h-auto w-full max-w-[34rem] object-contain"
-          />
+          {/* Kevin, 9 Sep 2026: "can we make the sun come up?" It does; see
+              SignRising for the three layers that let the peaks hide it. */}
+          <SignRising />
         </Reveal>
       </section>
       {/* The hero sits on the page cream, so the drip is cream, the trap is
