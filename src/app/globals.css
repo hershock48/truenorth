@@ -143,6 +143,27 @@
   }
 
   /*
+    The sprinkles over a section heading wiggle a little (Sprinkles.tsx).
+    Each pill rocks 4deg either side of its own resting tilt, which lives
+    in --tilt so the keyframes swing around it rather than replacing it,
+    on its own duration and phase so the row never moves in step. Negative
+    delays start each pill mid-swing instead of all four leaving rest at
+    once on load. Transform only. Reduced motion: no animation, resting
+    tilt, the drawing as it was before it moved.
+  */
+  .tn-wiggle {
+    transform: rotate(var(--tilt, 0deg));
+    animation: tn-wiggle var(--dur, 2.8s) ease-in-out var(--delay, 0s) infinite alternate;
+  }
+  @keyframes tn-wiggle {
+    from { transform: rotate(calc(var(--tilt, 0deg) - 4deg)) translate3d(0, 0, 0); }
+    to { transform: rotate(calc(var(--tilt, 0deg) + 4deg)) translate3d(0, -1px, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tn-wiggle { animation: none; }
+  }
+
+  /*
     Sprinkles thrown off the spinning compass.
 
     Each sprinkle rides inside a full-size "ray" rotated to its own angle, so
