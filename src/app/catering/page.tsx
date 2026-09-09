@@ -107,10 +107,10 @@ export default function CateringPage() {
             <Reveal delay={140}>
               <div className="lift mt-6 overflow-hidden rounded-[--radius-panel]">
                 <Image
-                  src="/photos/soft-serve-flights.jpg"
-                  alt="Soft serve flights with dipping sauces, ready for an event"
-                  width={768}
-                  height={1024}
+                  src="/photos/flight-trays.jpg"
+                  alt="Sampler trays of hand-scooped ice cream lined up on the counter"
+                  width={720}
+                  height={441}
                   className="h-64 w-full object-cover"
                 />
               </div>

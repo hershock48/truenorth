@@ -107,15 +107,30 @@ export default async function Home() {
             counter is scooping, so the hero stops repeating them.
           */}
         </div>
-        {/* Desktop only: on a phone it pushed the shops below the fold. */}
-        <Reveal className="lift hidden overflow-hidden rounded-[--radius-panel] md:block">
+        {/*
+          THEIR SECOND MARK, the carved sign, standing where the photo stood
+          (Kevin, 9 Sep 2026). Not a redraw and not the header lockup: it is
+          their own artwork, cut out of the flat white box it was exported in
+          so it sits ON the cream rather than in a paler rectangle of its own.
+          brand/logo-sign.png, prepared twice over: the background removed by a
+          border flood fill at 250 and up, which is why the snow inside the
+          frame survived at 244, and then turned a quarter clockwise. The file
+          they sent stands on end with the type reading bottom to top, which is
+          how it was exported, not how the sign hangs.
+
+          No lift, no rounded panel, no shadow: the sign carries its own frame,
+          and a frame inside a frame reads as a mistake. Desktop only, same as
+          the photo it replaces, because on a phone it pushed the shops below
+          the fold.
+        */}
+        <Reveal className="hidden justify-center md:flex">
           <Image
-            src="/photos/flight-trays.jpg"
-            alt="Three sampler trays of hand-scooped ice cream on the counter, nine scoops from vanilla to mint chip"
-            width={720}
-            height={441}
+            src="/brand/logo-sign.png"
+            alt="True North Ice Cream, on their carved sign: snowy peaks, a low sun and pines under a teal sky"
+            width={1263}
+            height={743}
             priority
-            className="h-full w-full object-cover"
+            className="h-auto w-full max-w-[34rem] object-contain"
           />
         </Reveal>
       </section>
