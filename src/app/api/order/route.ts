@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { orderables } from "@/data/menu";
-import { locations } from "@/data/site";
+import { locations, ORDERING_LIVE } from "@/data/site";
 
 export const runtime = "nodejs";
 
@@ -78,13 +78,14 @@ function htmlPage(
   status: number,
   backHref: string,
   body?: Record<string, unknown>,
+  backLabel = 'Start over at the order form',
 ) {
   return new Response(
     `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>
 <body style="font-family:system-ui,sans-serif;background:#FDF8EE;color:#17303A;display:grid;place-items:center;min-height:100vh;margin:0;padding:24px;text-align:center">
 <div><h1 style="font-size:1.6rem">${title}</h1><p style="max-width:34rem;line-height:1.6">${message}</p>
 ${body ? resendForm(body) : ""}
-<p style="margin-top:20px"><a href="${backHref}" style="color:#1B6479">Start over at the order form</a></p></div></body></html>`,
+<p style="margin-top:20px"><a href="${backHref}" style="color:#1B6479">${escapeHtml(backLabel)}</a></p></div></body></html>`,
     { status, headers: { "Content-Type": "text/html; charset=utf-8" } },
   );
 }
@@ -92,6 +93,14 @@ ${body ? resendForm(body) : ""}
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") ?? "";
   const isForm = !contentType.includes("application/json");
+
+  // Reject even stale open forms before reading customer data or sending mail.
+  if (!ORDERING_LIVE) {
+    const error = "Online pickup orders are currently closed. Please visit our shops or see the home page for contact details.";
+    return isForm
+      ? htmlPage("Ordering is not available", error, 503, "/", undefined, "See our shops and hours")
+      : NextResponse.json({ error }, { status: 503, headers: { "Cache-Control": "no-store" } });
+  }
 
   let b: Record<string, unknown>;
   if (isForm) {
@@ -227,3 +236,4 @@ export async function POST(request: Request) {
     return fail(`Could not send that. Please call the ${store.name} shop at ${store.phone}.`, 502);
   }
 }
+

@@ -209,3 +209,9 @@ production build, all seven routes at 390 and 1440:
 - [ ] LCP < 2.5s / CLS < 0.1 on a throttled mobile profile against the deployment
 - [ ] Check anything visually unusual on a real iPhone (headless WebKit lies)
 - [ ] Tell the owners the studio credit is there, and what removing it takes (one line)
+
+## Launch hardening: ordering availability
+
+`ORDERING_LIVE` now gates the server-rendered order page and both JSON and plain-form order submissions before reading customer input or sending mail. A closed order page points to shop information; disabled posts return 503 rather than success. Enabling still requires the owner's approval and correct inbox configuration.
+
+Verification: `node --test --experimental-test-isolation=none tests/ordering-availability.test.cjs` (Node 24) covers disabled JSON/plain/stale posts, unreadable input, enabled orders for both shops, and direct page rendering. Four checks passed, plus TypeScript and targeted route/page ESLint. These use isolated fake mail, not real customer orders. Live deployment verification remains pending.
