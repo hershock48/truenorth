@@ -1,6 +1,7 @@
 # deps and build
 /node_modules
 /.next/
+/.next-check/
 /out/
 next-env.d.ts
 *.tsbuildinfo

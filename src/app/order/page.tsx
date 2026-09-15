@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ORDERING_LIVE } from "@/data/site";
 import OrderForm from "@/components/OrderForm";
 import PageHero from "@/components/PageHero";
 
@@ -24,6 +26,9 @@ export default async function OrderPage({
 }: {
   searchParams: Promise<{ at?: string }>;
 }) {
+  if (!ORDERING_LIVE) {
+    return <><PageHero kicker="Visit the shops" title="Order ahead is not available yet" lede="Online pickup orders are currently closed. Visit our shops for ice cream, or find each shop’s contact details on the home page."/><section className="mx-auto max-w-6xl px-5 pb-20"><Link href="/">See our shops and hours</Link></section></>;
+  }
   const { at } = await searchParams;
 
   return (

@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  distDir: process.env.STUDIO_BUILD_CHECK === "1" ? ".next-check" : ".next",
+  ...(process.env.STUDIO_BUILD_CHECK === "1" ? { experimental: { workerThreads: true, webpackBuildWorker: false, useTypeScriptCli: false, cpus: 2 } } : {}),
   // NOINDEX, DELIBERATELY, UNTIL THIS IS THEIR SITE.
   //
   // This is a spec build: a full copy of True North Ice Cream's content, menu, and

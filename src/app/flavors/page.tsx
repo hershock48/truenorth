@@ -36,7 +36,7 @@ export default async function FlavorsPage({
 }) {
   const { at } = await searchParams;
   const shop = locationBySlug(at ?? "") ?? locations[0];
-  const { boards, updatedLabel } = await caseFor(shop.key);
+  const { boards, updatedLabel, notice, source } = await caseFor(shop.key);
   const count = boards.reduce((n, b) => n + b.flavors.length, 0);
 
   return (
@@ -44,7 +44,7 @@ export default async function FlavorsPage({
       <PageHero
         kicker="The board"
         title={`In the ${shop.name} case`}
-        lede={`${count} flavors scooping at our ${shop.name} shop right now. The case changes daily, and this list follows it. Last updated ${updatedLabel}.`}
+        lede={source === "unavailable" ? notice : `${count} flavors listed for our ${shop.name} shop. Last updated ${updatedLabel}. ${notice}`}
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">

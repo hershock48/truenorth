@@ -43,7 +43,7 @@ export function locationMetadata(l: Location): Metadata {
 export default async function LocationPage({ location }: { location: Location }) {
   const other = locations.find((l) => l.key !== location.key)!;
   const shopMenu = menuFor(location.key);
-  const { boards: shopBoards, updatedLabel } = await caseFor(location.key);
+  const { boards: shopBoards, updatedLabel, notice } = await caseFor(location.key);
   const span = uniformDailySpan(location.hours);
 
   return (
@@ -180,8 +180,7 @@ export default async function LocationPage({ location }: { location: Location })
               The {location.name} board
             </h2>
             <p className="mt-2 max-w-2xl text-cream/85">
-              Everything this counter scoops comes off this rotation, and the
-              case changes daily, board last updated {updatedLabel}.
+              {notice} Board last updated {updatedLabel}.
               Chasing a favorite? Call{" "}
               <a href={location.phoneHref} className="tap font-semibold text-cream underline-offset-4 hover:underline">
                 {location.phone}
