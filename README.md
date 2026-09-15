@@ -194,7 +194,7 @@ production build, all seven routes at 390 and 1440:
       vivid photography finishes the job.
       (Or skip the tags entirely: set `SCOOPLIST_FEED_URL` and the boards
       render live from the owner's Scooplist case, `src/data/liveCase.ts`,
-      static fallback on any feed failure. The scooplist repo is the app.)
+      validated last-good cache on feed failure, with an unavailable message if no snapshot exists. The scooplist repo is the app.)
 - [ ] Tell the owners their Marshall Google profile lists Friday as "12 AM–9 PM"
       (midnight typo), offer to fix it with them
 - [ ] Matcha is listed with price "Ask" (PLACEHOLDER), get the real price, and the
@@ -215,3 +215,15 @@ production build, all seven routes at 390 and 1440:
 `ORDERING_LIVE` now gates the server-rendered order page and both JSON and plain-form order submissions before reading customer input or sending mail. A closed order page points to shop information; disabled posts return 503 rather than success. Enabling still requires the owner's approval and correct inbox configuration.
 
 Verification: `node --test --experimental-test-isolation=none tests/ordering-availability.test.cjs` (Node 24) covers disabled JSON/plain/stale posts, unreadable input, enabled orders for both shops, and direct page rendering. Four checks passed, plus TypeScript and targeted route/page ESLint. These use isolated fake mail, not real customer orders. Live deployment verification remains pending.
+
+## Flavor-feed reliability (September 14 review)
+
+Configured Scooplist feeds now use a validated per-origin/per-shop snapshot in Next's Data Cache. The validator rejects malformed shapes, wrong-shop responses, invalid timestamps, duplicates and oversized lists. Failed revalidation throws before a cache write, preserving the last good snapshot. Empty cases stay empty. Additional allergen labels remain visible as text.
+
+A configured feed never falls back to the demo flavor inventory. A stale snapshot says when it was checked and asks visitors to confirm availability; no snapshot produces an unavailable message. Without a configured feed, demo data is explicitly labeled as a sample rotation. The status endpoint reports the same source as the pages and does not expose the configured feed URL. Combined diagnostics do not make shop-only availability claims when one shop is unavailable.
+
+The Data Cache must persist/share across workers on the deployment. Local checks exercise the cache contract and an isolated production preview; verify the actual host's cache persistence, shop mappings and owner updates before launch. This is not a claim that a flavor is still available after a feed outage.
+
+Validation: `node --test --test-isolation=none tests/case-feed.test.cjs tests/ordering-availability.test.cjs`, TypeScript, and targeted ESLint. Build check: set `STUDIO_BUILD_CHECK=1` and run `next build --webpack`; output stays in `.next-check`, separate from active previews. The build-check config uses supported worker threads and the TypeScript API to accommodate this workstation's child-process restrictions.
+
+Actual local persistence check passed: an isolated production server rendered a controlled feed, the feed was changed to HTTP 503, the server process was stopped and restarted, and the rendered page retained the last good flavor with a stale-availability warning. The status endpoint reported `cached`, not live. Both temporary test servers were stopped. Production-host verification remains open.
