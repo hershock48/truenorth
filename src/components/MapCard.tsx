@@ -28,8 +28,9 @@ import type { CaseData } from "@/data/liveCase";
  * `caseSource` and `caseNotice` are the freshness state from liveCase.ts.
  * A live board needs no caveat under five chips. A cached or sample board
  * gets the same one-line notice /flavors and the shop pages show, so the
- * card never passes off a snapshot as today's list. An unavailable board
- * says so in words, where the old card rendered nothing at all.
+ * card never passes off a snapshot as today's list, even when that snapshot
+ * has no hand-scooped flavors on it. An unavailable board says so in words,
+ * where the old card rendered nothing at all.
  */
 export default function MapCard({
   location,
@@ -47,7 +48,10 @@ export default function MapCard({
   const span = uniformDailySpan(location.hours);
   const unavailable = caseSource === "unavailable";
   // Every non-live source carries a caveat worth reading; live carries none.
-  const caveat = caseSource && caseSource !== "live" ? caseNotice : undefined;
+  // `stale` is that test on its own, so the block below can open on it even
+  // when the notice text is missing and there are no chips.
+  const stale = caseSource !== undefined && caseSource !== "live";
+  const caveat = stale ? caseNotice : undefined;
 
   return (
     <div className="lift flex h-full flex-col overflow-hidden rounded-[--radius-panel] border border-ink/10 bg-white">
@@ -116,41 +120,51 @@ export default function MapCard({
           </a>
         </address>
 
-        {unavailable ? (
-          /* No list to show, so say that, in the notice liveCase.ts already
-             writes for the shop pages. A silent card read as "nothing
-             scooping", which is a worse claim than "we cannot tell you". */
+        {/* The block renders for every non-live source, chips or not, and for
+            a live source only when there are chips. The feed contract allows
+            an empty flavor list, so a cached or sample board with nothing
+            hand-scooped used to fall through to a silent card, which passed
+            off a snapshot as "nothing scooping". A live empty board still
+            renders nothing: there is no caveat to read and no chips to show.
+            The /contact cards pass no source and keep rendering as before. */}
+        {stale || scooping.length > 0 ? (
           <div className="mt-4">
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft">
               Scooping today
             </p>
-            <p className="mt-2 text-sm text-ink-soft">{caveat}</p>
-          </div>
-        ) : scooping.length > 0 ? (
-          <div className="mt-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft">
-              Scooping today
-            </p>
-            <ul className="mt-2 flex flex-wrap gap-1.5">
-              {scooping.slice(0, 5).map((f, i) => (
-                <li
-                  key={f.name}
-                  className={`rounded-full px-3 py-1 text-sm font-medium text-ink ${
-                    /* Warmer cycle than the old one: fuller mint, blush and
-                       sherbet tints in place of the gray-leaning cherry/15
-                       and waffle/15. Ink text on every tint, AA everywhere. */
-                    ["bg-scoop", "bg-mint/70", "bg-blush", "bg-sherbet/30", "bg-north/15"][i % 5]
-                  }`}
-                >
-                  {f.name}
-                </li>
-              ))}
-            </ul>
+            {scooping.length > 0 ? (
+              <ul className="mt-2 flex flex-wrap gap-1.5">
+                {scooping.slice(0, 5).map((f, i) => (
+                  <li
+                    key={f.name}
+                    className={`rounded-full px-3 py-1 text-sm font-medium text-ink ${
+                      /* Warmer cycle than the old one: fuller mint, blush and
+                         sherbet tints in place of the gray-leaning cherry/15
+                         and waffle/15. Ink text on every tint, AA everywhere. */
+                      ["bg-scoop", "bg-mint/70", "bg-blush", "bg-sherbet/30", "bg-north/15"][i % 5]
+                    }`}
+                  >
+                    {f.name}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             {caveat ? (
               /* Cached: when it was checked and the ask to confirm. Static:
-                 the sample-rotation label. The words come from liveCase.ts so
-                 the home card, /flavors and the shop page say the same thing. */
-              <p className="mt-2 text-xs leading-relaxed text-ink-soft">{caveat}</p>
+                 the sample-rotation label. Unavailable: no list to show, so
+                 say that, at body size since it is the whole block. A silent
+                 card read as "nothing scooping", which is a worse claim than
+                 "we cannot tell you". The words come from liveCase.ts so the
+                 home card, /flavors and the shop page say the same thing. */
+              <p
+                className={
+                  unavailable
+                    ? "mt-2 text-sm text-ink-soft"
+                    : "mt-2 text-xs leading-relaxed text-ink-soft"
+                }
+              >
+                {caveat}
+              </p>
             ) : null}
           </div>
         ) : null}

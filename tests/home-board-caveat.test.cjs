@@ -9,8 +9,14 @@
     static       chips, plus the sample-rotation label
     unavailable  no chips, a plain sentence saying the board is not available
 
-  Before this, page.tsx read only `boards`, so a cached snapshot looked like
-  today's list and an unavailable shop rendered an empty, silent card.
+  The feed contract allows an empty flavor list, so a cached board with no
+  hand-scooped flavors is also covered: the heading and caveat still render
+  with no chips. Before this, page.tsx read only `boards`, so a cached
+  snapshot looked like today's list and an unavailable shop rendered an
+  empty, silent card.
+
+  The sentences below are copies. tests/case-feed.test.cjs pins the exact
+  words liveCase.ts produces, so a rewording there fails that file first.
 */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -45,6 +51,8 @@ const states = {
   cached: { boards: chips, updatedLabel: 'September 17', live: false, source: 'cached', notice: 'Showing the last confirmed board, checked 9/17/2026, 3:04:12 PM Eastern. Availability may have changed. Call the shop to confirm.' },
   static: { boards: chips, updatedLabel: 'August 21', live: false, source: 'static', notice: "This is a sample rotation. Call the shop to confirm today's flavors." },
   unavailable: { boards: [], updatedLabel: 'unavailable', live: false, source: 'unavailable', notice: "Today's flavor board is temporarily unavailable. Call the shop to check what is scooping." },
+  // A cached snapshot whose hand-scooped board validated with no flavors.
+  cachedEmpty: { boards: [{ ...chips[0], flavors: [] }], updatedLabel: 'September 17', live: false, source: 'cached', notice: 'Showing the last confirmed board, checked 9/17/2026, 3:04:12 PM Eastern. Availability may have changed. Call the shop to confirm.' },
 };
 
 function findAll(node, type, out = []) {
@@ -107,6 +115,20 @@ test('a cached board says when it was checked and asks to confirm with the shop'
   assert.match(text, /Vanilla/);
   assert.match(text, /checked 9\/17\/2026, 3:04:12 PM Eastern/);
   assert.match(text, /Call the shop to confirm/);
+});
+
+test('a cached board with no hand-scooped flavors still shows the heading and the caveat', async () => {
+  const [card] = await homeCards('cachedEmpty');
+  assert.deepEqual(card.props.scooping, []);
+  const { text, lists } = renderCard(card.props);
+  assert.equal(lists, 0);
+  assert.match(text, /Scooping today/);
+  assert.match(text, /checked 9\/17\/2026, 3:04:12 PM Eastern/);
+  assert.match(text, /Call the shop to confirm/);
+  // The live branch is unchanged: an empty live board renders no block at all.
+  const live = renderCard({ ...card.props, caseSource: 'live', caseNotice: states.live.notice });
+  assert.equal(live.lists, 0);
+  assert.doesNotMatch(live.text, /Scooping today/);
 });
 
 test('a sample rotation is labeled as one', async () => {

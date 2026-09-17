@@ -43,6 +43,9 @@ test('bad revalidation retains the last good snapshot across module instances', 
 test('cold feed failure does not resurrect static flavors', async () => {
   const data = await runtime({ getFeed: async () => { throw Error('Offline'); } }).caseFor('marshall');
   assert.equal(data.source, 'unavailable'); assert.equal(data.boards.length, 0);
+  // The exact sentence, pinned here because the home card test mocks caseFor
+  // and copies the words; if liveCase.ts rewords it, this is what fails.
+  assert.equal(data.notice, "Today's flavor board is temporarily unavailable. Call the shop to check what is scooping.");
 });
 test('origin and shop caches are isolated; partial combined feeds make no shop-only claims', async () => {
   const cache = new Map(); await runtime({ cache }).caseFor('marshall');
@@ -52,7 +55,10 @@ test('origin and shop caches are isolated; partial combined feeds make no shop-o
   assert.equal((await runtime({ cache, getFeed: offline }).caseAll()).boards.length, 0);
 });
 test('unconfigured demos are labeled static; an empty live feed stays empty', async () => {
-  assert.equal((await runtime({ env: {} }).caseFor('marshall')).source, 'static');
+  const demo = await runtime({ env: {} }).caseFor('marshall');
+  assert.equal(demo.source, 'static');
+  // Same reason as the unavailable sentence: the home card test copies it.
+  assert.equal(demo.notice, "This is a sample rotation. Call the shop to confirm today's flavors.");
   const empty = await runtime({ getFeed: async shop => ({ ...feed(shop), boards: [] }) }).caseFor('marshall');
   assert.equal(empty.source, 'live'); assert.equal(empty.boards.length, 0);
 });
