@@ -30,6 +30,8 @@ function runtime({ cache = new Map(), getFeed = async shop => feed(shop), env = 
 test('valid feeds preserve additional allergen labels', async () => {
   const data = await runtime().caseFor('marshall');
   assert.equal(data.source, 'live'); assert.match(data.boards[0].flavors[0].note, /milk/);
+  // The note is customer text: "Contains milk", never "Feed allergen: milk".
+  assert.match(data.boards[0].flavors[0].note, /^Contains milk$/);
 });
 test('bad revalidation retains the last good snapshot across module instances', async () => {
   const cache = new Map();

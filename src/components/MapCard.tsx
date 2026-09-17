@@ -12,6 +12,7 @@ import {
   type Location,
 } from "@/data/site";
 import type { Flavor } from "@/data/flavors";
+import type { CaseData } from "@/data/liveCase";
 
 /**
  * A shop card, built to the shape the pjs build proved: the NAME leads, a
@@ -24,17 +25,29 @@ import type { Flavor } from "@/data/flavors";
  * `showMap` puts it back for /contact, where a map IS the point.
  * `scooping` adds a few of what that counter has today, the difference
  * between "here are our addresses" and "here is what you would eat".
+ * `caseSource` and `caseNotice` are the freshness state from liveCase.ts.
+ * A live board needs no caveat under five chips. A cached or sample board
+ * gets the same one-line notice /flavors and the shop pages show, so the
+ * card never passes off a snapshot as today's list. An unavailable board
+ * says so in words, where the old card rendered nothing at all.
  */
 export default function MapCard({
   location,
   showMap = false,
   scooping = [],
+  caseSource,
+  caseNotice,
 }: {
   location: Location;
   showMap?: boolean;
   scooping?: Flavor[];
+  caseSource?: CaseData["source"];
+  caseNotice?: string;
 }) {
   const span = uniformDailySpan(location.hours);
+  const unavailable = caseSource === "unavailable";
+  // Every non-live source carries a caveat worth reading; live carries none.
+  const caveat = caseSource && caseSource !== "live" ? caseNotice : undefined;
 
   return (
     <div className="lift flex h-full flex-col overflow-hidden rounded-[--radius-panel] border border-ink/10 bg-white">
@@ -103,7 +116,17 @@ export default function MapCard({
           </a>
         </address>
 
-        {scooping.length > 0 ? (
+        {unavailable ? (
+          /* No list to show, so say that, in the notice liveCase.ts already
+             writes for the shop pages. A silent card read as "nothing
+             scooping", which is a worse claim than "we cannot tell you". */
+          <div className="mt-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft">
+              Scooping today
+            </p>
+            <p className="mt-2 text-sm text-ink-soft">{caveat}</p>
+          </div>
+        ) : scooping.length > 0 ? (
           <div className="mt-4">
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-soft">
               Scooping today
@@ -123,6 +146,12 @@ export default function MapCard({
                 </li>
               ))}
             </ul>
+            {caveat ? (
+              /* Cached: when it was checked and the ask to confirm. Static:
+                 the sample-rotation label. The words come from liveCase.ts so
+                 the home card, /flavors and the shop page say the same thing. */
+              <p className="mt-2 text-xs leading-relaxed text-ink-soft">{caveat}</p>
+            ) : null}
           </div>
         ) : null}
 
