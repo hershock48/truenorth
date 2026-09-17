@@ -30,15 +30,22 @@ export default async function Home() {
     shops' hand-scooped boards into one row of chips, so a Battle Creek
     customer read twelve flavors when their counter had one. Each shop now
     gets its own column, named, with its own count and its own link.
+
+    The freshness state rides along with the flavors. This page used to read
+    only `boards`, so a cached snapshot looked like today's list and an
+    unavailable shop rendered no chips and no explanation. /flavors and the
+    shop pages already pass the notice through; the card does the same now.
   */
   const cases = await Promise.all(
     locations.map(async (l) => {
-      const { boards } = await caseFor(l.key);
+      const { boards, source, notice } = await caseFor(l.key);
       const homemade = boards.find((b) => b.key === "handscooped") ?? boards[0];
       return {
         shop: l,
         flavors: homemade?.flavors ?? [],
         total: boards.reduce((n, b) => n + b.flavors.length, 0),
+        source,
+        notice,
       };
     }),
   );
@@ -156,7 +163,12 @@ export default async function Home() {
             {cases.map((c, i) => (
               <Reveal key={c.shop.key} delay={i * 90}>
                 {/* Each card carries a taste of that counter, not just an address. */}
-                <MapCard location={c.shop} scooping={c.flavors} />
+                <MapCard
+                  location={c.shop}
+                  scooping={c.flavors}
+                  caseSource={c.source}
+                  caseNotice={c.notice}
+                />
               </Reveal>
             ))}
           </div>

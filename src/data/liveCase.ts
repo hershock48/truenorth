@@ -38,7 +38,9 @@ async function fetchFeed(shop: LocationKey): Promise<Snapshot | null> {
 function toFlavor(f: FeedFlavor): Flavor {
   return {
     name: f.name,
-    note: [f.description, ...f.allergens.filter(a => !(KNOWN_ALLERGENS as string[]).includes(a)).map(a => `Feed allergen: ${a}`)].filter(Boolean).join(". ") || undefined,
+    // "Contains milk", not "Feed allergen: milk". The note is customer-facing
+    // text on the flavor card, and "feed" is our word for the pipe, not theirs.
+    note: [f.description, ...f.allergens.filter(a => !(KNOWN_ALLERGENS as string[]).includes(a)).map(a => `Contains ${a}`)].filter(Boolean).join(". ") || undefined,
     // The site's badge system knows nuts and gluten; other feed allergens
     // ride in the note-free zone rather than rendering an unstyled badge.
     allergens: f.allergens.filter((a): a is Allergen =>
@@ -71,7 +73,7 @@ export async function caseFor(shop: LocationKey): Promise<CaseData> {
   return {
     boards: feed.boards.map(b => ({ key: b.key, title: b.label, subtitle: subtitleFor(b.key), flavors: b.flavors.map(toFlavor) })),
     updatedLabel: label(feed.updatedAt), live, source: live ? "live" : "cached",
-    notice: live ? "The case changes throughout the day. Call if you are making a trip for a favorite." : `Showing the last confirmed board, checked ${new Date(fetchedAt).toLocaleString("en-US", { timeZone: "America/Detroit" })} Eastern. Availability may have changed; call the shop to confirm.`,
+    notice: live ? "The case changes throughout the day. Call if you are making a trip for a favorite." : `Showing the last confirmed board, checked ${new Date(fetchedAt).toLocaleString("en-US", { timeZone: "America/Detroit" })} Eastern. Availability may have changed. Call the shop to confirm.`,
   };
 }
 
