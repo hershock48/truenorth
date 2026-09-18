@@ -227,3 +227,64 @@ The Data Cache must persist/share across workers on the deployment. Local checks
 Validation: `node --test --test-isolation=none tests/case-feed.test.cjs tests/ordering-availability.test.cjs`, TypeScript, and targeted ESLint. Build check: set `STUDIO_BUILD_CHECK=1` and run `next build --webpack`; output stays in `.next-check`, separate from active previews. The build-check config uses supported worker threads and the TypeScript API to accommodate this workstation's child-process restrictions.
 
 Actual local persistence check passed: an isolated production server rendered a controlled feed, the feed was changed to HTTP 503, the server process was stopped and restarted, and the rendered page retained the last good flavor with a stale-availability warning. The status endpoint reported `cached`, not live. Both temporary test servers were stopped. Production-host verification remains open.
+
+## What the tests prove
+
+`node --test tests/*.test.cjs` from the repo root, Node 24. Every test
+compiles the real route, page or data module and runs it in a vm with its
+dependencies faked, so nothing reaches Resend, a Scooplist feed or any
+network. Each test is named for the step it proves. One file per journey:
+
+- **`tests/journey-order-enquiry.test.cjs`, the pickup order.** The only
+  customer transaction on the site, and it is an enquiry: no payment, so no
+  fulfillment record, no cancellation and no refund. Covers the live order
+  page and its `?at=` preselect, one complete order producing exactly one
+  email with every field the counter needs, success reported only on the
+  provider's acceptance id, the no-JS form post landing on /thanks, prices
+  and item names resolving from the menu instead of the post, an item the
+  chosen shop does not carry, the ordering-off switch closing the page and
+  refusing both post formats before the body is read, a malformed body, an
+  oversized body clamping to the field limits, every missing required field,
+  the no-JS failure page handing back what the customer typed, the honeypot,
+  provider failure in both its shapes, unconfigured mail, and the
+  `ORDER_TO` fallback to `INQUIRY_TO`.
+- **`tests/journey-flavor-board.test.cjs`, the flavor board.** One feed
+  outcome carried from the fetch to what a person reads on the home page,
+  /flavors and the shop pages. Covers live, cached with the checked-at time,
+  the unconfigured sample rotation, and unavailable, plus the cases where a
+  board could lie: a malformed feed refused without replacing the last good
+  board, a feed answering for the wrong shop, and a valid empty board that
+  stays empty rather than being refilled from the seeded list.
+- **`tests/journey-owner-surface.test.cjs`, the owner's side.** There is
+  none, and the file says so. It pins the exact set of routes the app ships,
+  asserts nothing can hold a session (no middleware, no `next/headers`, no
+  cookie written) and that the only environment variables read are for mail
+  and the feed. It also covers /api/status, the closest thing to an operator
+  surface: public by design, reporting the same source the pages show,
+  no-store, and never publishing the configured feed URL.
+
+The three older files stay as they are and cover narrower ground:
+`tests/case-feed.test.cjs` (the feed contract and the cache),
+`tests/ordering-availability.test.cjs` (the ordering-off switch), and
+`tests/home-board-caveat.test.cjs` (the home card's rendering of each
+freshness state).
+
+### What these tests do NOT prove
+
+- **There is no duplicate-submit protection on /api/order, and none was
+  added.** The route keeps no state between requests: no submission window,
+  no idempotency key on the provider call. Two identical posts mail the
+  counter twice. The last test in the order journey file records that as the
+  current behavior rather than pretending otherwise; whether it is worth
+  fixing is the owner's call, and the same test is the one that changes if it
+  is fixed.
+- **There is no owner or staff surface to test.** Flavors are edited in
+  `src/data/flavors.ts` and deployed, or they come from the owner's
+  Scooplist case through the feed, which is a different app in a different
+  repo. Orders arrive as email. If an owner surface is ever added, the route
+  inventory test fails, which is the moment to write the real owner journey.
+- **The Data Cache is modeled, not real.** These tests exercise the cache
+  contract. Whether the deployment's Data Cache persists and is shared across
+  workers is still a launch gate, as the flavor-feed section above says.
+- **No test here touches production.** Live deployment verification of both
+  forms and the feed remains open on the launch checklist.
