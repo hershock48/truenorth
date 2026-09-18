@@ -191,7 +191,7 @@ export async function POST(request: Request) {
 
   try {
     const resend = new Resend(key);
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from,
       to: to.split(",").map((s) => s.trim()),
       replyTo: email || undefined,
@@ -223,8 +223,12 @@ export async function POST(request: Request) {
       `,
     });
 
-    if (error) {
-      console.error("Resend error:", error);
+    // Success is the provider's acceptance id, not merely the absence of an
+    // error. A reply carrying neither is not a sent email, and reporting
+    // "order in" on one is exactly the fake ok this route was built to avoid:
+    // the customer drives to the counter and nothing ever reached the inbox.
+    if (error || !data?.id) {
+      console.error("Resend error:", error ?? "no acceptance id returned");
       return fail(`Could not send that. Please call the ${store.name} shop at ${store.phone}.`, 502);
     }
 
