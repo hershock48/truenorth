@@ -14,7 +14,8 @@ function load(file,mocks){
 }
 function route(enabled){let mail=0;return {get calls(){return mail;},handler:load('src/app/api/order/route.ts',{
  'next/server':{NextResponse:{json:Response.json,redirect:Response.redirect}},
- resend:{Resend:class{emails={send:async()=>{mail++;return {};}};}},
+ // A Resend success is {data:{id},error:null}; the route now requires the id.
+ resend:{Resend:class{emails={send:async()=>{mail++;return {data:{id:'fixture-acceptance-id'},error:null};}};}},
  '@/data/site':{ORDERING_LIVE:enabled,locations:[{key:'marshall',name:'Marshall',street:'fixture',phone:'fixture'},{key:'battle-creek',name:'Battle Creek',street:'fixture',phone:'fixture'}]},
  '@/data/menu':{orderables:[{key:'pint',name:'Pint',price:'$5',at:['marshall','battle-creek']}]},
  }).POST};}
