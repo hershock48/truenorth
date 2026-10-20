@@ -20,7 +20,12 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const ref = useRef<HTMLElement | null>(null);
   const [stuck, setStuck] = useState(false);
-  const [open, setOpen] = useState(false);
+  /* The mobile menu remembers which page it was opened on. Navigating away
+     changes the pathname, so `open` turns false by itself: no effect, no
+     extra render, and the menu never hides the page you just arrived at. */
+  const [openAt, setOpenAt] = useState<string | null>(null);
+  const open = openAt === pathname;
+  const toggleMenu = () => setOpenAt(open ? null : pathname);
 
   /* Publish the measured header height so anchor offsets stay honest at
      every breakpoint instead of trusting a hardcoded guess. */
@@ -41,11 +46,6 @@ export default function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  /* Close the mobile menu on navigation, or it hides the page you arrived at. */
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
   return (
     <header
@@ -81,7 +81,7 @@ export default function SiteHeader() {
 
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
+          onClick={toggleMenu}
           aria-expanded={open}
           aria-controls="mobile-nav"
           className="tap rounded-lg px-3 py-2 text-sm font-semibold text-ink md:hidden"

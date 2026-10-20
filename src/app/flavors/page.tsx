@@ -4,7 +4,7 @@ import FlavorBoardCard from "@/components/FlavorBoardCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { caseFor } from "@/data/liveCase";
-import { locations, locationBySlug, orderHref, shopHref } from "@/data/site";
+import { ORDERING_LIVE, locations, locationBySlug, orderHref, shopHref } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Flavors",
@@ -13,7 +13,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/flavors" },
 };
 
-/* ISR so the live board actually goes live, see the note in app/page.tsx. */
+/*
+  This page reads ?at=, so it is request-rendered, not ISR (the build output
+  marks it dynamic). The live board still refreshes on the same clock: the
+  feed fetch in liveCase.ts carries its own 60s revalidate, and this export
+  keeps that default honest for anything else fetched here.
+*/
 export const revalidate = 60;
 
 /*
@@ -102,12 +107,27 @@ export default async function FlavorsPage({
               and we will tell you if it is in today.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href={orderHref(shop)} className="btn-primary text-sm">
-                Order from {shop.name}
-              </Link>
-              <Link href={shopHref(shop)} className="btn-secondary text-sm">
-                The {shop.name} shop
-              </Link>
+              {/* Ordering is built and off (ORDERING_LIVE): this was the one
+                  entry point not behind the flag, pointing at a page that 404s. */}
+              {ORDERING_LIVE ? (
+                <>
+                  <Link href={orderHref(shop)} className="btn-primary text-sm">
+                    Order from {shop.name}
+                  </Link>
+                  <Link href={shopHref(shop)} className="btn-secondary text-sm">
+                    The {shop.name} shop
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href={shopHref(shop)} className="btn-primary text-sm">
+                    The {shop.name} shop
+                  </Link>
+                  <a href={shop.phoneHref} className="btn-secondary text-sm">
+                    Call {shop.phone}
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </Reveal>

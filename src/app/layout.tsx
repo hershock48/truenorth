@@ -4,6 +4,7 @@ import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { site, locations } from "@/data/site";
+import { uniformDailySpan } from "@/data/shops";
 
 /**
  * Sora carries display sizes: geometric and slightly technical, which is the
@@ -79,14 +80,28 @@ export const metadata: Metadata = {
   schedules genuinely differ, its own hours. Same constants the visible site
   renders; one edit changes both.
 */
-const hoursSpecFor = (l: (typeof locations)[number]) => [
-  {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    opens: `${String(l.hours[0].open).padStart(2, "0")}:00`,
-    closes: `${String(l.hours[0].close).padStart(2, "0")}:00`,
-  },
-];
+const hh = (h: number) => `${String(h).padStart(2, "0")}:00`;
+const hoursSpecFor = (l: (typeof locations)[number]) => {
+  // One spec for the week while every day truly shares a span (both shops
+  // today), else one per day, so this never shows Sunday's hours as everyone's
+  // the day the owners split a schedule. Same rule as the shop page's hours line.
+  const span = uniformDailySpan(l.hours);
+  return span
+    ? [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: l.hours.map((h) => h.label),
+          opens: hh(span.open),
+          closes: hh(span.close),
+        },
+      ]
+    : l.hours.map((h) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: h.label,
+        opens: hh(h.open),
+        closes: hh(h.close),
+      }));
+};
 
 const jsonLd = {
   "@context": "https://schema.org",

@@ -30,7 +30,11 @@ export default function Reveal({
     if (!el) return;
 
     if (typeof IntersectionObserver === "undefined") {
-      setShown(true);
+      // No observer, no reveal: flip the attribute on the element itself.
+      // Setting React state here would re-render for nothing, and a lazy
+      // initial state would mismatch the server HTML (the server has no
+      // IntersectionObserver either, and would prerender everything shown).
+      el.setAttribute("data-shown", "");
       return;
     }
 

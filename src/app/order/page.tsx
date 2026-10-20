@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import OrderForm from "@/components/OrderForm";
 import PageHero from "@/components/PageHero";
+import { ORDERING_LIVE } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Order Ahead",
@@ -24,6 +26,12 @@ export default async function OrderPage({
 }: {
   searchParams: Promise<{ at?: string }>;
 }) {
+  // Built and off (ORDERING_LIVE in site.ts): every link to this page is
+  // already hidden, and the page itself 404s so the URL does not advertise a
+  // service nobody has switched on. /api/order refuses too, and the sitemap
+  // leaves it out. Flip the one flag and all four come back together.
+  if (!ORDERING_LIVE) notFound();
+
   const { at } = await searchParams;
 
   return (
