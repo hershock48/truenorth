@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { orderables } from "@/data/menu";
-import { locations } from "@/data/site";
+import { ORDERING_LIVE, locations } from "@/data/site";
 
 export const runtime = "nodejs";
 
@@ -89,9 +89,29 @@ ${body ? resendForm(body) : ""}
   );
 }
 
+/**
+ * The no-JS success redirect, with a RELATIVE Location. Under `next start`
+ * request.url carries the server's listen address, not the visitor's Host
+ * (measured: a post to 127.0.0.1 with Host truenorth.glazedweb.com was sent
+ * to localhost:4490/thanks), so an absolute URL built from it can point at
+ * the wrong origin behind a proxy. Browsers resolve a relative Location
+ * against the page they posted from, which is always the right one.
+ */
+function thanksRedirect() {
+  return new Response(null, { status: 303, headers: { Location: "/thanks" } });
+}
+
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") ?? "";
   const isForm = !contentType.includes("application/json");
+
+  // Ordering is built and off (ORDERING_LIVE in site.ts). The page 404s, but
+  // the endpoint is reachable by anyone who knows the path, so it refuses
+  // before reading a body: a switched-off service must not take orders.
+  if (!ORDERING_LIVE) {
+    const msg = "Ordering online is not open yet. Please call the shop and they will set it aside for you.";
+    return isForm ? htmlPage("Not just yet", msg, 404, "/") : NextResponse.json({ error: msg }, { status: 404 });
+  }
 
   let b: Record<string, unknown>;
   if (isForm) {
@@ -117,7 +137,7 @@ export async function POST(request: Request) {
   // Honeypot. Real people never fill this in because they never see it.
   if (clean(b.company, 100)) {
     return isForm
-      ? NextResponse.redirect(new URL("/thanks", request.url), 303)
+      ? thanksRedirect()
       : NextResponse.json({ ok: true });
   }
 
@@ -182,7 +202,7 @@ export async function POST(request: Request) {
 
   try {
     const resend = new Resend(key);
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from,
       to: to.split(",").map((s) => s.trim()),
       replyTo: email || undefined,
@@ -214,13 +234,17 @@ export async function POST(request: Request) {
       `,
     });
 
-    if (error) {
-      console.error("Resend error:", error);
+    // Success is an acceptance id, nothing less. The SDK answers with either
+    // {data:{id}, error:null} or {data:null, error}; a reply carrying neither
+    // (an unexpected body, a changed SDK surface) used to fall through to the
+    // thanks page with no mail sent, which the comment above rules out.
+    if (error || !data?.id) {
+      console.error("Resend error:", error ?? "no acceptance id in reply");
       return fail(`Could not send that. Please call the ${store.name} shop at ${store.phone}.`, 502);
     }
 
     return isForm
-      ? NextResponse.redirect(new URL("/thanks", request.url), 303)
+      ? thanksRedirect()
       : NextResponse.json({ ok: true });
   } catch (err) {
     console.error("Order send failed:", err);

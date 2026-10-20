@@ -66,6 +66,18 @@ function backHrefFrom(request: Request) {
   return "/catering";
 }
 
+/**
+ * The no-JS success redirect, with a RELATIVE Location. Under `next start`
+ * request.url carries the server's listen address, not the visitor's Host
+ * (measured: a post to 127.0.0.1 with Host truenorth.glazedweb.com was sent
+ * to localhost:4490/thanks), so an absolute URL built from it can point at
+ * the wrong origin behind a proxy. Browsers resolve a relative Location
+ * against the page they posted from, which is always the right one.
+ */
+function thanksRedirect() {
+  return new Response(null, { status: 303, headers: { Location: "/thanks" } });
+}
+
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") ?? "";
   const isForm = !contentType.includes("application/json");
@@ -95,7 +107,7 @@ export async function POST(request: Request) {
   // Honeypot. Real people never fill this in because they never see it.
   if (clean(b.company, 100)) {
     return isForm
-      ? NextResponse.redirect(new URL("/thanks", request.url), 303)
+      ? thanksRedirect()
       : NextResponse.json({ ok: true });
   }
 
@@ -150,7 +162,7 @@ export async function POST(request: Request) {
 
   try {
     const resend = new Resend(key);
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from,
       to: to.split(",").map((s) => s.trim()),
       replyTo: email || undefined,
@@ -170,13 +182,17 @@ export async function POST(request: Request) {
       `,
     });
 
-    if (error) {
-      console.error("Resend error:", error);
+    // Success is an acceptance id, nothing less. The SDK answers with either
+    // {data:{id}, error:null} or {data:null, error}; a reply carrying neither
+    // (an unexpected body, a changed SDK surface) used to fall through to the
+    // thanks page with no mail sent, which the comment above rules out.
+    if (error || !data?.id) {
+      console.error("Resend error:", error ?? "no acceptance id in reply");
       return fail(`Could not send that. Please call ${site.cateringPhone}.`, 502);
     }
 
     return isForm
-      ? NextResponse.redirect(new URL("/thanks", request.url), 303)
+      ? thanksRedirect()
       : NextResponse.json({ ok: true });
   } catch (err) {
     console.error("Inquiry send failed:", err);

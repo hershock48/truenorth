@@ -68,6 +68,18 @@ payment in v1, deliberately**: order-to-inbox, pay at the counter, honest and
 zero-dependency for the pitch. Stripe/Square hosted checkout is the launch
 upgrade (checklist).
 
+**Ordering is built and OFF** (`ORDERING_LIVE` in `site.ts`). While it is off,
+every order link is unrendered, `/order` 404s, `/api/order` refuses before
+reading a body, and the sitemap leaves `/order` out. One flag flips all four.
+
+Both routes count a send as successful **only when Resend returns an
+acceptance id**. The SDK answers `{data:{id}, error:null}` or `{data:null,
+error}`; a reply carrying neither used to fall through to the thanks page with
+no mail sent. The no-JS success redirect uses a relative `Location: /thanks`,
+because under `next start` `request.url` carries the listen address rather than
+the visitor's Host (measured: a post with `Host: truenorth.glazedweb.com` was
+redirected to `localhost:4490`).
+
 Behavior, verified by hand on the production build:
 
 - JS path: inline states, honest failure copy with the real phone number.
@@ -148,22 +160,31 @@ Behavior, verified by hand on the production build:
   /menu open with per-shop entry buttons. The UX rule, from the pjs build: the
   customer picks their counter first; everything else renders through it.
 
-## Audit state (August 17, 2026, this sandbox)
+## Audit state (October 20, 2026, this sandbox)
 
 `tools/` carries the studio harnesses (copied from the glazedweb repo, install
-`npm install axe-core playwright-core --no-save`, both together). Against the
-production build, all seven routes at 390 and 1440:
+`npm install axe-core playwright-core --no-save`, both together, and again
+after ANY `npm install`, which prunes them). Against the production build on
+Next 16.4.2, all ten public routes (both `/flavors?at=` variants and `/thanks`
+included) at 390 and 1440:
 
-- axe violations: **0** · horizontal overflow: **none** (320 also checked) ·
-  console errors: **none** · 4xx/5xx: **none** · contrast (reduced-motion
-  settled state): **no failures**
-- Plate render verified: `.gw-plate` computed cream, drip inherits footer ink.
+- axe violations: **0** · horizontal overflow: **none** · console errors:
+  **none** · 4xx/5xx: **none** · contrast: **no failures**
+- `eslint` and `tsc --noEmit`: clean.
+- Both API routes exercised by hand, JSON and form posts: validation, honeypot,
+  tampered quantities, cross-shop items, the unconfigured 503 with the payload
+  in the log, the no-JS fix-and-resend page with user input escaped.
+- Pitch-host rewrites verified with a `Host` header: the proposal answers at
+  `/` on truenorth.glazedweb.com only, `/pitch/*` 404s on any other host.
 - Google Maps embeds return 502 **in this sandbox only** (egress-blocked); they
   load from any normal network. Verify on the deployment.
-- **Total JS ~184KB gzipped, over the 150KB budget line.** Almost all of it is
+- **Total JS ~183KB gzipped, over the 150KB budget line.** Almost all of it is
   the Next 16 + React 19 baseline; page code is a few KB. Recorded rather than
   hidden: trimming below 150KB means leaving the framework, not tuning this app.
-- `npm audit`: 0 vulnerabilities at install time.
+- `npm audit`: 0 in anything that ships. Next was moved 16.3.0 → 16.4.2 for
+  three RCE advisories (image optimization, `next/og`). Five highs remain, all
+  in the `eslint-config-next` dev-only glob chain, whose only offered "fix" is
+  a downgrade to v14; they never reach a deployment.
 
 ## Before launch (when this stops being a spec build)
 
@@ -199,9 +220,10 @@ production build, all seven routes at 390 and 1440:
       (midnight typo), offer to fix it with them
 - [ ] Matcha is listed with price "Ask" (PLACEHOLDER), get the real price, and the
       rest of the espresso-bar lineup while at it
-- [ ] Ordering v1 (`/order`, order-to-inbox, pay at counter) is live, set
-      `ORDER_TO` (or let it fall back to `INQUIRY_TO`), submit a test order,
-      confirm arrival; ask the owners if each store wants its own inbox
+- [ ] Ordering v1 (`/order`, order-to-inbox, pay at counter) is built and OFF:
+      set `ORDER_TO` (or let it fall back to `INQUIRY_TO`), flip `ORDERING_LIVE`
+      in `site.ts`, submit a test order, confirm arrival; ask the owners if each
+      store wants its own inbox
 - [ ] Upgrade ordering to paid checkout when the owners want it: Stripe or
       Square hosted checkout, built in, nothing rented
 - [ ] Confirm current flavor lists and set `boardUpdated`

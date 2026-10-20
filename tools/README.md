@@ -27,10 +27,11 @@ launches it explicitly. Do not run `playwright install`.
 | Script | Answers |
 | --- | --- |
 | `audit.mjs` | Is this build shippable? axe against WCAG 2.1 AA, horizontal overflow, console and page errors, and 4xx/5xx, across every route at 390px and 1440px. |
-| `animating.mjs` | Is this element's animation actually moving, or does it only claim to be? |
-| `gap.mjs` | Does the clearance between two elements hold at every width, or only at the two you screenshotted? |
 | `contrast.mjs` | Which colour pairs fail contrast, grouped so one bad token does not look like fifty separate bugs? |
-| `egress.mjs` | Can the browser reach the public internet at all? (Currently: no.) |
+| `render.mjs` | Renders the proposal's share card and screenshots the proposal itself. Hard-wired to Kevin's machine (the glazedweb checkout path at the top of the file), so it runs there and nowhere else. |
+
+The glazedweb repo carries three more (`animating.mjs`, `gap.mjs`, `egress.mjs`) that
+were never copied here; run them from that checkout if you need them.
 
 Each file opens with the specific failure that caused it to exist. Those comments are
 the point, read the one you are about to use.
