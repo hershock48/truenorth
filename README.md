@@ -91,6 +91,24 @@ Behavior, verified by hand on the production build:
   server log so nothing a customer typed is lost. It never fakes an "ok".
 - Honeypot field `company` silently accepts and discards bots.
 
+## Tests
+
+`npm test` runs `tests/*.test.mjs` on node:test, no runner dependency. Each
+test compiles a real route or data module from `src/` with the `typescript`
+package and runs it in a vm with its imports faked (`tests/_load.mjs`), so
+nothing reaches Resend, a Scooplist feed, or the network. What they pin:
+
+- `inquiry-acceptance`: a send succeeds only on a Resend acceptance id, the
+  honeypot, validation, the relative `/thanks` redirect, the unconfigured
+  503 with the payload in the log and a real HTML page on the no-JS path.
+- `order-route`: ordering off refuses both formats before the body is read;
+  on, one order is one email, prices and names come from the menu and never
+  the post, quantities clamp, cross-shop items are refused, the no-JS failure
+  page hands the order back with input escaped, `ORDER_TO` falls back.
+- `case-feed`: the Scooplist contract (`src/data/caseFeed.ts`): wrong shop,
+  malformed shape, duplicates, future timestamps and oversized bodies are
+  refused, and every refusal renders the static board, never an empty one.
+
 ## Decisions, with reasoning
 
 - **Palette is measured, not styled.** All 31,121 opaque pixels of their logo
@@ -105,6 +123,15 @@ Behavior, verified by hand on the production build:
   transforms only) plus a compass needle that settles on north when scrolled
   into view. Resting states are the finished drawing; reduced motion gets a
   complete, static page (verified, not assumed).
+- **A feed is checked before it is trusted, and a bad feed is a dead feed.**
+  `caseFeed.ts` validates every Scooplist answer (shape, size, duplicates, a
+  plausible timestamp, and that it is the shop we asked for, so a
+  misconfigured URL answering every path with Marshall's case cannot put
+  soft serve on Battle Creek's page). A rejection takes the same static
+  fallback as an outage and is logged with the reason. It deliberately does
+  NOT keep a last-good snapshot and render an empty board when there is
+  none: a day-old menu beats a blank page, and a blank page is what a cold
+  cache plus an outage would have shown.
 - **The flavor board is a data file, not a CMS.** Editing `flavors.ts` takes
   under a minute and costs nothing monthly, which is the studio's whole pitch.
   If the owners want to edit from a phone without a deploy, that is a scoped
