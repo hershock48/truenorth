@@ -3,6 +3,7 @@ import "server-only";
 import { boards, boardUpdatedLabel, boardsFor, type Board, type Flavor, type Allergen } from "@/data/flavors";
 import { locations } from "@/data/site";
 import type { LocationKey } from "@/data/shops";
+import { MAX_FEED_BYTES, validateCaseFeed, type CaseFeed as Feed, type FeedFlavor } from "@/data/caseFeed";
 
 /**
  * The live flavor board, fed by Scooplist (the studio's flavor-board app).
@@ -17,18 +18,13 @@ import type { LocationKey } from "@/data/shops";
  *
  * Fetches carry a 3s abort and 60s ISR revalidate, so a dead feed costs one
  * slow render per minute, not a hung page.
+ *
+ * Every answer is checked against the v1 contract (caseFeed.ts) before it
+ * is used: wrong shop, malformed shape, oversized body, or an implausible
+ * timestamp all count as "the feed did not answer" and take the same
+ * static fallback. The check narrows what reaches a page; it never turns
+ * a bad feed into an empty one.
  */
-
-type FeedFlavor = {
-  name: string;
-  description: string;
-  allergens: string[];
-  tags: string[];
-};
-
-type FeedBoard = { key: string; label: string; flavors: FeedFlavor[] };
-
-type Feed = { updatedAt: number | null; boards: FeedBoard[] };
 
 /** The result every consumer gets: boards plus the honest "last updated" label. */
 export type CaseData = { boards: Board[]; updatedLabel: string; live: boolean };
@@ -49,8 +45,13 @@ async function fetchFeed(shop: LocationKey): Promise<Feed | null> {
       signal: AbortSignal.timeout(3000),
     });
     if (!res.ok) return null;
-    return (await res.json()) as Feed;
-  } catch {
+    const body = await res.text();
+    if (body.length > MAX_FEED_BYTES) return null;
+    return validateCaseFeed(JSON.parse(body), shop);
+  } catch (err) {
+    // Logged, not rendered: a rejected feed looks like a dead one to the
+    // visitor, and the reason belongs to whoever reads the server log.
+    console.error(`Scooplist feed for ${shop} rejected:`, err instanceof Error ? err.message : err);
     return null;
   }
 }
