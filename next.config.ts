@@ -1,23 +1,73 @@
 import type { NextConfig } from "next";
 
+/**
+ * Their real domain, both spellings. Everything that must behave differently on
+ * the site's own address keys off this one list: the noindex header below and
+ * src/app/robots.ts (which keeps its own copy, since a config file cannot be
+ * imported into app code).
+ */
+const realHosts = [
+  { type: "host" as const, value: "truenorthicecream.com" },
+  { type: "host" as const, value: "www.truenorthicecream.com" },
+];
+
 const nextConfig: NextConfig = {
-  // NOINDEX, DELIBERATELY, UNTIL THIS IS THEIR SITE.
+  // NOINDEX EVERYWHERE EXCEPT THEIR OWN DOMAIN.
   //
-  // This is a spec build: a full copy of True North Ice Cream's content, menu, and
-  // flavors, served from a hostname that is not theirs. Letting search engines index
-  // it competes with the business we are trying to win, and a duplicate of their
-  // content on a Glazed Web domain is a fair complaint waiting to happen.
+  // Until 9 Nov 2026 this header went on every response, and the plan was to
+  // delete it on launch day. That plan had a trap in it: pointing the domain
+  // before the deploy that removed it would have told Google to drop his real
+  // site. So the header is now scoped by host instead. The pitch host, the
+  // .vercel.app names and any preview keep "noindex, nofollow" forever, because a
+  // copy of their content on a Glazed Web address must never compete with them.
+  // truenorthicecream.com and www get no header at all, from whatever moment the
+  // DNS points here, with nothing to remember on the day.
   //
-  // src/app/robots.ts disallows everything, and this header is the belt to its
-  // braces: robots.txt is a request that well-behaved crawlers honor, X-Robots-Tag
-  // is an instruction on every response, and the two disagree less often than one
-  // of them gets forgotten.
-  //
-  // Remove BOTH on the day it becomes their site, and not before. It is on the
-  // before-launch checklist in the README.
+  // `missing` matches only when NONE of the listed hosts match, so this reads:
+  // send the header unless the request is for the real domain. robots.ts follows
+  // the same rule, belt and braces as before.
   async headers() {
     return [
-      { source: "/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
+      {
+        source: "/:path*",
+        missing: realHosts,
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
+  },
+
+  // THE OLD SITE'S ADDRESSES, so nothing Google has indexed or anybody has
+  // bookmarked lands on a 404 after the switch. Read from the WordPress site's own
+  // sitemaps on 9 Nov 2026: 79 public URLs. Five survive as they are (/, /about,
+  // /contact, /flavors, /menu; the trailing slash is dropped by Next on its own).
+  // The other 74 are covered by the rules below, all permanent, so search engines
+  // move what those pages had earned onto the new ones. Checked against a
+  // production build that day: all 79 end on a 200 page, none on a 404.
+  //
+  // Each old single-item page goes where that item lives now: a flavor to
+  // /flavors, anything with a price on it (cones, sundaes, drinks, treats) to
+  // /menu. The named list is the menu side; every other /our-menu/ address was a
+  // flavor, which is what the catch-all after it says. Order matters: Next takes
+  // the first match, so the specific rules sit above the catch-alls.
+  async redirects() {
+    const menuItems = [
+      "affogato", "banana-split", "bottled-water", "bowl-cone", "bowl-cone-2", "bowl-cone-mini",
+      "canned-pop", "cappuccino", "coffee", "double-espresso", "extra-toppings", "fruit-smoothie",
+      "hand-dipped", "ice-cream-cake", "ice-cream-nachos", "ice-cream-pie",
+      "malts-shakes-floats-coolers", "pick-3", "pup-cup", "sandwiches", "slush", "soft-serve",
+      "sundaes", "waffle-cone-bowl",
+    ].join("|");
+    const flavorCategories = [
+      "adult-flavors-21", "dairy-free", "homemade", "homemade-flavors", "soft-serve-flavors",
+    ].join("|");
+    return [
+      { source: "/catering-events", destination: "/catering", permanent: true },
+      { source: "/our-menu", destination: "/menu", permanent: true },
+      { source: `/our-menu/:item(${menuItems})`, destination: "/menu", permanent: true },
+      { source: "/our-menu/:item*", destination: "/flavors", permanent: true },
+      { source: "/our-menu-category", destination: "/menu", permanent: true },
+      { source: `/our-menu-category/:cat(${flavorCategories})`, destination: "/flavors", permanent: true },
+      { source: "/our-menu-category/:cat*", destination: "/menu", permanent: true },
     ];
   },
 
