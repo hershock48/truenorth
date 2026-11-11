@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import GlazedPlate from "@/components/GlazedPlate";
-import { site, locations, fullAddress, mapsUrl, shopHref } from "@/data/site";
+import { site, locations, fullAddress, hoursLine, mapsUrl, shopHref } from "@/data/site";
 
 export default function SiteFooter() {
   return (
@@ -32,8 +32,9 @@ export default function SiteFooter() {
                 {l.name}
               </Link>
             </h2>
-            {/* Per-shop hours: the two schedules differ. */}
-            <p className="mt-1 text-sm text-cream/80">{l.hoursSummary}</p>
+            {/* Per-shop hours: the two schedules differ, and a shop shut
+                for the winter says so here (hoursLine). */}
+            <p className="mt-1 text-sm text-cream/80">{hoursLine(l)}</p>
             <address className="mt-3 text-sm not-italic leading-relaxed text-cream/80">
               <a
                 href={mapsUrl(l)}

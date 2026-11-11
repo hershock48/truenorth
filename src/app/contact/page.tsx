@@ -3,12 +3,17 @@ import InquiryForm from "@/components/InquiryForm";
 import MapCard from "@/components/MapCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { locations, site } from "@/data/site";
+import { hoursLine, locations, seasonSentence, site } from "@/data/site";
+
+// Built from site.ts so a shop shut for the winter reads "closed for the
+// season" here too, and a corrected address or schedule is one edit.
+const whereAndWhen = locations
+  .map((l) => `${l.street} in ${l.city} (${hoursLine(l).toLowerCase()})`)
+  .join(" and ");
 
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Find True North Ice Cream at 403 S Kalamazoo Ave in Marshall (open noon to 9 daily) and 928 W Columbia Ave in Battle Creek (open 2 to 9 daily). Call, email, or send a message.",
+  description: `Find True North Ice Cream at ${whereAndWhen}. Call, email, or send a message.`,
   alternates: { canonical: "/contact" },
 };
 
@@ -18,7 +23,10 @@ export default function ContactPage() {
       <PageHero
         kicker="Say hello"
         title="Come find us"
-        lede="Both shops scoop every day, Marshall from noon, Battle Creek from 2, doors closing at 9. For anything else, send a message and we will get back to you."
+        lede={`${
+          seasonSentence() ??
+          "Both shops scoop every day, Marshall from noon, Battle Creek from 2, doors closing at 9."
+        } For anything else, send a message and we will get back to you.`}
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">

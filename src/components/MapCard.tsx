@@ -3,10 +3,13 @@ import OpenNow from "@/components/OpenNow";
 import { uniformDailySpan } from "@/data/shops";
 import {
   ORDERING_LIVE,
+  SEASON_CLOSED_LINE,
   formatHour,
   fullAddress,
+  isClosedForSeason,
   mapsEmbedUrl,
   mapsUrl,
+  openShop,
   orderHref,
   shopHref,
   type Location,
@@ -35,6 +38,11 @@ export default function MapCard({
   scooping?: Flavor[];
 }) {
   const span = uniformDailySpan(location.hours);
+  // Shut for the winter: no hours table to read, and the second button
+  // sends people to the shop that is scooping instead of a phone nobody
+  // is standing next to.
+  const seasonShut = isClosedForSeason(location);
+  const elsewhere = seasonShut ? openShop(location) : undefined;
 
   return (
     <div className="lift flex h-full flex-col overflow-hidden rounded-[--radius-panel] border border-ink/10 bg-white">
@@ -66,7 +74,12 @@ export default function MapCard({
         {/* Hours as a table, pjs-style. One row while every day matches; the
             moment a day diverges it becomes seven honest rows. */}
         <dl className="mt-4 border-y border-ink/10 py-3 text-sm">
-          {span ? (
+          {seasonShut ? (
+            <div className="flex justify-between gap-4">
+              <dt className="font-medium text-ink-soft">Hours</dt>
+              <dd className="font-semibold text-ink">{SEASON_CLOSED_LINE}</dd>
+            </div>
+          ) : span ? (
             <div className="flex justify-between gap-4">
               <dt className="font-medium text-ink-soft">Every day</dt>
               <dd className="font-semibold text-ink">
@@ -142,9 +155,15 @@ export default function MapCard({
               <Link href={shopHref(location)} className="btn-primary !px-5 !py-2.5 text-sm">
                 The {location.name} shop
               </Link>
-              <a href={location.phoneHref} className="btn-secondary !px-5 !py-2.5 text-sm">
-                Call
-              </a>
+              {elsewhere ? (
+                <Link href={shopHref(elsewhere)} className="btn-secondary !px-5 !py-2.5 text-sm">
+                  {elsewhere.name} is open
+                </Link>
+              ) : (
+                <a href={location.phoneHref} className="btn-secondary !px-5 !py-2.5 text-sm">
+                  Call
+                </a>
+              )}
             </>
           )}
         </div>

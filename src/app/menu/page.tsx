@@ -4,7 +4,7 @@ import MenuSectionCard from "@/components/MenuSectionCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import ShopEntryLinks from "@/components/ShopEntryLinks";
-import { menu } from "@/data/menu";
+import { menu, menuTaxNote } from "@/data/menu";
 import { shopMenuHref } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function MenuPage() {
       <PageHero
         kicker="The menu"
         title="Menu and prices"
-        lede="Scoops come as minis for the undecided, larges for the committed, and pints and quarts for the freezer at home."
+        lede={`Scoops come as minis for the undecided, larges for the committed, and pints and quarts for the freezer at home. ${menuTaxNote}`}
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">

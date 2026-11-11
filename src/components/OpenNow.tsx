@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { formatHour, type Hours, type Location } from "@/data/site";
+import {
+  SEASON_CLOSED_LINE,
+  formatHour,
+  isClosedForSeason,
+  type Hours,
+  type Location,
+} from "@/data/site";
 
 /**
  * Live open/closed state for one shop's hours, computed in America/Detroit so
@@ -89,6 +95,21 @@ export default function OpenNow({
   pill?: boolean;
 }) {
   const state = useOpenState(location.hours);
+  /*
+    Shut for the winter (site.ts closedForSeason): the daily clock is wrong
+    for months, so the badge says the season line and never "Opens tomorrow
+    at 2pm". The text is static, the same on the server and in the browser.
+  */
+  const seasonShut = isClosedForSeason(location);
+
+  if (pill && seasonShut) {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-cherry/12 px-3 py-1 text-xs font-semibold text-cherry-deep">
+        <StatusDot open={false} />
+        {SEASON_CLOSED_LINE}
+      </span>
+    );
+  }
 
   if (pill) {
     const shut = state ? !state.open : false;
@@ -117,6 +138,16 @@ export default function OpenNow({
       <span aria-hidden>·</span>
     </>
   ) : null;
+
+  if (seasonShut) {
+    return (
+      <span className={`inline-flex items-center gap-2 text-sm font-medium ${text}`}>
+        <StatusDot open={false} />
+        {labelPart}
+        {SEASON_CLOSED_LINE}
+      </span>
+    );
+  }
 
   /*
     Pre-hydration and no-JS: real text, never an empty box. The shop's name

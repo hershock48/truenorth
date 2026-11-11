@@ -3,10 +3,14 @@
  * (or whoever updates the site) edit these lists and the board, the homepage
  * teaser, and the flavor count all update together.
  *
- * Names came verbatim from truenorthicecream.com/flavors, August 2026, with two
- * deliberate edits: their page spells "Strawberry Lemondade Sorbet", corrected
- * here, and allergen marks are structured data rather than "(N)" typed into
- * the name, so they render as real, consistent badges.
+ * Since Scooplist went live this is the FALLBACK board: liveCase.ts renders
+ * the owner's own case from the feed and only reaches for these lists when
+ * the feed does not answer. So they mirror the Marshall shop's wall boards as
+ * photographed on 11 Nov 2026 and entered in Scooplist that day, names
+ * spelled exactly as Scooplist spells them, so an outage shows the same
+ * board a minute-old page did. (The August lists came from the old website.)
+ * Allergen marks are structured data rather than "(N)" typed into the name,
+ * so they render as real, consistent badges.
  *
  * The case rotates through roughly 45 flavors a month, so treat this as a
  * snapshot, not a catalog. Updating it should never take more than a minute:
@@ -34,25 +38,37 @@ export type Flavor = {
 };
 
 export const homemade: Flavor[] = [
-  { name: "Birthday Cake" },
+  { name: "Almond Joy", allergens: ["nuts"] },
+  { name: "Apple Pie" },
+  { name: "Banana Cream" },
   { name: "Biscoff Cookie Butter", allergens: ["gluten"] },
+  { name: "Birthday Cake" },
   { name: "Blue Moon" },
+  { name: "Blueberry Swirl" },
   { name: "Butter Pecan", allergens: ["nuts"] },
   { name: "Cascarelli Cashew", allergens: ["nuts"], note: "Made with the famous nuts from Cascarelli's of Homer." },
   { name: "Chocolate" },
   { name: "Chocolate Avalanche", allergens: ["gluten"] },
-  { name: "Cookie Dough", allergens: ["gluten"] },
+  { name: "Chocolate Peanut Butter", allergens: ["nuts"] },
   { name: "Coffee Crunch", allergens: ["nuts"] },
+  { name: "Cookie Dough", allergens: ["gluten"] },
   { name: "Dark Cherry Chip" },
   { name: "Lemon" },
+  { name: "Lia's Butter Beer Crunch" },
+  { name: "Maple Walnut", allergens: ["nuts"] },
   { name: "Mint Chip" },
   { name: "Old Pan Toffee", allergens: ["nuts"], note: "A collaboration with Old Pan Toffee, made down the road." },
   { name: "Oreo", allergens: ["gluten"] },
-  { name: "Peanut Butter Cup", allergens: ["nuts"] },
+  { name: "Pumpkin Pie" },
   { name: "Raspberry Chip" },
   { name: "Snickers", allergens: ["nuts"] },
   { name: "Strawberry" },
-  { name: "Totally Coconut", allergens: ["nuts"] },
+  // The wall board lists the two sugar-free flavors under Dairy Free, but
+  // sugar-free ice cream usually has milk in it. They sit here until the
+  // owner confirms: a dairy-free label on a dairy flavor is the one mistake
+  // on this board that could hurt someone.
+  { name: "Sugar Free Chocolate" },
+  { name: "Sugar Free Vanilla" },
   { name: "Vanilla Bean" },
 ];
 
@@ -60,30 +76,32 @@ export const softServe: Flavor[] = [
   { name: "Black Cherry" },
   { name: "Blue Goo" },
   { name: "Bubble Gum" },
-  { name: "Butter Pecan" },
-  { name: "Chocolate" },
-  { name: "Cool Lemon" },
+  { name: "Butter Pecan Soft Serve", allergens: ["nuts"] },
+  { name: "Caramel" },
+  { name: "Chocolate Soft Serve" },
   { name: "Green Apple" },
   { name: "Raspberry" },
-  { name: "Strawberry" },
+  { name: "Strawberry Soft Serve" },
   { name: "Twist" },
   { name: "Vanilla" },
 ];
 
 export const adult: Flavor[] = [
   { name: "Bailey Mountain" },
-  { name: "Cherry Amaretto" },
+  { name: "Bourbon Pecan Cream", allergens: ["nuts"] },
   { name: "Honey Bourbon" },
-  { name: "Rum Chatta" },
+  { name: "Pumpkin Spice" },
   { name: "True North Slide" },
 ];
 
 export const dairyFree: Flavor[] = [
+  { name: "Dairy Free Pumpkin Pie" },
+  { name: "Dairy Free Vanilla" },
   { name: "Dark Cherry Sorbet" },
-  { name: "Chocolate", note: "Vegan." },
-  { name: "Pumpkin Pie" },
-  { name: "Strawberry" },
+  { name: "Lemon Sorbet" },
+  { name: "Pistachio", allergens: ["nuts"] },
   { name: "Strawberry Lemonade Sorbet" },
+  { name: "Vegan Chocolate" },
 ];
 
 export type Board = {
@@ -126,7 +144,7 @@ export function boardsFor(key: LocationKey): Board[] {
  * visitor can see the list is current, and so a stale board is visible to
  * the owner instead of silently wrong. Update it when you update the lists.
  */
-export const boardUpdated = "2026-08-21";
+export const boardUpdated = "2026-11-11";
 
 /**
  * The one rendered form of that date. Every surface uses this export, three
