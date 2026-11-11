@@ -49,15 +49,16 @@ export const metadata: Metadata = {
     title: `${site.name} | Homemade ice cream, made fresh daily`,
     description: site.blurb,
     /*
-      ABSOLUTE, ON THE PITCH HOST, DELIBERATELY, for now. A relative /og.jpg
-      resolves against metadataBase (their real domain), where nothing is
-      deployed yet, so sharing the demo would show no picture. glaze.md §3:
-      og:image lives on an origin that actually serves it. At launch this
-      goes back to plain "/og.jpg", it is on the README checklist.
+      Relative, so it resolves against metadataBase, their real domain. It was
+      pinned to the pitch host during the pitch, because nothing was deployed
+      on truenorthicecream.com then and a share showed no picture. From the
+      DNS switch on, the domain serves this file itself. Between merging this
+      and the switch, a share of the demo address shows no picture, which is
+      the right trade now the demo is not being sent to anyone.
     */
     images: [
       {
-        url: "https://truenorth.glazedweb.com/og.jpg",
+        url: "/og.jpg",
         width: 1200,
         height: 630,
         alt: "True North Ice Cream",

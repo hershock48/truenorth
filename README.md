@@ -30,10 +30,20 @@ image; remake it if the logo or tagline changes) and the copy on `/about`
 
 ## Traps, this will break if you do not know
 
-- **The noindex is deliberate and lives in TWO places:** `src/app/robots.ts`
-  (disallow all) and `next.config.ts` (`X-Robots-Tag` on every response). This is
-  a spec build on a Glazed Web host; indexing it would compete with the client
-  for their own name. Remove BOTH on launch day, and not before.
+- **The noindex is scoped by host, in TWO places:** `next.config.ts`
+  (`X-Robots-Tag` on every response whose host is NOT truenorthicecream.com or
+  www) and `src/app/robots.ts` (disallow all, except allow plus the sitemap on
+  the real domain). The pitch host and every .vercel.app name stay hidden for
+  good, because a copy of their content on our address must never compete with
+  them. Do not "remove the noindex on launch day": there is nothing to remove.
+  It used to be on every host with a launch-day flip, which meant pointing the
+  DNS before that deploy would have told Google to drop his real site (changed
+  9 Nov 2026). If the domain list ever changes, change it in both files.
+- **The old WordPress addresses redirect** (`redirects()` in `next.config.ts`):
+  74 old URLs, every one of the 79 his previous site published in its sitemaps,
+  checked against a production build to end on a 200 page. Single-item pages go
+  to `/flavors` or `/menu` by what the item is. Delete the rules only when
+  Search Console shows nothing still arriving at the old paths.
 - **`.gitignore` is `.env*` plus `!.env.example`.** A bare `.env*` silently
   ignores the example file too, that is how glazedweb itself ended up unable to
   track the file its docs call the authority.
@@ -215,14 +225,32 @@ included) at 390 and 1440:
 
 ## Before launch (when this stops being a spec build)
 
-- [ ] Remove the noindex from BOTH `robots.ts` and `next.config.ts`
-- [ ] og:image in `layout.tsx` is pinned to the truenorth.glazedweb.com host so
-      shares show a picture during the pitch, change it back to "/og.jpg" so it
-      resolves against the real domain at launch
-- [ ] Point the canonical host at the client's real domain everywhere it appears
+The cutover itself, in this order (9 Nov 2026). The domain is in Vaughn's own
+Squarespace Domains account; nothing is needed from his previous web person.
+
+- [x] Noindex scoped to the non-real hosts, so the real domain is indexable from
+      the moment DNS points here with no launch-day deploy to time
+- [x] og:image relative, resolving against the real domain
+- [x] Canonical host is the real domain everywhere (`site.url`, metadataBase,
+      every page's `alternates.canonical`, the sitemap)
+- [x] Old WordPress URLs redirect, all 79 verified
+- [ ] Add `truenorthicecream.com` and `www.truenorthicecream.com` to the Vercel
+      project; pick one as primary and redirect the other
 - [ ] Set `RESEND_API_KEY`, `INQUIRY_TO` (owner-confirmed, human-monitored inbox),
       `ORDER/INQUIRY_FROM` in Vercel; submit both forms; confirm arrival in the real inbox
-- [ ] Replace the PLACEHOLDER Instagram URL in `site.ts` with their real handle
+- [ ] In his Squarespace DNS, EDIT the two existing records (do not add beside
+      them): apex A `151.101.130.159` becomes `76.76.21.21`, www CNAME
+      `truenorthicecream.com` becomes `cname.vercel-dns.com`. Those are the only
+      records on the domain as of 9 Nov 2026: no MX, no TXT, no CAA, so no email
+      or verification can break. Rollback is putting those two values back.
+- [ ] Confirm https on both names, no `X-Robots-Tag` on the real domain, forms
+      deliver
+- [ ] Search Console: a Domain property verified by a new TXT record, sitemap
+      submitted. Any old property was verified on the old site and lapses.
+- [ ] Only then: Vaughn cancels the old hosting
+- [ ] Their Instagram handle, if they want it linked: `site.social.instagram` is
+      still a placeholder, but NOTHING renders it (the footer and the structured
+      data use Facebook only), so it does not block launch
 - [ ] Confirm the Battle Creek opening year on `/about` (PLACEHOLDER comment)
 - [ ] Confirm per-shop hours with the owners (Marshall 12–9 daily, Battle Creek
       2–9 daily, per each shop's Google Business profile, Aug 21, 2026) and
