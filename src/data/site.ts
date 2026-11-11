@@ -71,6 +71,15 @@ export type Location = {
   hours: Hours[];
   /** The one-line version for cards and ledes. */
   hoursSummary: string;
+  /**
+   * Set while this shop is shut for the winter. Every surface that states
+   * hours or an open/closed state reads it: the shop cards and their badge,
+   * the shop page, the footer, the flavor boards (liveCase.ts), the hours
+   * sentences on the home and contact pages, and the structured data in
+   * layout.tsx. `hours` and `hoursSummary` stay as the in-season schedule,
+   * so reopening in spring is deleting this one line.
+   */
+  closedForSeason?: boolean;
 };
 
 export const locations: Location[] = [
@@ -105,8 +114,45 @@ export const locations: Location[] = [
       "Hand-scooped flavors and waffle cones made fresh in the shop, with a deep dairy-free and sorbet lineup.",
     hours: daily(14, 21),
     hoursSummary: "Open 2 to 9pm, every day",
+    // Kevin, 11 Nov 2026: Battle Creek is closed for the season. No
+    // reopening date yet, so nothing on the site names one.
+    closedForSeason: true,
   },
 ];
+
+/** The words every surface uses for a shop that is shut for the winter. */
+export const SEASON_CLOSED_LINE = "Closed for the season";
+
+export function isClosedForSeason(l: Location) {
+  return l.closedForSeason === true;
+}
+
+/** The one-line hours for cards, ledes and the footer: the season line while shut. */
+export function hoursLine(l: Location) {
+  return isClosedForSeason(l) ? SEASON_CLOSED_LINE : l.hoursSummary;
+}
+
+/** The first shop that is open this season, other than `not`. */
+export function openShop(not?: Location) {
+  return locations.find((l) => !isClosedForSeason(l) && l.key !== not?.key);
+}
+
+/**
+ * The both-shops hours sentence while a shop is shut for the season, built
+ * from the same facts as the cards: "Marshall is open noon to 9pm, every
+ * day. Battle Creek is closed for the season." Null while every shop is
+ * open, so the home and contact pages keep their own hand-written line.
+ */
+export function seasonSentence(): string | null {
+  const shut = locations.filter(isClosedForSeason);
+  if (shut.length === 0) return null;
+  const open = locations.filter((l) => !isClosedForSeason(l));
+  const lines = [
+    ...open.map((l) => `${l.name} is ${l.hoursSummary.toLowerCase()}.`),
+    ...shut.map((l) => `${l.name} is ${SEASON_CLOSED_LINE.toLowerCase()}.`),
+  ];
+  return lines.join(" ");
+}
 
 /*
   ORDERING IS BUILT AND OFF.

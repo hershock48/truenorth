@@ -8,7 +8,7 @@ import MapCard from "@/components/MapCard";
 import MeltEdge from "@/components/MeltEdge";
 import Reveal from "@/components/Reveal";
 import { caseFor } from "@/data/liveCase";
-import { locations } from "@/data/site";
+import { locations, seasonSentence } from "@/data/site";
 
 /*
   Copy discipline (glaze.md): "homemade" is their word and their promise, so it
@@ -146,9 +146,12 @@ export default async function Home() {
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-ink md:text-4xl">
               Two shops, one freezer full of good ideas
             </h2>
+            {/* The hand-written line is the both-shops-open one. While a
+                shop is shut for the winter the sentence comes from the same
+                flag the cards below read (site.ts). */}
             <p className="mt-2 max-w-2xl text-ink-soft">
-              Marshall scoops from noon, Battle Creek from 2, both open every
-              day until 9.
+              {seasonSentence() ??
+                "Marshall scoops from noon, Battle Creek from 2, both open every day until 9."}
             </p>
           </Reveal>
           <div className="mt-8 grid gap-6 md:grid-cols-2">

@@ -82,8 +82,21 @@ function label(updatedAt: number | null): string {
   });
 }
 
+/**
+ * A shop shut for the winter (site.ts closedForSeason) has nothing in its
+ * case, whatever the feed or the static board says. Read straight off the
+ * location, before any fetch: a feed outage must not put August's static
+ * board on a counter that is dark until spring.
+ */
+function shutForSeason(shop: LocationKey): boolean {
+  return locations.find((l) => l.key === shop)?.closedForSeason === true;
+}
+
 /** One shop's boards, live when the feed answers, static otherwise. */
 export async function caseFor(shop: LocationKey): Promise<CaseData> {
+  if (shutForSeason(shop)) {
+    return { boards: [], updatedLabel: boardUpdatedLabel, live: false };
+  }
   const feed = await fetchFeed(shop);
   if (!feed) {
     return { boards: boardsFor(shop), updatedLabel: boardUpdatedLabel, live: false };
@@ -103,10 +116,15 @@ export async function caseFor(shop: LocationKey): Promise<CaseData> {
 /**
  * The merged all-shops view for the homepage and /flavors: the union of
  * every shop's case, with `at` tags computed from actual membership so the
- * "{Shop} only" chips reflect what is really scooping where today.
+ * "{Shop} only" chips reflect what is really scooping where today. Shops
+ * shut for the winter are left out: with one counter open, "Marshall only"
+ * on every flavor is noise, and the open shop's case is the whole truth.
  */
 export async function caseAll(): Promise<CaseData> {
-  const shops = locations;
+  const shops = locations.filter((l) => !shutForSeason(l.key));
+  if (shops.length === 0) {
+    return { boards: [], updatedLabel: boardUpdatedLabel, live: false };
+  }
   const feeds = await Promise.all(shops.map((l) => fetchFeed(l.key)));
   // All shops or none: a merged board where one shop's feed failed would
   // render half the truth with confident chips on it.

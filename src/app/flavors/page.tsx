@@ -4,7 +4,16 @@ import FlavorBoardCard from "@/components/FlavorBoardCard";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { caseFor } from "@/data/liveCase";
-import { ORDERING_LIVE, locations, locationBySlug, orderHref, shopHref } from "@/data/site";
+import {
+  ORDERING_LIVE,
+  SEASON_CLOSED_LINE,
+  isClosedForSeason,
+  locations,
+  locationBySlug,
+  openShop,
+  orderHref,
+  shopHref,
+} from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Flavors",
@@ -43,14 +52,25 @@ export default async function FlavorsPage({
   const shop = locationBySlug(at ?? "") ?? locations[0];
   const { boards, updatedLabel } = await caseFor(shop.key);
   const count = boards.reduce((n, b) => n + b.flavors.length, 0);
+  /*
+    An empty case never reads "0 flavors scooping". A shop shut for the
+    winter (site.ts closedForSeason) says so and points at the shop that is
+    open; an open shop with nothing on its board says to call.
+  */
+  const seasonShut = isClosedForSeason(shop);
+  const elsewhere = seasonShut ? openShop(shop) : undefined;
+  const serving = elsewhere ?? shop;
+  const lede = seasonShut
+    ? `Our ${shop.name} shop is ${SEASON_CLOSED_LINE.toLowerCase()}, so its case is empty.${
+        elsewhere ? ` ${elsewhere.name} is scooping every day: pick it below to see the case.` : ""
+      }`
+    : count === 0
+      ? `Nothing is on the ${shop.name} board right now. Call the shop and we will tell you what is in the case.`
+      : `${count} flavors scooping at our ${shop.name} shop right now. The case changes daily, and this list follows it. Last updated ${updatedLabel}.`;
 
   return (
     <>
-      <PageHero
-        kicker="The board"
-        title={`In the ${shop.name} case`}
-        lede={`${count} flavors scooping at our ${shop.name} shop right now. The case changes daily, and this list follows it. Last updated ${updatedLabel}.`}
-      />
+      <PageHero kicker="The board" title={`In the ${shop.name} case`} lede={lede} />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">
         {/* The shop is the first decision, and it is never implied. */}
@@ -97,12 +117,12 @@ export default async function FlavorsPage({
               ID at the counter. Everything is made without added dyes or hormones.
             </p>
             <p className="mt-3 text-ink-soft">
-              Chasing a favorite? Call {shop.name} at{" "}
+              Chasing a favorite? Call {serving.name} at{" "}
               <a
-                href={shop.phoneHref}
+                href={serving.phoneHref}
                 className="font-medium text-north-deep underline-offset-4 hover:underline"
               >
-                {shop.phone}
+                {serving.phone}
               </a>{" "}
               and we will tell you if it is in today.
             </p>
@@ -123,8 +143,8 @@ export default async function FlavorsPage({
                   <Link href={shopHref(shop)} className="btn-primary text-sm">
                     The {shop.name} shop
                   </Link>
-                  <a href={shop.phoneHref} className="btn-secondary text-sm">
-                    Call {shop.phone}
+                  <a href={serving.phoneHref} className="btn-secondary text-sm">
+                    Call {serving.phone}
                   </a>
                 </>
               )}
