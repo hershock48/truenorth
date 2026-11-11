@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const offerings = [
   {
     title: "Events and catering",
-    body: "We scoop at weddings, birthdays, graduations, and company parties. Fresh flavors, real toppings, and enough of both that nobody has to be polite about seconds.",
+    body: "Scoops for weddings, birthdays, graduations, and company parties. Fresh flavors, real toppings, and enough of both that nobody has to be polite about seconds.",
   },
   {
     title: "Cakes and special orders",

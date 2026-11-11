@@ -20,7 +20,7 @@ export default function MenuPage() {
       <PageHero
         kicker="The menu"
         title="Menu and prices"
-        lede="Scoops come as minis for the undecided, larges for the committed, and pints and quarts for the freezer at home. Most of it is at both shops; anything one counter does alone is marked."
+        lede="Scoops come as minis for the undecided, larges for the committed, and pints and quarts for the freezer at home."
       />
 
       <section className="mx-auto max-w-6xl px-5 pb-20">

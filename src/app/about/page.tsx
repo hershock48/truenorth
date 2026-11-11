@@ -15,15 +15,15 @@ export const metadata: Metadata = {
 const values = [
   {
     title: "Made here, daily",
-    body: "Every batch is churned in the shop. What you order today was made today or close to it, which is most of why it tastes the way it does.",
+    body: "Every batch is churned in the shop. What you order today was made right here, which is most of why it tastes the way it does.",
   },
   {
     title: "Real ingredients",
-    body: "Non-GMO recipes with no added dyes, hormones, or stabilizers. If it would not go in a home kitchen batch, it does not go in ours.",
+    body: "Non-GMO recipes with no added dyes or hormones. If it would not go in a home kitchen batch, it does not go in ours.",
   },
   {
     title: "Neighbors first",
-    body: "Our cases carry collaborations with local makers, like Old Pan Toffee, and we run fundraisers for local organizations all season long.",
+    body: "Our cases carry collaborations with local makers, like Cascarelli's and Old Pan Toffee, and we run fundraisers for local organizations all season long.",
   },
 ];
 
@@ -64,7 +64,7 @@ export default function AboutPage() {
               <p>
                 We opened the Marshall shop in 2021, on South Kalamazoo Avenue,
                 scooping the same recipes that had been coming out of our
-                kitchen for years. The line out the door that first summer told
+                kitchen for months. The line out the door that first summer told
                 us we were onto something.
               </p>
               <p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
                 batches, same standards, shorter drive for half our regulars.
               </p>
               <p>
-                The name is the promise: true north is the direction you trust.
+                The name is the promise: True North is the direction you trust.
                 For us that means ice cream made from scratch, priced fairly,
                 and served by people who are glad you came in.
               </p>
