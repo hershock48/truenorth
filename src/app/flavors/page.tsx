@@ -94,7 +94,7 @@ export default async function FlavorsPage({
             <p className="text-ink">
               <span className="font-semibold">N</span> contains nuts ·{" "}
               <span className="font-semibold">G</span> contains gluten. Adult flavors are 21 and up,
-              ID at the counter. Everything is made without added dyes, hormones, or stabilizers.
+              ID at the counter. Everything is made without added dyes or hormones.
             </p>
             <p className="mt-3 text-ink-soft">
               Chasing a favorite? Call {shop.name} at{" "}

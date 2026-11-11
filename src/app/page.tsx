@@ -89,8 +89,8 @@ export default async function Home() {
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft md:mx-0">
             Ice cream made fresh every day in Marshall and Battle Creek,
             around thirty hand-scooped flavors in the case at a time, churned
-            in the shop from real ingredients. No dyes, no stabilizers, nothing
-            you would not put in it yourself.
+            in the shop from real ingredients. No dyes, nothing you would not
+            put in it yourself.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
             <Link href="/flavors" className="btn-primary">
@@ -148,8 +148,7 @@ export default async function Home() {
             </h2>
             <p className="mt-2 max-w-2xl text-ink-soft">
               Marshall scoops from noon, Battle Creek from 2, both open every
-              day until 9. Each shop keeps its own counter, so see what yours
-              does best.
+              day until 9.
             </p>
           </Reveal>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -275,8 +274,8 @@ export default async function Home() {
             <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-cream/85">
               True North started in a Marshall kitchen, a couple hundred quarts a
               month for friends and neighbors, and grew into two shops. The
-              recipes have not changed: real ingredients, small batches, made
-              the day you eat them.
+              recipes have not changed: real ingredients, small batches made
+              every day.
             </p>
             <Link href="/about" className="btn-primary mt-8 inline-flex bg-north-deep">
               Our story
