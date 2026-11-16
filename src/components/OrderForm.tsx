@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import OpenNow from "@/components/OpenNow";
 import { orderablesFor } from "@/data/menu";
-import { fullAddress, locations, site, type Location } from "@/data/site";
+import { fullAddress, hoursLine, locations, site, type Location } from "@/data/site";
 
 type Status = "idle" | "sending" | "done" | "error";
 
@@ -125,7 +125,7 @@ export default function OrderForm({ preselect }: { preselect?: string }) {
                 />
               </span>
               <span className="mt-1 block text-sm text-ink-soft">{fullAddress(l)}</span>
-              <span className="mt-1 block text-sm font-medium text-ink">{l.hoursSummary}</span>
+              <span className="mt-1 block text-sm font-medium text-ink">{hoursLine(l)}</span>
               <span className="mt-2 block">
                 <OpenNow location={l} />
               </span>

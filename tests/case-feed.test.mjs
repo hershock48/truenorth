@@ -59,7 +59,12 @@ const STATIC = [
 ];
 
 /** liveCase.ts with the feed URL set and `fetch` answering as the test says. */
-function live({ reply = async () => feed(), env = { SCOOPLIST_FEED_URL: "https://feed.example.invalid/" } } = {}) {
+function live({
+  reply = async () => feed(),
+  env = { SCOOPLIST_FEED_URL: "https://feed.example.invalid/" },
+  // Shop keys shut for the winter (site.ts closedForSeason).
+  shut = [],
+} = {}) {
   const { errors, console } = capturedConsole();
   const calls = [];
   const fetch = async (url) => {
@@ -73,7 +78,12 @@ function live({ reply = async () => feed(), env = { SCOOPLIST_FEED_URL: "https:/
     mocks: {
       "@/data/caseFeed": contract,
       "@/data/flavors": { boards: STATIC, boardsFor: () => STATIC, boardUpdatedLabel: "August 21" },
-      "@/data/site": { locations: [{ key: "marshall", name: "Marshall" }, { key: "battlecreek", name: "Battle Creek" }] },
+      "@/data/site": {
+        locations: [
+          { key: "marshall", name: "Marshall", closedForSeason: shut.includes("marshall") },
+          { key: "battlecreek", name: "Battle Creek", closedForSeason: shut.includes("battlecreek") },
+        ],
+      },
     },
     env,
     globals: { fetch, console },
@@ -121,6 +131,30 @@ test("a rejected feed is logged with the reason", async () => {
   const m = live({ reply: async () => feed("battlecreek") });
   await m.caseFor("marshall");
   assert.ok(m.errors.some((l) => l.includes("rejected") && l.includes("battlecreek")));
+});
+
+test("a shop shut for the season has an empty case, feed or no feed", async () => {
+  // The feed still lists flavors for it; the flag wins and nothing is fetched.
+  const m = live({ shut: ["battlecreek"] });
+  const data = await m.caseFor("battlecreek");
+  assert.equal(data.boards.length, 0);
+  assert.equal(m.calls.length, 0);
+
+  // A dead feed must not put the static board on a dark counter.
+  const down = live({ shut: ["battlecreek"], reply: async () => new Response("down", { status: 503 }) });
+  assert.equal((await down.caseFor("battlecreek")).boards.length, 0);
+  // The open shop is untouched: it still falls back to the static board.
+  assert.equal((await down.caseFor("marshall")).boards[0].flavors[0].name, "Static Flavor");
+});
+
+test("the merged view leaves a shut shop out, so the open shop carries no only-here chips", async () => {
+  const m = live({ shut: ["battlecreek"] });
+  const merged = await m.caseAll();
+  assert.equal(merged.live, true);
+  assert.deepEqual([...m.calls], ["https://feed.example.invalid/api/v1/case/marshall"]);
+  assert.ok(merged.boards[0].flavors.length > 0);
+  assert.ok(merged.boards[0].flavors.every((f) => f.at === undefined));
+  assert.equal(merged.boards[0].at, undefined);
 });
 
 test("the merged all-shops view is live only when every shop answers", async () => {

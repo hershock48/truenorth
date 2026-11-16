@@ -3,7 +3,7 @@ import { Sora, Figtree } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { site, locations } from "@/data/site";
+import { site, locations, isClosedForSeason } from "@/data/site";
 import { uniformDailySpan } from "@/data/shops";
 
 /**
@@ -133,7 +133,10 @@ const jsonLd = {
         postalCode: l.zip,
         addressCountry: "US",
       },
-      openingHoursSpecification: hoursSpecFor(l),
+      // A shop shut for the winter publishes no hours at all: without a
+      // reopening date there is no honest validFrom/validThrough to give a
+      // search engine, and the summer schedule would be a false one.
+      ...(isClosedForSeason(l) ? {} : { openingHoursSpecification: hoursSpecFor(l) }),
       hasMenu: `${site.url}/menu`,
     })),
   ],

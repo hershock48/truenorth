@@ -7,12 +7,14 @@ import OpenNow from "@/components/OpenNow";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import { caseFor } from "@/data/liveCase";
-import { menuFor } from "@/data/menu";
+import { menuFor, menuTaxNote } from "@/data/menu";
 import { uniformDailySpan } from "@/data/shops";
 import {
   ORDERING_LIVE,
+  SEASON_CLOSED_LINE,
   formatHour,
   fullAddress,
+  isClosedForSeason,
   locations,
   mapsEmbedUrl,
   mapsUrl,
@@ -35,7 +37,11 @@ import {
 export function locationMetadata(l: Location): Metadata {
   return {
     title: `${l.name} Shop`,
-    description: `True North Ice Cream in ${l.city}, MI, ${l.hoursSummary.toLowerCase()} at ${fullAddress(l)}. ${l.offerings}`,
+    // A shop shut for the winter never advertises its summer hours to a
+    // search result.
+    description: isClosedForSeason(l)
+      ? `True North Ice Cream in ${l.city}, MI, at ${fullAddress(l)}. ${SEASON_CLOSED_LINE}. ${l.offerings}`
+      : `True North Ice Cream in ${l.city}, MI, ${l.hoursSummary.toLowerCase()} at ${fullAddress(l)}. ${l.offerings}`,
     alternates: { canonical: `/${l.slug}` },
   };
 }
@@ -45,11 +51,20 @@ export default async function LocationPage({ location }: { location: Location })
   const shopMenu = menuFor(location.key);
   const { boards: shopBoards, updatedLabel } = await caseFor(location.key);
   const span = uniformDailySpan(location.hours);
+  /*
+    SHUT FOR THE WINTER (site.ts closedForSeason). The page stays up, because
+    the address, the menu and the phone are still true, but it never states
+    an hour or an open/closed clock, its board says why it is empty, and
+    every "come and get it" line points at the shop that is scooping.
+  */
+  const seasonShut = isClosedForSeason(location);
+  const otherShut = isClosedForSeason(other);
+  const serving = seasonShut && !otherShut ? other : location;
 
   return (
     <>
       <PageHero
-        kicker="Our shops"
+        kicker={seasonShut ? SEASON_CLOSED_LINE : "Our shops"}
         title={`The ${location.name} shop`}
         lede={`${location.note} ${location.offerings}`}
       />
@@ -73,7 +88,11 @@ export default async function LocationPage({ location }: { location: Location })
                   Hours
                 </h2>
                 {/* One line only while every day truly shares one span. */}
-                {span ? (
+                {seasonShut ? (
+                  <p className="mt-2 text-ink">
+                    {SEASON_CLOSED_LINE}. We will post the day we reopen here.
+                  </p>
+                ) : span ? (
                   <p className="mt-2 text-ink">
                     {formatHour(span.open)} to {formatHour(span.close)}, Sunday through Saturday.
                   </p>
@@ -89,17 +108,34 @@ export default async function LocationPage({ location }: { location: Location })
                     ))}
                   </dl>
                 )}
-                <div className="mt-3">
-                  <OpenNow location={location} />
-                </div>
+                {seasonShut ? null : (
+                  <div className="mt-3">
+                    <OpenNow location={location} />
+                  </div>
+                )}
                 <p className="mt-4 text-sm text-ink-soft">
-                  The {other.name} shop keeps its own hours:{" "}
-                  <Link
-                    href={shopHref(other)}
-                    className="tap font-medium text-north-deep underline-offset-4 hover:underline"
-                  >
-                    {other.hoursSummary.toLowerCase()} →
-                  </Link>
+                  {otherShut ? (
+                    <>
+                      The{" "}
+                      <Link
+                        href={shopHref(other)}
+                        className="tap font-medium text-north-deep underline-offset-4 hover:underline"
+                      >
+                        {other.name} shop
+                      </Link>{" "}
+                      is {SEASON_CLOSED_LINE.toLowerCase()}.
+                    </>
+                  ) : (
+                    <>
+                      The {other.name} shop keeps its own hours:{" "}
+                      <Link
+                        href={shopHref(other)}
+                        className="tap font-medium text-north-deep underline-offset-4 hover:underline"
+                      >
+                        {other.hoursSummary.toLowerCase()} →
+                      </Link>
+                    </>
+                  )}
                 </p>
               </div>
             </Reveal>
@@ -179,15 +215,33 @@ export default async function LocationPage({ location }: { location: Location })
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold md:text-4xl">
               The {location.name} board
             </h2>
-            <p className="mt-2 max-w-2xl text-cream/85">
-              Everything this counter scoops comes off this rotation, and the
-              case changes daily, board last updated {updatedLabel}.
-              Chasing a favorite? Call{" "}
-              <a href={location.phoneHref} className="tap font-semibold text-cream underline-offset-4 hover:underline">
-                {location.phone}
-              </a>{" "}
-              and we will tell you if it is in today.
-            </p>
+            {seasonShut ? (
+              <p className="mt-2 max-w-2xl text-cream/85">
+                This counter is {SEASON_CLOSED_LINE.toLowerCase()}, so its case is empty.
+                {otherShut ? null : (
+                  <>
+                    {" "}
+                    The {other.name} shop is scooping every day:{" "}
+                    <Link
+                      href={`/flavors?at=${other.slug}`}
+                      className="tap font-semibold text-cream underline-offset-4 hover:underline"
+                    >
+                      see what is in the {other.name} case →
+                    </Link>
+                  </>
+                )}
+              </p>
+            ) : (
+              <p className="mt-2 max-w-2xl text-cream/85">
+                Everything this counter scoops comes off this rotation, and the
+                case changes daily, board last updated {updatedLabel}.
+                Chasing a favorite? Call{" "}
+                <a href={location.phoneHref} className="tap font-semibold text-cream underline-offset-4 hover:underline">
+                  {location.phone}
+                </a>{" "}
+                and we will tell you if it is in today.
+              </p>
+            )}
           </Reveal>
           <div className="mt-8 grid gap-8 md:grid-cols-2">
             {shopBoards.map((board, i) => (
@@ -216,7 +270,7 @@ export default async function LocationPage({ location }: { location: Location })
               >
                 full menu
               </Link>{" "}
-              shows both shops side by side.
+              shows both shops side by side. {menuTaxNote}
             </p>
           </Reveal>
           <div className="mt-8 grid gap-8 md:grid-cols-2">
@@ -231,15 +285,15 @@ export default async function LocationPage({ location }: { location: Location })
               <p className="text-lg font-medium text-ink">
                 {ORDERING_LIVE
                   ? "Want it waiting for you? Pints, quarts, cakes, and pies, ready at this counter."
-                  : `Cakes, pies, and pints to go, call the ${location.name} shop and we will have it ready.`}
+                  : `Cakes, pies, and pints to go, call the ${serving.name} shop and we will have it ready.`}
               </p>
               {ORDERING_LIVE ? (
                 <Link href={orderHref(location)} className="btn-primary">
                   Order from {location.name}
                 </Link>
               ) : (
-                <a href={location.phoneHref} className="btn-primary">
-                  Call {location.phone}
+                <a href={serving.phoneHref} className="btn-primary">
+                  Call {serving.phone}
                 </a>
               )}
             </div>

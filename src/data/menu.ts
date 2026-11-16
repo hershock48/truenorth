@@ -1,7 +1,10 @@
 /**
- * The menu with prices, verbatim from truenorthicecream.com/menu, August 2026.
- * Prices change at the counter first, confirm this whole file with the owners
- * before launch. It is on the README checklist.
+ * The menu with prices. First taken verbatim from truenorthicecream.com/menu
+ * in August 2026, then checked line by line against the printed price board
+ * and the counter signs in the Marshall shop on 11 Nov 2026 (photos). The
+ * board won where the two disagreed: the banana split is $9, flurries sit on
+ * the $8.50 line, and mini doughnuts are on a counter sign. Prices change at
+ * the counter first, so the board is the authority, not the old website.
  *
  * STORE TAGS. The two shops scoop different things, so sections and items can
  * carry `at`: which shops serve them. No tag means both; an item's tag NARROWS
@@ -32,6 +35,9 @@ export type MenuSection = {
   at?: LocationKey[];
   items: MenuItem[];
 };
+
+/** The price board prints "Tax Included"; the menu pages say so in a sentence. */
+export const menuTaxNote = "Every price includes tax.";
 
 export const menu: MenuSection[] = [
   {
@@ -65,7 +71,7 @@ export const menu: MenuSection[] = [
     key: "specialties",
     title: "Specialties",
     items: [
-      { name: "Banana split", price: "$8" },
+      { name: "Banana split", price: "$9" },
       { name: "Sundae, small", price: "$7" },
       { name: "Sundae, large", price: "$8" },
       { name: "Extra toppings", price: "+$1" },
@@ -78,6 +84,10 @@ export const menu: MenuSection[] = [
       { name: "Ice cream pie", price: "$16" },
       { name: "Ice cream cake", price: "$40" },
       { name: "Ice cream cake, premium", price: "$45" },
+      // From a counter sign in the Marshall shop (11 Nov 2026), not the
+      // price board, so it is tagged Marshall until the owner says Battle
+      // Creek fries them too.
+      { name: "Mini doughnuts", price: "$5.50", at: ["marshall"] },
     ],
   },
   {
@@ -90,7 +100,7 @@ export const menu: MenuSection[] = [
       was rendering the other shop's amenity as its Drinks heading.
     */
     items: [
-      { name: "Malts, shakes, floats, and coolers", price: "$8.50" },
+      { name: "Malts, shakes, floats, coolers, and flurries", price: "$8.50" },
       { name: "Fruit smoothie", price: "$6.50" },
       { name: "Slush, small", price: "$2" },
       { name: "Slush, large", price: "$3" },
@@ -99,7 +109,9 @@ export const menu: MenuSection[] = [
       { name: "Double espresso", price: "$3.50", at: ["marshall"] },
       { name: "Cappuccino", price: "$5", at: ["marshall"] },
       // PLACEHOLDER: Kevin says they serve matcha; price not published anywhere
-      // we can verify. A visible "Ask" beats an invented number (Lemoncello rule).
+      // we can verify, and it is not on the price board (11 Nov 2026). A
+      // visible "Ask" beats an invented number (Lemoncello rule). The owner
+      // either gives a price or it comes off.
       { name: "Matcha", price: "Ask", note: "Price at the counter", at: ["marshall"] },
       { name: "Canned pop", price: "$2" },
       { name: "Bottled water", price: "$2" },
